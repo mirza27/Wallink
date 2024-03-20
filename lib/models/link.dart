@@ -1,49 +1,53 @@
-const String tabelLink = "notes";
+const String tableLinks = "links";
 
 class LinkFields {
-  static final List<String> value = [];
+  static final List<String> values = [];
+
   static const String id = "_id";
-  static const String namaLink = "_namaLink";
-  static const String link = "_link";
+  static const String linkName = "linkName";
+  static const String link = "link";
   static const String time = "time";
-  static const String subKategoriId = "_subKategoriId";
+  static const String subCategoryId = "_subCategoryId";
 }
 
 class Link {
   final int? id;
-  final String namaLink;
+  final String linkName;
   final String link;
   final DateTime createdTime;
-  final int? subKategoriId;
+  final int? subCategoryId;
 
   Link({
     this.id,
-    required this.namaLink,
+    required this.linkName,
     required this.link,
     required this.createdTime,
-    this.subKategoriId,
+    required this.subCategoryId,
   });
 
-  Link copy({int? id, String? namaLink, String? link, DateTime? createdTime}) {
+  Link copy({int? id, String? linkName, String? link, DateTime? createdTime, int? subCategoryId}) {
     return Link(
         id: id ?? this.id,
-        namaLink: namaLink ?? this.namaLink,
+        linkName: linkName ?? this.linkName,
         link: link ?? this.link,
-        createdTime: createdTime ?? this.createdTime);
+        createdTime: createdTime ?? this.createdTime,
+        subCategoryId: subCategoryId ?? this.subCategoryId);
   }
 
-    static Link fromJson(Map<String, Object?> json) {
+  static Link fromJson(Map<String, Object?> json) {
     return Link(
         id: json[LinkFields.id] as int?,
-        namaLink: json[LinkFields.id] as String,
-        link: json[LinkFields.id] as String,
-        createdTime: DateTime.parse(json[LinkFields.time] as String));
+        linkName: json[LinkFields.linkName] as String,
+        link: json[LinkFields.link] as String,
+        createdTime: DateTime.parse(json[LinkFields.time] as String),
+        subCategoryId: json[LinkFields.subCategoryId] as int?);
   }
 
-      Map<String, Object?> toJson() => {
+  Map<String, Object?> toJson() => {
         LinkFields.id: id,
-        LinkFields.namaLink: namaLink, 
+        LinkFields.linkName: linkName,
         LinkFields.link: link,
-        LinkFields.time: createdTime.toString()
+        LinkFields.time: createdTime.toString(),
+        LinkFields.subCategoryId: subCategoryId
       };
 }

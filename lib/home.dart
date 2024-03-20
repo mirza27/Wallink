@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/links.dart';
+import 'package:wallink_v1/data_links.dart';
 import 'package:wallink_v1/category_tile.dart';
 
 

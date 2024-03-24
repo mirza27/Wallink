@@ -13,7 +13,7 @@ class LinkDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('wallink.db');
+    _database = await _initDB('dasdaadssad.db');
     return _database!;
   }
 
@@ -28,59 +28,65 @@ class LinkDatabase {
     // MEMBUAT TABEL SAAT INISIASI AWAL
     await db.execute('''
         CREATE TABLE $tableCategories (
-          ${CategoryFields.id} INTEGER PRIMARY KEY AUTOINCREMENT,
-          ${CategoryFields.categoryName} TEXT NOT NULL
+          ${CategoryFields.columnCategoryId} INTEGER PRIMARY KEY AUTOINCREMENT,
+          ${CategoryFields.columnCategoryName} TEXT NOT NULL
         )
         ''');
 
     await db.execute('''
         CREATE TABLE $tableSubCategories (
-          ${SubCategoryFields.id} INTEGER PRIMARY KEY AUTOINCREMENT,
-          ${SubCategoryFields.subCategoryName} TEXT NOT NULL,
-          ${SubCategoryFields.categoryId} INTEGER,
-          FOREIGN KEY (${SubCategoryFields.categoryId}) REFERENCES $tableCategories(${CategoryFields.id}) ON DELETE CASCADE
+          ${SubCategoryFields.columnSubCategoryId} INTEGER PRIMARY KEY AUTOINCREMENT,
+          ${SubCategoryFields.columnSubCategoryName} TEXT NOT NULL,
+          ${SubCategoryFields.columnCategoryId} INTEGER,
+          FOREIGN KEY (${SubCategoryFields.columnCategoryId}) REFERENCES $tableCategories(${CategoryFields.columnCategoryId}) ON DELETE CASCADE
         )
         ''');
 
     await db.execute('''
       CREATE TABLE $tableLinks (
-        ${LinkFields.id} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${LinkFields.linkName} TEXT NOT NULL,
-        ${LinkFields.link} TEXT NOT NULL,
-        ${LinkFields.time} TEXT NOT NULL,
-        ${LinkFields.subCategoryId} INTEGER,
-        FOREIGN KEY (${LinkFields.subCategoryId}) REFERENCES $tableSubCategories(${SubCategoryFields.id}) ON DELETE CASCADE
+        ${LinkFields.columnLinkId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${LinkFields.columnLinkName} TEXT NOT NULL,
+        ${LinkFields.columnLink} TEXT NOT NULL,
+        ${LinkFields.columnSubCategoryId} INTEGER,
+        ${LinkFields.columnCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ${LinkFields.columnUpdatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY (${LinkFields.columnSubCategoryId}) REFERENCES $tableSubCategories(${SubCategoryFields.columnSubCategoryId}) ON DELETE CASCADE
         )
       ''');
 
+    await db.execute('''
+      CREATE TRIGGER IF NOT EXISTS update_link_trigger
+      AFTER UPDATE ON $tableLinks
+      FOR EACH ROW
+      BEGIN
+          UPDATE $tableLinks SET updated_at = CURRENT_TIMESTAMP WHERE ${LinkFields.columnCreatedAt} = OLD.${LinkFields.columnCreatedAt};
+      END;
+        ''');
+
     // INSERT DATA SAAT INISIASI AWAL (hanya saat awal tes)
-    // await _insertInitialData(db); 
+    await _insertInitialData(db);
   }
 
   Future<void> _insertInitialData(Database db) async {
     // Masukkan data kategori dan subkategori ambil dari file links.dart
     for (var category in listData) {
       int categoryId = await db.insert(tableCategories,
-          {CategoryFields.categoryName: category.categoryName});
+          {CategoryFields.columnCategoryName: category.categoryName});
       for (var subCategory in category.subCategories) {
         int subCategoryId = await db.insert(tableSubCategories, {
-          SubCategoryFields.subCategoryName: subCategory.subCategoryName,
-          SubCategoryFields.categoryId: categoryId
+          SubCategoryFields.columnSubCategoryName: subCategory.subCategoryName,
+          SubCategoryFields.columnCategoryId: categoryId
         });
         for (var link in subCategory.links) {
           await db.insert(tableLinks, {
-            LinkFields.linkName: link.name,
-            LinkFields.link: link.link,
-            LinkFields.time: link.createdAt.toIso8601String(),
-            LinkFields.subCategoryId: subCategoryId
+            LinkFields.columnLinkName: link.name,
+            LinkFields.columnLink: link.link,
+            LinkFields.columnSubCategoryId: subCategoryId
           });
         }
       }
     }
   }
-
-
-  // CRUD HELPER
-  
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/data_page.dart';
 import 'package:wallink_v1/home.dart';
+import 'package:wallink_v1/page/category_page.dart';
 
 
 void main() {
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: DataPage() // tes database
+      home: CategoryPage()
       // home: Home()
     );
   }

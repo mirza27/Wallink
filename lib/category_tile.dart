@@ -17,7 +17,6 @@ class CategoryTile extends StatefulWidget {
 }
 
 
-
 class _CategoryTileState extends State<CategoryTile> {
   bool _isExpanded = true;
 

@@ -8,8 +8,8 @@ class LinkFields {
   static const String columnLinkName = "link_name";
   static const String columnLink = "link";
   static const String columnSubCategoryId = "sub_category_id";
-  static const String columnCreatedAt = "createdAt";
-  static const String columnUpdatedAt = "updatedAt";
+  static const String columnCreatedAt = "created_at";
+  static const String columnUpdatedAt = "updated_at";
 }
 
 // READ OBJECT FROM DB DYNAMIC
@@ -44,46 +44,3 @@ class Link {
         updatedAt: DateTime.parse(map[LinkFields.columnUpdatedAt] as String),);
   }
 }
-
-// STATIC VERSION
-// class Link {
-//   final int? id;
-//   final String linkName;
-//   final String link;
-//   final DateTime createdTime;
-//   final int? subCategoryId;
-
-//   Link({
-//     this.id,
-//     required this.linkName,
-//     required this.link,
-//     required this.createdTime,
-//     required this.subCategoryId,
-//   });
-
-//   Link copy({int? id, String? linkName, String? link, DateTime? createdTime, int? subCategoryId}) {
-//     return Link(
-//         id: id ?? this.id,
-//         linkName: linkName ?? this.linkName,
-//         link: link ?? this.link,
-//         createdTime: createdTime ?? this.createdTime,
-//         subCategoryId: subCategoryId ?? this.subCategoryId);
-//   }
-
-//   static Link fromJson(Map<String, Object?> json) {
-//     return Link(
-//         id: json[LinkFields.id] as int?,
-//         linkName: json[LinkFields.linkName] as String,
-//         link: json[LinkFields.link] as String,
-//         createdTime: DateTime.parse(json[LinkFields.time] as String),
-//         subCategoryId: json[LinkFields.subCategoryId] as int?);
-//   }
-
-//   Map<String, Object?> toJson() => {
-//         LinkFields.id: id,
-//         LinkFields.linkName: linkName,
-//         LinkFields.link: link,
-//         LinkFields.time: createdTime.toString(),
-//         LinkFields.subCategoryId: subCategoryId
-//       };
-// }

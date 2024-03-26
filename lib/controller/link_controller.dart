@@ -4,7 +4,7 @@ import 'package:wallink_v1/models/link.dart';
 
 // CRUD Link
 Future<int> insertLink(
-    String link, String nameLink, int subCategoryId, DateTime createdAt) async {
+    String link, String nameLink, int subCategoryId) async {
   Database db = await LinkDatabase.instance.database;
   return await db.insert(tableLinks, {
     LinkFields.columnLink: link,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/data_page.dart';
 import 'package:wallink_v1/home.dart';
 import 'package:wallink_v1/page/category_page.dart';
 

@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class LinkCard extends StatefulWidget {
-  final Map<String, dynamic> link;
+  final Link link;
+  final Function(int) onDelete; // memanggil fungsi delete di subcategory card
+  final Function(Link) onUpdate; // memanggil fungsi edit di subcategory page
 
-  const LinkCard({super.key, required this.link});
+  const LinkCard(
+      {super.key,
+      required this.link,
+      required this.onDelete,
+      required this.onUpdate});
 
   @override
   State<LinkCard> createState() => _LinkCardState();
 }
 
 class _LinkCardState extends State<LinkCard> {
+  // fungsi launch url
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri(scheme: "https", host: url);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw "can't launch url";
+    }
+  }
+
+  // fungsi copy
+  Future<void> _copytoClipboard(String url) async {
+    Clipboard.setData(ClipboardData(text: url));
+  }
+
+  // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: SizedBox(
         child: Row(
           children: <Widget>[
-
             // LINK DAN LAUNCH LINK
             Expanded(
               flex: 3,
@@ -28,13 +50,13 @@ class _LinkCardState extends State<LinkCard> {
                     children: <Widget>[
                       // nama link
                       Text(
-                        widget.link[LinkFields.columnLinkName] as String,
+                        widget.link.nameLink as String,
                         style: const TextStyle(
                           color: Colors.black87,
                           fontSize: 15,
                         ),
                       ),
-
+            
                       // launch button
                       SizedBox(
                         child: IconButton(
@@ -43,14 +65,15 @@ class _LinkCardState extends State<LinkCard> {
                               size: 12,
                             ),
                             onPressed: () {
-                              // _launchURL(widget.link);
+                              _launchURL(widget.link.link as String);
                             }),
                       )
                     ],
                   ),
                   Text(
-                    widget.link[LinkFields.columnLink] as String,
-                    style: const TextStyle(color: Colors.black87, fontSize: 10),
+                    widget.link.link as String,
+                    style:
+                        const TextStyle(color: Colors.black87, fontSize: 10),
                   )
                 ],
               ),
@@ -67,7 +90,9 @@ class _LinkCardState extends State<LinkCard> {
                         Icons.copy,
                         size: 17,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _copytoClipboard(widget.link.link as String);
+                      },
                     ),
                     IconButton(
                       // icon edit
@@ -76,7 +101,7 @@ class _LinkCardState extends State<LinkCard> {
                         size: 17,
                       ),
                       onPressed: () {
-                        // _editLinkName(context, widget.name, widget.link);
+                        widget.onUpdate(widget.link);
                       },
                     ),
                     IconButton(
@@ -86,7 +111,7 @@ class _LinkCardState extends State<LinkCard> {
                         size: 17,
                       ),
                       onPressed: () {
-                        // widget.onDelete();
+                        widget.onDelete(widget.link.id!);
                       },
                     ),
                   ],

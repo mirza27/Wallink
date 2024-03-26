@@ -77,7 +77,7 @@ class _DataPageState extends State<DataPage> {
       ListView.separated(
         shrinkWrap: true,
         itemCount: _categories.length,
-        separatorBuilder: (BuildContext context, int index) => Divider(), // Menambahkan pemisah antara setiap item
+        separatorBuilder: (BuildContext context, int index) => const Divider(), // Menambahkan pemisah antara setiap item
         itemBuilder: (context, index) {
           // Mendapatkan kategori dari _categories
           Category category = Category.fromMap(_categories[index]);

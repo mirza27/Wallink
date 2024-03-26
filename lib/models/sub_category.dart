@@ -27,44 +27,9 @@ class SubCategory {
 
   factory SubCategory.fromMap(Map<String, dynamic> map) {
     return SubCategory(
-      id: map[SubCategoryFields.columnCategoryId],
+      id: map[SubCategoryFields.columnSubCategoryId],
       subCategoryName: map[SubCategoryFields.columnSubCategoryName],
       categoryId: map[SubCategoryFields.columnCategoryId],
     );
   }
 }
-
-
-// STATIC VERSION
-// class SubCategory {
-//   final int? id;
-//   final String subCategoryName;
-//   final int? categoryId; // Foreign key
-
-//   SubCategory({
-//     this.id,
-//     required this.subCategoryName,
-//     required this.categoryId, // Foreign key
-//   });
-
-//   SubCategory copy({int? id, String? subCategoryName, int? categoryId}) {
-//     return SubCategory(
-//       id: id ?? this.id,
-//       subCategoryName: subCategoryName ?? this.subCategoryName, 
-//       categoryId: categoryId ?? this.categoryId,
-//     );
-//   }
-
-//   static SubCategory fromJson(Map<String, Object?> json) {
-//     return SubCategory(
-//       id: json[SubCategoryFields.id] as int?,
-//       subCategoryName: json[SubCategoryFields.subCategoryName] as String,
-//       categoryId: json[SubCategoryFields.categoryId] as int?
-//     );
-//   }
-
-//   Map<String, Object?> toJson() => {
-//         SubCategoryFields.id: id,
-//         SubCategoryFields.subCategoryName: subCategoryName,
-//       };
-// }

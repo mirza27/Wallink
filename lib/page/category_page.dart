@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
-import 'package:wallink_v1/page/sub_category_page.dart';
 import 'package:wallink_v1/widgets/category_card.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -20,6 +19,7 @@ class _CategoryPageState extends State<CategoryPage> {
     _loadData();
   }
 
+  // refresh dan load data
   Future<void> _loadData() async {
     List<Map<String, dynamic>> categories = await getCategories();
 
@@ -28,21 +28,95 @@ class _CategoryPageState extends State<CategoryPage> {
     });
   }
 
+  // add category
+  Future<void> _addCategory(String categoryName) async {
+    await insertCategory(categoryName);
+    await _loadData();
+  }
+
+  // delete category
+  void _deleteCategory(int categoryId) async {
+    await deleteCategory(categoryId);
+    await _loadData();
+  }
+
+// update category update
+  Future<void> _editCategory(Category category) async {
+    TextEditingController controller =
+        TextEditingController(text: category.nameCategory);
+    FocusNode focusNode = FocusNode();
+
+    await showDialog(
+      // menampilkan pop up edit
+      context: context,
+      builder: (context) {
+        // keyboard aktif langsung
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => focusNode.requestFocus());
+
+        return AlertDialog(
+          title: const Text('Update Category'),
+          content: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration:
+                const InputDecoration(hintText: 'Enter new category name'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                String newName = controller.text;
+                await editCategory(category.id!, newName);
+                Navigator.pop(context);
+                await _loadData();
+              },
+              child: const Text('Update'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // INTERFACE UTAMA ================================================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Wallink"),
       ),
-      body: ListView.builder(
-          // iterasi widget category card
-          itemCount: _categories.length,
-          itemBuilder: (context, index) {
-            final Category category = Category.fromMap(_categories[index]);
-            return CategoryCard(
-              category: category, // parameter kelas category
-            );
-          }),
+      body: Column(
+        children: [
+          Expanded(
+            child: SizedBox(
+              child: ListView.builder(
+                // iterasi widget category card
+                itemCount: _categories.length,
+                itemBuilder: (context, index) {
+                  final Category category =
+                      Category.fromMap(_categories[index]);
+                  return CategoryCard(
+                    category: category,
+                    onDelete: _deleteCategory,
+                    onUpdate: _editCategory,
+                  );
+                },
+              ),
+            ),
+          ),
+          IconButton( // tambah category
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                _addCategory("New Category");
+              })
+        ],
+      ),
     );
   }
 }

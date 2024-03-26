@@ -21,7 +21,7 @@ Future<void> editCategory(int id, String newName) async {
   await db.update(
     tableCategories,
     {CategoryFields.columnCategoryName: newName},
-    where: '${SubCategoryFields.columnCategoryId} = ?',
+    where: '${CategoryFields.columnCategoryId} = ?',
     whereArgs: [id],
   );
 }

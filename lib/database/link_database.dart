@@ -4,6 +4,7 @@ import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:path/path.dart';
 import 'package:wallink_v1/data_links.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class LinkDatabase {
   static final LinkDatabase instance = LinkDatabase._init();
@@ -13,13 +14,16 @@ class LinkDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('dasdaadssad.db');
+    _database = await _initDB('ks33.db');
     return _database!;
   }
 
   Future<Database> _initDB(String filePath) async {
+    // databaseFactory = databaseFactoryFfi;
+
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
+
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }

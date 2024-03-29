@@ -89,7 +89,34 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wallink"),
+        title: Padding(
+          padding: EdgeInsets.only(
+            left: 8.0,
+            top: 12.0,
+            bottom: 12.0,
+          ),
+          child: Text(
+            'Wallink',
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(
+              right: 8.0,
+              top: 12.0,
+              bottom: 12.0,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Handle search icon tap here
+              },
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -101,17 +128,30 @@ class _CategoryPageState extends State<CategoryPage> {
                 itemBuilder: (context, index) {
                   final Category category =
                       Category.fromMap(_categories[index]);
-                  return CategoryCard(
-                    category: category,
-                    onDelete: _deleteCategory,
-                    onUpdate: _editCategory,
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 8.0
+                    ),
+                    child: CategoryCard(
+                      category: category,
+                      onDelete: _deleteCategory,
+                      onUpdate: _editCategory
+                    ),
                   );
+                  // return CategoryCard(
+                  //   category: category,
+                  //   onDelete: _deleteCategory,
+                  //   onUpdate: _editCategory,
+                  // );
                 },
               ),
             ),
           ),
           IconButton( // tambah category
-              icon: const Icon(Icons.add),
+              icon: const Icon(
+                Icons.add
+              ),
               onPressed: () {
                 _addCategory("New Category");
               })

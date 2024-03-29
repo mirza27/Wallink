@@ -39,12 +39,28 @@ class CategoryCard extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment(-0.97, -0.26),
               end: Alignment(0.97, 0.26),
-              colors: [Color(0xFF537FE7), Color(0xFFB6FFFA), Color(0xFFB6FFFA)],
+              colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
             ),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Row(
             children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Opacity(
+                    opacity: 0.0,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        size: 17,
+                      ),
+                      onPressed: () {
+                      },
+                    ),
+                  )
+                ],
+              ),
               Expanded(
                 child: Container(
                   alignment: Alignment.center,
@@ -66,6 +82,7 @@ class CategoryCard extends StatelessWidget {
                     icon: const Icon(
                       Icons.edit,
                       size: 17,
+                      color: Colors.black,
                     ),
                     onPressed: () {
                       onUpdate(category);
@@ -76,6 +93,7 @@ class CategoryCard extends StatelessWidget {
                     icon: const Icon(
                       Icons.delete,
                       size: 17,
+                      color: Colors.black,
                     ),
                     onPressed: () {
                       onDelete(category.id!);

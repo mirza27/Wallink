@@ -3,6 +3,7 @@ import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
+import 'package:wallink_v1/widgets/category_mini_card.dart';
 import 'package:wallink_v1/widgets/sub_category_card.dart';
 
 class SubCategoryPage extends StatefulWidget {
@@ -103,6 +104,17 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wallink'),
+        bottom: PreferredSize(
+          preferredSize:
+              Size.fromHeight(60), // Sesuaikan tinggi sesuai kebutuhan
+          child: PreferredSize(
+            preferredSize: Size.fromHeight(50.0),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child: CategoryMiniCard(),
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [

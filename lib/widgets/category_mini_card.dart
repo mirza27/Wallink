@@ -29,7 +29,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 40.0,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -38,11 +38,11 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
           final Category category =
                       Category.fromMap(_categories[index]);
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Chip(
               label: Text(category.nameCategory as String),
               backgroundColor: Colors.blue,
-              labelStyle: TextStyle(color: Colors.white),
+              labelStyle: const TextStyle(color: Colors.white),
             ),
           );
         },

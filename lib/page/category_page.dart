@@ -89,7 +89,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
+        title: const Padding(
           padding: EdgeInsets.only(
             left: 8.0,
             top: 12.0,
@@ -104,13 +104,13 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               right: 8.0,
               top: 12.0,
               bottom: 12.0,
             ),
             child: IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 // Handle search icon tap here
               },
@@ -129,7 +129,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   final Category category =
                       Category.fromMap(_categories[index]);
                   return Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding:  const EdgeInsets.symmetric(
                       vertical: 4.0,
                       horizontal: 8.0
                     ),
@@ -139,11 +139,6 @@ class _CategoryPageState extends State<CategoryPage> {
                       onUpdate: _editCategory
                     ),
                   );
-                  // return CategoryCard(
-                  //   category: category,
-                  //   onDelete: _deleteCategory,
-                  //   onUpdate: _editCategory,
-                  // );
                 },
               ),
             ),

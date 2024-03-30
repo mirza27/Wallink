@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/models/category.dart';
 import 'package:wallink_v1/page/sub_category_page.dart';

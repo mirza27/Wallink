@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
-import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/category_mini_card.dart';
 import 'package:wallink_v1/widgets/sub_category_card.dart';
@@ -33,12 +31,8 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     List<Map<String, dynamic>> subCategories = await getSubCategoryByCategoryId(
         widget.categoryId); // parameter dari widget
 
-    // ambil semua link untuk difilter di sub category card
-    // List<Map<String, dynamic>> links = await getAllLink();
-
     setState(() {
       _subCategories = subCategories;
-      // _links = links;
     });
   }
 
@@ -104,7 +98,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wallink'),
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
           preferredSize:
               Size.fromHeight(60), // Sesuaikan tinggi sesuai kebutuhan
           child: PreferredSize(

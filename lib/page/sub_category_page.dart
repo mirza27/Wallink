@@ -18,7 +18,6 @@ class SubCategoryPage extends StatefulWidget {
 
 class _SubCategoryPageState extends State<SubCategoryPage> {
   List<Map<String, dynamic>> _subCategories = [];
-  // List<Map<String, dynamic>> _links = [];
 
   @override
   void initState() {
@@ -98,14 +97,18 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wallink'),
-        bottom: const PreferredSize(
+        bottom: PreferredSize(
           preferredSize:
-              Size.fromHeight(60), // Sesuaikan tinggi sesuai kebutuhan
+              const Size.fromHeight(60),
           child: PreferredSize(
-            preferredSize: Size.fromHeight(50.0),
+            preferredSize: const Size.fromHeight(50.0),
             child: Padding(
-              padding: EdgeInsets.only(bottom: 8.0),
-              child: CategoryMiniCard(),
+              padding: const EdgeInsets.only(bottom: 8.0),
+
+              // iterasi mini card category
+              child: CategoryMiniCard(
+                categoryId: widget.categoryId,
+              ),
             ),
           ),
         ),

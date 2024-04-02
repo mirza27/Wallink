@@ -1,14 +1,16 @@
-// intro2_page.dart
+// intro3_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/intro3_page.dart'; // import halaman IntroPage3
+import 'package:wallink_v1/page/category_page.dart';
+//import 'package:wallink_v1/page/intro3_page.dart'; // import halaman IntroPage3
+import 'package:wallink_v1/page/intro_list_page.dart';
 
-class IntroPage2 extends StatefulWidget {
+class IntroPage3 extends StatefulWidget {
   @override
   _IntroPage2State createState() => _IntroPage2State();
 }
 
-class _IntroPage2State extends State<IntroPage2> {
+class _IntroPage2State extends State<IntroPage3> {
   @override
   void initState() {
     super.initState();
@@ -17,7 +19,7 @@ class _IntroPage2State extends State<IntroPage2> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => IntroPage3(),
+          builder: (context) => IntroListPagge(),
         ),
       );
     });
@@ -31,7 +33,7 @@ class _IntroPage2State extends State<IntroPage2> {
         children: [
           // Background Image
           Image.asset(
-            'assets/intro2.png', // Ganti dengan path gambar Anda
+            'assets/intro3.png', // Ganti dengan path gambar Anda
             fit: BoxFit.cover,
           ),
         ],

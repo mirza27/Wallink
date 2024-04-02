@@ -44,7 +44,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
               category.id; // logika jika aktif dan tidak aktif
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: GestureDetector(
               onTap: () {
                 // redirect ke subcategory page
@@ -60,8 +60,8 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
               },
               child: Chip(
                 label: Text(category.nameCategory as String),
-                backgroundColor: isActive ? Colors.blue : Colors.grey,
-                labelStyle: const TextStyle(color: Colors.white),
+                backgroundColor: isActive ? const Color(0xFF181823) : const Color(0xFFFFFFFF),
+                labelStyle: TextStyle(color: isActive ? const Color(0xFFFFFFFF) : const Color(0xFF181823).withOpacity(0.8)),
               ),
             ),
           );

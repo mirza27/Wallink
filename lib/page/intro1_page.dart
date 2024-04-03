@@ -12,7 +12,7 @@ class _IntroPage1State extends State<IntroPage1> {
   @override
   void initState() {
     super.initState();
-    _checkOnboardingStatus();
+    //_checkOnboardingStatus(); //  IKI DIAKTIFNE LEK PGN CUMA SEKALI MUNCU
   }
 
   void _checkOnboardingStatus() async {

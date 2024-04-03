@@ -1,30 +1,14 @@
 // intro3_page.dart
-
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/category_page.dart';
-//import 'package:wallink_v1/page/intro3_page.dart'; // import halaman IntroPage3
+//import 'package:wallink_v1/page/category_page.dart';
 import 'package:wallink_v1/page/intro_list_page.dart';
 
 class IntroPage3 extends StatefulWidget {
   @override
-  _IntroPage2State createState() => _IntroPage2State();
+  _IntroPage3State createState() => _IntroPage3State();
 }
 
-class _IntroPage2State extends State<IntroPage3> {
-  @override
-  void initState() {
-    super.initState();
-    // Menambahkan delay sebelum navigasi ke IntroPage3
-    Future.delayed(Duration(milliseconds: 2500), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => IntroListPagge(),
-        ),
-      );
-    });
-  }
-
+class _IntroPage3State extends State<IntroPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +19,33 @@ class _IntroPage2State extends State<IntroPage3> {
           Image.asset(
             'assets/intro3.png', // Ganti dengan path gambar Anda
             fit: BoxFit.cover,
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Previous'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => IntroListPagge(),
+                      ),
+                    );
+                  },
+                  child: Text('Next'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
@@ -11,11 +14,11 @@ class SubCategoryCard extends StatefulWidget {
       onUpdate; // memanggil fungsi edit di subcategory page
 
   const SubCategoryCard({
-    super.key,
+    Key? key,
     required this.subCategory,
     required this.onDelete,
     required this.onUpdate,
-  });
+  }) : super(key: key);
 
   @override
   State<SubCategoryCard> createState() => _SubCategoryCardState();
@@ -140,7 +143,16 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
           },
           title: Row(
             children: [
-              Expanded(child: Text(widget.subCategory.subCategoryName as String)),
+              Expanded(
+                child: Text(
+                  widget.subCategory.subCategoryName as String,
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black, // Changed color to black
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               // icon edit
               IconButton(
                 icon: const Icon(Icons.edit),

@@ -119,56 +119,68 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ExpansionTile(
-        initiallyExpanded: _isExpanded,
-        onExpansionChanged: (expanded) {
-          setState(() {
-            _isExpanded = expanded;
-          });
-        },
-        title: Row(
-          children: [
-            Text(
-                widget.subCategory.subCategoryName as String),
-            // icon edit
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                widget.onUpdate(widget.subCategory);
-              },
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment(-0.97, -0.26),
+            end: Alignment(0.97, 0.26),
+            colors: [Color(0xFF537FE7), Color(0xFFB6FFFA), Color(0xFFB6FFFA)],
+          ),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: ExpansionTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          initiallyExpanded: _isExpanded,
+          onExpansionChanged: (expanded) {
+            setState(() {
+              _isExpanded = expanded;
+            });
+          },
+          title: Row(
+            children: [
+              Expanded(child: Text(widget.subCategory.subCategoryName as String)),
+              // icon edit
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  widget.onUpdate(widget.subCategory);
+                },
+              ),
 
-            // icon delete
+              // icon delete
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  widget.onDelete(widget.subCategory.id!);
+                },
+              ),
+            ],
+          ),
+          // iterasi setiap link dengan link card
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                // iterasi widget sub category card
+                itemCount: _links.length,
+                itemBuilder: (context, index) {
+                  final Link link = Link.fromMap(_links[index]);
+
+                  return LinkCard(
+                    link: link,
+                    onDelete: _deleteLink,
+                    onUpdate: _editLink,
+                  );
+                }),
+            // tambah link
             IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                widget.onDelete(widget.subCategory.id!);
-              },
-            ),
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  _addLink("New Link", "www.example.com");
+                }),
           ],
         ),
-        // iterasi setiap link dengan link card
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              // iterasi widget sub category card
-              itemCount: _links.length,
-              itemBuilder: (context, index) {
-                final Link link = Link.fromMap(_links[index]);
-          
-                return LinkCard(
-                  link: link,
-                  onDelete: _deleteLink,
-                  onUpdate: _editLink,
-                );
-              }),
-          // tambah link
-          IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                _addLink("New Link", "www.example.com");
-              }),
-        ],
       ),
     );
   }

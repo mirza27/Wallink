@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/carousel_page.dart';
+import 'package:wallink_v1/page/intro_slide_page.dart';
 //import 'package:wallink_v1/page/category_page.dart';
 import 'package:wallink_v1/page/intro1_page.dart';
 //import 'package:wallink_v1/page/intro3_page.dart';
@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'WALINK',
-      home: CarouselSlideWidget(),
+      home: IntroSlidePage(),
     );
   }
 }

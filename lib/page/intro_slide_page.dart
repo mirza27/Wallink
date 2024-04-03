@@ -3,13 +3,13 @@ import 'package:wallink_v1/page/category_page.dart';
 import 'package:wallink_v1/page/intro_list_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CarouselSlideWidget extends StatefulWidget {
+class IntroSlidePage extends StatefulWidget {
   @override
-  _CarouselSlideWidgetState createState() => _CarouselSlideWidgetState();
+  _IntroSlidePageState createState() => _IntroSlidePageState();
 }
 
 // EDITEN BUTTON BEN APIK PLSS
-class _CarouselSlideWidgetState extends State<CarouselSlideWidget> {
+class _IntroSlidePageState extends State<IntroSlidePage> {
   late PageController _pageController;
   int _currentPage = 0;
   final List<String> _imageAssets = [

@@ -34,7 +34,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   @override
   void initState() {
     super.initState();
-    //_checkOnboardingStatus();     // Iki diaktifne lek pgn sekali muncul
+    _checkOnboardingStatus();     // Iki diaktifne lek pgn sekali muncul
     _pageController = PageController();
   }
 
@@ -75,7 +75,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => IntroListPagge(),
+                                  builder: (context) => PreferencePage(),
                                 ),
                               );
                             },

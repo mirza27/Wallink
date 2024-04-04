@@ -1,136 +1,143 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/page/category_page.dart';
-//import 'package:wallink_v1/data_links.dart'; // Import data _categories
-import 'package:wallink_v1/widgets/category_card_intro.dart';
-import 'package:wallink_v1/models/category.dart';
 
-class IntroListPagge extends StatefulWidget {
-  const IntroListPagge({Key? key})
-      : super(key: key); // Perbaikan pada konstruktor
+// void main() {
+//   runApp(MyApp());
+// }
 
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Preference Categories',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: PreferencePage(),
+//     );
+//   }
+// }
+
+class PreferencePage extends StatefulWidget {
   @override
-  State<IntroListPagge> createState() => _IntroListPaggeState();
+  _PreferencePageState createState() => _PreferencePageState();
 }
 
-class _IntroListPaggeState extends State<IntroListPagge> {
-  List<Map<String, dynamic>> _categories = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  // refresh dan load data
-  Future<void> _loadData() async {
-    List<Map<String, dynamic>> categories = await getCategories();
-
-    setState(() {
-      _categories = categories;
-    });
-  }
+class _PreferencePageState extends State<PreferencePage> {
+  final List<String> _selectedCategories = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(
-            left: 8.0,
-            top: 12.0,
-            bottom: 12.0,
-          ),
-          child: Text(
-            'Wallink',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 8.0,
-              top: 12.0,
-              bottom: 12.0,
-            ),
-            // child: IconButton(
-            //   icon: const Icon(Icons.search),
-            //   onPressed: () {
-            //     // Handle search icon tap here
-            //   },
-            // ),
-          ),
-        ],
+        title: const Text('Preference Categories'),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Text(
-                'Berikut Kategori yang Mungkin Cocok ',
-                style: TextStyle(
-                  fontSize: 42,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  child: ListView.builder(
-                    itemCount: _categories.length,
-                    itemBuilder: (context, index) {
-                      if (_categories.isEmpty) {
-                        return CircularProgressIndicator();
-                      }
-                      final Category category =
-                          Category.fromMap(_categories[index]);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4.0,
-                          horizontal: 8.0,
-                        ),
-                        child: CategoryCardIntro(
-                          category: category,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 16, // Jarak dari bawah layar
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          CategoryPage(), // Ganti 'HalamanTujuan' dengan nama kelas halaman tujuan
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black, // Warna latar belakang hitam
-                ),
-                child: Text(
-                  'Pindah Halaman',
-                  style: TextStyle(
-                    color: Colors.white, // Warna teks putih
-                  ),
-                ),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'Berikut Kategori yang Mungkin Cocok untuk anda',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: [
+                  for (var category in [
+                    'Education',
+                    'Work',
+                    'Entertainment',
+                    'News',
+                    'Organization',
+                    'Documentation',
+                  ])
+                    CategoryCardWanted(
+                      category: category,
+                      isSelected: _selectedCategories.contains(category),
+                      onTap: () {
+                        setState(() {
+                          if (_selectedCategories.contains(category)) {
+                            _selectedCategories.remove(category);
+                          } else {
+                            _selectedCategories.add(category);
+                          }
+                        });
+                      },
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () async {
+                for (String data in _selectedCategories) {
+                  insertCategory(data as String);
+                }
+
+                // Navigasi ke CategoryPage dan kirimkan data kategori yang dipilih
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CategoryPage(),
+                  ),
+                );
+              },
+              child: const Text('Next'),
+            ),
+            const SizedBox(height: 16.0),
+            Text(
+              'Kategori yang dipilih: ${_selectedCategories.join(', ')}',
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  _delete(int p1) {}
+// Widget untuk category preferenced
+class CategoryCardWanted extends StatelessWidget {
+  final String category;
+  final bool isSelected;
+  final VoidCallback onTap;
 
-  _update(Category p1) {}
+  const CategoryCardWanted({
+    super.key,
+    required this.category,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Card(
+        color: isSelected ? Colors.greenAccent : Colors.blueAccent,
+        child: Center(
+          child: Text(
+            category,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.black : Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

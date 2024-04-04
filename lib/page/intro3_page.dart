@@ -38,7 +38,7 @@ class _IntroPage3State extends State<IntroPage3> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => IntroListPagge(),
+                        builder: (context) => PreferencePage()
                       ),
                     );
                   },

@@ -1,7 +1,7 @@
 // intro3_page.dart
 import 'package:flutter/material.dart';
 //import 'package:wallink_v1/page/category_page.dart';
-import 'package:wallink_v1/page/intro_list_page.dart';
+import 'package:wallink_v1/page/preference_page.dart';
 
 class IntroPage3 extends StatefulWidget {
   @override

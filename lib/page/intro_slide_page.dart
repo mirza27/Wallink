@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/category_page.dart';
-import 'package:wallink_v1/page/intro_list_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallink_v1/page/preference_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
+  const IntroSlidePage({super.key});
+
   @override
   _IntroSlidePageState createState() => _IntroSlidePageState();
 }
@@ -18,23 +18,9 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
     'assets/intro3.png',
   ];
 
-  void _checkOnboardingStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
-    if (isFirstTime) {
-      await prefs.setBool('isFirstTime', false);
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => CategoryPage()),
-      );
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _checkOnboardingStatus();     // Iki diaktifne lek pgn sekali muncul
     _pageController = PageController();
   }
 
@@ -79,11 +65,11 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                                 ),
                               );
                             },
-                            child: Text('Get Started'),
+                            child: const Text('Get Started'),
                           ),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               );
             },
           ),

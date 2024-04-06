@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -14,11 +12,11 @@ class SubCategoryCard extends StatefulWidget {
       onUpdate; // memanggil fungsi edit di subcategory page
 
   const SubCategoryCard({
-    Key? key,
+    super.key,
     required this.subCategory,
     required this.onDelete,
     required this.onUpdate,
-  }) : super(key: key);
+  });
 
   @override
   State<SubCategoryCard> createState() => _SubCategoryCardState();

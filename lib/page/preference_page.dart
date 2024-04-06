@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
-import 'package:wallink_v1/database/app_prefereneces.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/page/category_page.dart';
 
 class PreferencePage extends StatefulWidget {

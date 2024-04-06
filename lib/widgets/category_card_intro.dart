@@ -73,7 +73,7 @@ class CategoryCardIntro extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // IconButton(

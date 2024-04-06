@@ -6,8 +6,7 @@ import 'package:wallink_v1/page/sub_category_page.dart';
 class CategoryMiniCard extends StatefulWidget {
   final int? categoryId;
 
-  const CategoryMiniCard({Key? key, required this.categoryId})
-      : super(key: key);
+  const CategoryMiniCard({super.key, required this.categoryId});
 
   @override
   State<CategoryMiniCard> createState() => _CategoryMiniCardState();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/page/category_page.dart';
 import 'package:wallink_v1/page/intro_slide_page.dart';
-import 'package:wallink_v1/database/app_prefereneces.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 
 void main() {
   runApp(const MainApp());

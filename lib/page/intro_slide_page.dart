@@ -14,8 +14,8 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   int _currentPage = 0;
   final List<String> _imageAssets = [
     'assets/intro.png',
-    'assets/intro2.png',
-    'assets/intro3.png',
+    'assets/intro2.jpeg',
+    'assets/intro3.jpeg',
   ];
 
   @override

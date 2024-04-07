@@ -129,14 +129,67 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
         ),
       ),
       body: _subCategories.isEmpty
-          ? Center(
-              // Tampilkan gambar jika _subCategories kosong
-              child: Image.asset(
-                'assets/no_data.png', 
-                width: 350,
-                height: 350,
+          ? Column(
+            children: [
+              Expanded(
+                child: Center(
+                    // Tampilkan gambar jika _subCategories kosong
+                    child: Image.asset(
+                      'assets/no_data.png', 
+                      width: 350,
+                      height: 350,
+                    ),
+                  ),
               ),
-            )
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: ShapeDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment(0.00, -1.00),
+                        end: Alignment(0, 1),
+                        colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32)),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x4C537FE7),
+                          blurRadius: 3,
+                          offset: Offset(0, 3),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: IconButton(
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.add),
+                          Text(
+                            "Tambah Sub Category",
+                            style: GoogleFonts.lexend(
+                              color: const Color.fromARGB(255, 255, 254, 234),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      iconSize: 35,
+                      color: const Color.fromARGB(255, 255, 254, 234),
+                      onPressed: () {
+                        _addSubCategory("New Sub Category", widget.categoryId!);
+                      },
+                    ),
+                  ),
+                )
+            ],
+          )
+
+          // jika data ada
           : Column(
               children: [
                 Expanded(

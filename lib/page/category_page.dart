@@ -123,14 +123,76 @@ class _CategoryPageState extends State<CategoryPage> {
         // ],
       ),
       body: _categories.isEmpty
-          ? Center(
-              // Tampilkan gambar jika _Categories kosong
-              child: Image.asset(
-                'assets/no_data.png',
-                width: 350,
-                height: 350,
+          ? Column(
+            children: [
+              Expanded(
+                child: Center(
+                    // Tampilkan gambar jika _Categories kosong
+                    child: Image.asset(
+                      'assets/no_data.png',
+                      width: 350,
+                      height: 350,
+                    ),
+                  ),
               ),
-            )
+              Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment(0.00, -1.00),
+                          end: Alignment(0, 1),
+                          colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32)),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x4C537FE7),
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: IconButton(
+                              // tambah category
+                              icon: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.add),
+                                  Text(
+                                    "Tambah Category",
+                                    style: GoogleFonts.lexend(
+                                      color: const Color.fromARGB(
+                                          255, 255, 254, 234),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              iconSize: 35,
+                              color: const Color.fromARGB(255, 255, 254, 234),
+                              onPressed: () {
+                                _addCategory("New Category");
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          )
+          // jik data ada
           : Column(
               children: [
                 Expanded(
@@ -153,6 +215,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     ),
                   ),
                 ),
+                // add category button
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(

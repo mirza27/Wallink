@@ -128,74 +128,83 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SizedBox(
-              child: ListView.builder(
-                  // iterasi widget sub category card
-                  itemCount: _subCategories.length,
-                  itemBuilder: (context, index) {
-                    final SubCategory subCategory =
-                        SubCategory.fromMap(_subCategories[index]);
+      body: _subCategories.isEmpty
+          ? Center(
+              // Tampilkan gambar jika _subCategories kosong
+              child: Image.asset(
+                'assets/no_data.png', 
+                width: 350,
+                height: 350,
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    child: ListView.builder(
+                        // iterasi widget sub category card
+                        itemCount: _subCategories.length,
+                        itemBuilder: (context, index) {
+                          final SubCategory subCategory =
+                              SubCategory.fromMap(_subCategories[index]);
 
-                    return SubCategoryCard(
-                      // parameter kelas subcategory
-                      subCategory: subCategory,
-                      onDelete: _deleteSubCategory,
-                      onUpdate: _editSubCategory,
-                    );
-                  }),
-            ),
-          ),
-          // tambah sub category
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              width: double.infinity,
-              decoration: ShapeDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment(0.00, -1.00),
-                  end: Alignment(0, 1),
-                  colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
+                          return SubCategoryCard(
+                            // parameter kelas subcategory
+                            subCategory: subCategory,
+                            onDelete: _deleteSubCategory,
+                            onUpdate: _editSubCategory,
+                          );
+                        }),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32)),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x4C537FE7),
-                    blurRadius: 3,
-                    offset: Offset(0, 3),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: IconButton(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.add),
-                    Text(
-                      "Tambah Sub Category",
-                      style: GoogleFonts.lexend(
-                        color: const Color.fromARGB(255, 255, 254, 234),
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                // tambah sub category
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: ShapeDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment(0.00, -1.00),
+                        end: Alignment(0, 1),
+                        colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
                       ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32)),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x4C537FE7),
+                          blurRadius: 3,
+                          offset: Offset(0, 3),
+                          spreadRadius: 0,
+                        )
+                      ],
                     ),
-                  ],
+                    child: IconButton(
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.add),
+                          Text(
+                            "Tambah Sub Category",
+                            style: GoogleFonts.lexend(
+                              color: const Color.fromARGB(255, 255, 254, 234),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      iconSize: 35,
+                      color: const Color.fromARGB(255, 255, 254, 234),
+                      onPressed: () {
+                        _addSubCategory("New Sub Category", widget.categoryId!);
+                      },
+                    ),
+                  ),
                 ),
-                iconSize: 35,
-                color: const Color.fromARGB(255, 255, 254, 234),
-                onPressed: () {
-                  _addSubCategory("New Sub Category", widget.categoryId!);
-                },
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

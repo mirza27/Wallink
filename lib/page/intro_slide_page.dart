@@ -86,17 +86,17 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             ),
           ),
           AnimatedPositioned(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             bottom: 20,
             right: _nextButtonOffset,
             child: TextButton(
               onPressed: () {
                 _pageController.nextPage(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,
                 );
               },
-              child: Text(
+              child: const Text(
                 'Next',
                 style: TextStyle(
                   color: Colors.white,
@@ -106,17 +106,17 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             ),
           ),
           AnimatedPositioned(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             bottom: 20,
             left: _backButtonOffset,
             child: TextButton(
               onPressed: () {
                 _pageController.previousPage(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,
                 );
               },
-              child: Text(
+              child: const Text(
                 'Back',
                 style: TextStyle(
                   color: Colors.white,

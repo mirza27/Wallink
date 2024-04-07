@@ -30,10 +30,48 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   // add category
-  Future<void> _addCategory(String categoryName) async {
-    await insertCategory(categoryName);
-    await _loadData();
+  Future<void> _addCategory(String subCategoryName) async {
+    String? newCategoryName = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        TextEditingController controller = TextEditingController();
+
+        // keyboard aktif langsung
+        FocusNode focusNode = FocusNode();
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => focusNode.requestFocus());
+
+        return AlertDialog(
+          title: const Text('Add Sub Category'),
+          content: TextField(
+            controller: controller,
+            decoration:
+                const InputDecoration(hintText: 'New sub category name'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, controller.text);
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (newCategoryName != null) {
+      await insertCategory(newCategoryName);
+      await _loadData();
+    }
   }
+
 
   // delete category
   void _deleteCategory(int categoryId) async {

@@ -43,8 +43,67 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
 
   // fungsi add new link
   Future<void> _addLink(String linkName, String link) async {
-    await insertLink(link, linkName, widget.subCategory.id!);
-    await _loadData();
+    await showDialog<String>(
+      context: context,
+      builder: (context) {
+        TextEditingController linkNameController = TextEditingController();
+        TextEditingController linkController = TextEditingController();
+
+        // keyboard aktif langsung
+        FocusNode focusNode = FocusNode();
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => focusNode.requestFocus());
+
+        return AlertDialog(
+          title: const Text('Add Link'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: linkNameController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter New Link Name',
+                ),
+              ),
+              TextField(
+                controller: linkController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter New Link',
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                String newLinkName = linkNameController.text;
+                String newLink = linkController.text;
+
+                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {// jika input tidak kosong
+                  await insertLink(
+                      newLink, newLinkName, widget.subCategory.id!);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else { // jika input kosong
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please fill all fields'),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // delete link

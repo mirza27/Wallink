@@ -170,27 +170,27 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                   )
                 ],
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    iconSize: 35,
-                    color: const Color.fromARGB(255, 255, 254, 234),
-                    onPressed: () {
-                      _addSubCategory("New Sub Category", widget.categoryId!);
-                    },
-                  ),
-                  Text(
-                    "Tambah Sub Category",
-                    style: GoogleFonts.lexend(
-                      color: const Color.fromARGB(255, 255, 254, 234),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+              child: IconButton(
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.add),
+                    Text(
+                      "Tambah Sub Category",
+                      style: GoogleFonts.lexend(
+                        color: const Color.fromARGB(255, 255, 254, 234),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                iconSize: 35,
+                color: const Color.fromARGB(255, 255, 254, 234),
+                onPressed: () {
+                  _addSubCategory("New Sub Category", widget.categoryId!);
+                },
               ),
             ),
           ),

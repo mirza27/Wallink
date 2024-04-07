@@ -164,7 +164,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       style: GoogleFonts.lexend(
                         fontWeight: FontWeight.bold,
                         color: Colors.black, // Changed color to black
-                        fontSize: 24,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -209,27 +209,27 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          iconSize: 30,
-                          color: Colors.white,
-                          onPressed: () {
-                            _addLink("New Link", "www.example.com");
-                          },
-                        ),
-                        Text(
-                          "Tambah Link",
-                          style: GoogleFonts.lexend(
-                            color: const Color.fromARGB(255, 255, 254, 234),
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
+                    IconButton(
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.add),
+                          Text(
+                            "Tambah Link",
+                            style: GoogleFonts.lexend(
+                              color: const Color.fromARGB(255, 255, 254, 234),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      iconSize: 25,
+                      color: Colors.white,
+                      onPressed: () {
+                        _addLink("New Link", "www.example.com");
+                      },
                     ),
                   ],
                 ),

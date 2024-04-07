@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
@@ -51,9 +53,10 @@ class _LinkCardState extends State<LinkCard> {
                       // nama link
                       Text(
                         widget.link.nameLink as String,
-                        style: const TextStyle(
+                        style: GoogleFonts.lexend(
                           color: Colors.black87,
                           fontSize: 15,
+                          fontWeight:FontWeight.w700
                         ),
                       ),
             

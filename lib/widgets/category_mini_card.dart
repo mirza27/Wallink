@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
 import 'package:wallink_v1/page/sub_category_page.dart';
@@ -53,14 +54,26 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SubCategoryPage(categoryId: category.id),
+                    builder: (context) =>
+                        SubCategoryPage(categoryId: category.id),
                   ),
                 );
               },
               child: Chip(
-                label: Text(category.nameCategory as String),
-                backgroundColor: isActive ? const Color(0xFF181823) : const Color(0xFFFFFFFF),
-                labelStyle: TextStyle(color: isActive ? const Color(0xFFFFFFFF) : const Color(0xFF181823).withOpacity(0.8)),
+                label: Text(
+                  category.nameCategory as String,
+                  style: GoogleFonts.lexend(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: isActive
+                    ? const Color(0xFF181823)
+                    : const Color(0xFFFFFFFF),
+                labelStyle: TextStyle(
+                    color: isActive
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xFF181823).withOpacity(0.8)),
               ),
             ),
           );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/category_mini_card.dart';
@@ -95,11 +96,25 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 254, 234),
       appBar: AppBar(
-        title: const Text('Wallink'),
+        backgroundColor: const Color.fromARGB(255, 255, 254, 234),
+        title: Padding(
+          padding: const EdgeInsets.only(
+            left: 8.0,
+            top: 15.0,
+            bottom: 13.0,
+          ),
+          child: Text(
+            'Wallink',
+            style: GoogleFonts.lexend(
+              fontWeight: FontWeight.w800,
+              fontSize: 30,
+            ),
+          ),
+        ),
         bottom: PreferredSize(
-          preferredSize:
-              const Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: PreferredSize(
             preferredSize: const Size.fromHeight(50.0),
             child: Padding(
@@ -134,11 +149,51 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
             ),
           ),
           // tambah sub category
-          IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                _addSubCategory("New Sub Category", widget.categoryId!);
-              }),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              width: double.infinity,
+              decoration: ShapeDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment(0.00, -1.00),
+                  end: Alignment(0, 1),
+                  colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32)),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0x4C537FE7),
+                    blurRadius: 3,
+                    offset: Offset(0, 3),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    iconSize: 35,
+                    color: const Color.fromARGB(255, 255, 254, 234),
+                    onPressed: () {
+                      _addSubCategory("New Sub Category", widget.categoryId!);
+                    },
+                  ),
+                  Text(
+                    "Tambah Sub Category",
+                    style: GoogleFonts.lexend(
+                      color: const Color.fromARGB(255, 255, 254, 234),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

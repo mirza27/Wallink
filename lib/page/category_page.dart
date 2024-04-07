@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
 import 'package:wallink_v1/widgets/category_card.dart';
@@ -88,35 +89,38 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 254, 234),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(
+        backgroundColor: const Color.fromARGB(255, 255, 254, 234),
+        title: Padding(
+          padding: const EdgeInsets.only(
             left: 8.0,
-            top: 12.0,
-            bottom: 12.0,
+            top: 15.0,
+            bottom: 13.0,
           ),
           child: Text(
             'Wallink',
-            style: TextStyle(
-              fontWeight: FontWeight.bold
+            style: GoogleFonts.lexend(
+              fontWeight: FontWeight.w800,
+              fontSize: 30,
             ),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 8.0,
-              top: 12.0,
-              bottom: 12.0,
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Handle search icon tap here
-              },
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(
+        //       right: 8.0,
+        //       top: 12.0,
+        //       bottom: 12.0,
+        //     ),
+        //     child: IconButton(
+        //       icon: const Icon(Icons.search),
+        //       onPressed: () {
+        //         // Handle search icon tap here
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: Column(
         children: [
@@ -129,27 +133,71 @@ class _CategoryPageState extends State<CategoryPage> {
                   final Category category =
                       Category.fromMap(_categories[index]);
                   return Padding(
-                    padding:  const EdgeInsets.symmetric(
-                      vertical: 4.0,
-                      horizontal: 8.0
-                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                     child: CategoryCard(
-                      category: category,
-                      onDelete: _deleteCategory,
-                      onUpdate: _editCategory
-                    ),
+                        category: category,
+                        onDelete: _deleteCategory,
+                        onUpdate: _editCategory),
                   );
                 },
               ),
             ),
           ),
-          IconButton( // tambah category
-              icon: const Icon(
-                Icons.add
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Container(
+                decoration: ShapeDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment(0.00, -1.00),
+                    end: Alignment(0, 1),
+                    colors: [Color(0xFFB6FFFA), Color(0xFF537FE7)],
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32)),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x4C537FE7),
+                      blurRadius: 3,
+                      offset: Offset(0, 3),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            // tambah category
+                            icon: const Icon(Icons.add),
+                            iconSize: 35,
+                            color: const Color.fromARGB(255, 255, 254, 234),
+                            onPressed: () {
+                              _addCategory("New Category");
+                            },
+                          ),
+                          Text(
+                            "Tambah Category",
+                            style: GoogleFonts.lexend(
+                              color: const Color.fromARGB(255, 255, 254, 234),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              onPressed: () {
-                _addCategory("New Category");
-              })
+            ),
+          )
         ],
       ),
     );

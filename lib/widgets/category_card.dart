@@ -27,80 +27,88 @@ class CategoryCard extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Container(
-          width: double.infinity,
-          height: 150, // Reduced height
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment(-0.97, -0.26),
-              end: Alignment(0.97, 0.26),
-              colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
-            ),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Row(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Opacity(
-                    opacity: 0.0,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 17,
-                      ),
-                      onPressed: () {
-                      },
-                    ),
-                  )
-                ],
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+        child: Card(
+          child: Container(
+            width: double.infinity,
+            height: 150, // Reduced height
+            decoration: ShapeDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment(-0.97, -0.26),
+                end: Alignment(0.97, 0.26),
+                colors: [ Color(0xFF537FE7), Color(0xFFB6FFFA)],
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    category.nameCategory as String,
-                    style: GoogleFonts.lexend(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Changed color to black
-                      fontSize: 24,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x4C537FE7),
+                  blurRadius: 3,
+                  offset: Offset(0, 3),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Opacity(
+                      opacity: 0.0,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 17,
+                        ),
+                        onPressed: () {},
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      category.nameCategory as String,
+                      style: GoogleFonts.lexend(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black, // Changed color to black
+                        fontSize: 24,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    // icon delete
-                    icon: const Icon(
-                      Icons.edit,
-                      size: 17,
-                      color: Colors.black,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      // icon delete
+                      icon: const Icon(
+                        Icons.edit,
+                        size: 17,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        onUpdate(category);
+                      },
                     ),
-                    onPressed: () {
-                      onUpdate(category);
-                    },
-                  ),
-                  IconButton(
-                    // icon delete
-                    icon: const Icon(
-                      Icons.delete,
-                      size: 17,
-                      color: Colors.black,
+                    IconButton(
+                      // icon delete
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 17,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        onDelete(category.id!);
+                      },
                     ),
-                    onPressed: () {
-                      onDelete(category.id!);
-                    },
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -119,77 +119,123 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment(-0.97, -0.26),
-            end: Alignment(0.97, 0.26),
-            colors: [Color(0xFF537FE7), Color(0xFFB6FFFA), Color(0xFFB6FFFA)],
-          ),
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: ExpansionTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          initiallyExpanded: _isExpanded,
-          onExpansionChanged: (expanded) {
-            setState(() {
-              _isExpanded = expanded;
-            });
-          },
-          title: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.subCategory.subCategoryName as String,
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black, // Changed color to black
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              // icon edit
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  widget.onUpdate(widget.subCategory);
-                },
-              ),
-
-              // icon delete
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  widget.onDelete(widget.subCategory.id!);
-                },
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(
+        right: 13.0,
+        left: 13.0,
+        bottom: 5.0,
+      ),
+      child: Card(
+        child: Container(
+          decoration: ShapeDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment(-0.97, -0.26),
+              end: Alignment(0.97, 0.26),
+              colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shadows: const [
+              BoxShadow(
+                color: Color(0x4C537FE7),
+                blurRadius: 3,
+                offset: Offset(0, 3),
+                spreadRadius: 0,
+              )
             ],
           ),
-          // iterasi setiap link dengan link card
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                // iterasi widget sub category card
-                itemCount: _links.length,
-                itemBuilder: (context, index) {
-                  final Link link = Link.fromMap(_links[index]);
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ExpansionTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              initiallyExpanded: _isExpanded,
+              onExpansionChanged: (expanded) {
+                setState(() {
+                  _isExpanded = expanded;
+                });
+              },
+              title: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.subCategory.subCategoryName as String,
+                      style: GoogleFonts.lexend(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Changed color to black
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  // icon edit
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    iconSize: 20,
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    onPressed: () {
+                      widget.onUpdate(widget.subCategory);
+                    },
+                  ),
 
-                  return LinkCard(
-                    link: link,
-                    onDelete: _deleteLink,
-                    onUpdate: _editLink,
-                  );
-                }),
-            // tambah link
-            IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  _addLink("New Link", "www.example.com");
-                }),
-          ],
+                  // icon delete
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    iconSize: 20,
+                    color: const Color.fromARGB(255, 207, 22, 22),
+                    onPressed: () {
+                      widget.onDelete(widget.subCategory.id!);
+                    },
+                  ),
+                ],
+              ),
+              // iterasi setiap link dengan link card
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  // iterasi widget sub category card
+                  itemCount: _links.length,
+                  itemBuilder: (context, index) {
+                    final Link link = Link.fromMap(_links[index]);
+
+                    return LinkCard(
+                      link: link,
+                      onDelete: _deleteLink,
+                      onUpdate: _editLink,
+                    );
+                  },
+                ),
+                // tambah link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          iconSize: 30,
+                          color: Colors.white,
+                          onPressed: () {
+                            _addLink("New Link", "www.example.com");
+                          },
+                        ),
+                        Text(
+                          "Tambah Link",
+                          style: GoogleFonts.lexend(
+                            color: const Color.fromARGB(255, 255, 254, 234),
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -86,12 +86,14 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                 String newLinkName = linkNameController.text;
                 String newLink = linkController.text;
 
-                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {// jika input tidak kosong
+                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
+                  // jika input tidak kosong
                   await insertLink(
                       newLink, newLinkName, widget.subCategory.id!);
                   Navigator.pop(context);
                   await _loadData();
-                } else { // jika input kosong
+                } else {
+                  // jika input kosong
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please fill all fields'),
                     duration: Duration(seconds: 2),
@@ -160,12 +162,23 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
             ),
             TextButton(
               onPressed: () async {
-                String newLink = linkController.text;
+                
+                // Edit ga bole kosong
                 String newLinkName = linkNameController.text;
-                await editLink(link.id!, newLinkName,
-                    newLink); // Memperbarui link dan link_name
-                Navigator.pop(context);
-                await _loadData();
+                String newLink = linkController.text;
+
+                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
+                  // jika input tidak kosong
+                  await editLink(link.id!, newLinkName, newLink);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else {
+                  // jika input kosong
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please fill all fields'),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
               },
               child: const Text('Update'),
             ),

@@ -38,6 +38,11 @@ class _LinkCardState extends State<LinkCard> {
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
+    
+    // membtasi panjang link ditampilkan
+    String actualLink = widget.link.link as String;
+    String truncatedLink = actualLink.substring(0, actualLink.length <25 ? actualLink.length : 25);
+
     return ListTile(
       title: SizedBox(
         child: Row(
@@ -73,8 +78,9 @@ class _LinkCardState extends State<LinkCard> {
                       )
                     ],
                   ),
+                  // menampilkan link
                   Text(
-                    widget.link.link as String,
+                    truncatedLink,
                     style:
                         const TextStyle(color: Colors.black87, fontSize: 10),
                   )

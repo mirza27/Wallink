@@ -34,6 +34,6 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/intro.png 
-    - assets/intro2.jpeg
-    - assets/intro3.jpeg
+    - assets/intro2.png
+    - assets/intro3.png
     - assets/no_data.png

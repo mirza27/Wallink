@@ -80,9 +80,21 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
             TextButton(
               onPressed: () async {
                 String newName = controller.text;
-                await editSubCategory(subCategory.id!, newName);
-                Navigator.pop(context);
-                await _loadData();
+                // Edit tidak boleh kosong
+                if (newName.isNotEmpty) {
+                  // Jika input tidak kosong
+                  await editSubCategory(subCategory.id!, newName);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else {
+                  // Jika input kosong
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please fill all fields'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
               },
               child: const Text('Update'),
             ),
@@ -130,17 +142,17 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
       ),
       body: _subCategories.isEmpty
           ? Column(
-            children: [
-              Expanded(
-                child: Center(
+              children: [
+                Expanded(
+                  child: Center(
                     // Tampilkan gambar jika _subCategories kosong
                     child: Image.asset(
-                      'assets/no_data.png', 
+                      'assets/no_data.png',
                       width: 350,
                       height: 350,
                     ),
                   ),
-              ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
@@ -186,8 +198,8 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                     ),
                   ),
                 )
-            ],
-          )
+              ],
+            )
 
           // jika data ada
           : Column(

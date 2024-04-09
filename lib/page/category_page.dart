@@ -42,11 +42,10 @@ class _CategoryPageState extends State<CategoryPage> {
             .addPostFrameCallback((_) => focusNode.requestFocus());
 
         return AlertDialog(
-          title: const Text('Add Sub Category'),
+          title: const Text('Add Category'),
           content: TextField(
             controller: controller,
-            decoration:
-                const InputDecoration(hintText: 'New sub category name'),
+            decoration: const InputDecoration(hintText: 'New Category Name'),
           ),
           actions: <Widget>[
             TextButton(
@@ -56,8 +55,23 @@ class _CategoryPageState extends State<CategoryPage> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.pop(context, controller.text);
+              onPressed: () async {
+                String newCategory = controller.text;
+
+                if (newCategory.isNotEmpty) {
+                  // Jika input tidak kosong
+                  await insertCategory(newCategory);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else {
+                  // Jika input kosong, gabisa add category dan tampil pesan error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please fill all fields'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
               },
               child: const Text('Add'),
             ),
@@ -71,7 +85,6 @@ class _CategoryPageState extends State<CategoryPage> {
       await _loadData();
     }
   }
-
 
   // delete category
   void _deleteCategory(int categoryId) async {
@@ -111,9 +124,21 @@ class _CategoryPageState extends State<CategoryPage> {
             TextButton(
               onPressed: () async {
                 String newName = controller.text;
-                await editCategory(category.id!, newName);
-                Navigator.pop(context);
-                await _loadData();
+                // Edit tidak boleh kosong
+                if (newName.isNotEmpty) {
+                  // Jika input tidak kosong
+                  await editCategory(category.id!, newName);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else {
+                  // Jika input kosong
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please fill all fields'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
               },
               child: const Text('Update'),
             ),
@@ -162,9 +187,9 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
       body: _categories.isEmpty
           ? Column(
-            children: [
-              Expanded(
-                child: Center(
+              children: [
+                Expanded(
+                  child: Center(
                     // Tampilkan gambar jika _Categories kosong
                     child: Image.asset(
                       'assets/no_data.png',
@@ -172,8 +197,8 @@ class _CategoryPageState extends State<CategoryPage> {
                       height: 350,
                     ),
                   ),
-              ),
-              Padding(
+                ),
+                Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
                     child: Container(
@@ -228,8 +253,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     ),
                   ),
                 )
-            ],
-          )
+              ],
+            )
           // jik data ada
           : Column(
               children: [

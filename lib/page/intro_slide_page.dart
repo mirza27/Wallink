@@ -109,7 +109,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             duration: const Duration(milliseconds: 500),
             bottom: 20,
             left: _backButtonOffset,
-            child: TextButton(
+            child: _currentPage != 0 ? TextButton(
               onPressed: () {
                 _pageController.previousPage(
                   duration: const Duration(milliseconds: 500),
@@ -123,7 +123,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   fontSize: 18,
                 ),
               ),
-            ),
+            ): const SizedBox(),
           ),
         ],
       ),

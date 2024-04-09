@@ -69,7 +69,7 @@ class LinkDatabase {
         ''');
 
     // INSERT DATA SAAT INISIASI AWAL (hanya saat awal tes)
-    await _insertInitialData(db);
+    // await _insertInitialData(db);
   }
 
   Future<void> _insertInitialData(Database db) async {

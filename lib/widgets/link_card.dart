@@ -39,9 +39,12 @@ class _LinkCardState extends State<LinkCard> {
   @override
   Widget build(BuildContext context) {
     
-    // membtasi panjang link ditampilkan
+    // membatasi panjang nama link dan link ditampilkan
     String actualLink = widget.link.link as String;
     String truncatedLink = actualLink.substring(0, actualLink.length <25 ? actualLink.length : 25);
+
+    String actualLinkName = widget.link.nameLink as String;
+    String truncatedLinkName = actualLinkName.substring(0, actualLinkName.length < 10 ? actualLinkName.length : 10);
 
     return ListTile(
       title: SizedBox(
@@ -57,7 +60,7 @@ class _LinkCardState extends State<LinkCard> {
                     children: <Widget>[
                       // nama link
                       Text(
-                        widget.link.nameLink as String,
+                        truncatedLinkName,
                         style: GoogleFonts.lexend(
                           color: Colors.black87,
                           fontSize: 15,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/page/preference_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
@@ -54,11 +55,48 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: index == 2 // Tampilkan tombol hanya jika indeks gambar adalah 2
-                    ? Align(
+                child: Stack(
+                  children: [
+                    if (index == 0) // Show button only if image index is 0 (intro.png)
+                      Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 24.0), // Sesuaikan jarak ke bawah di sini
+                          padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _pageController.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: Colors.orangeAccent,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Next",
+                                  style: GoogleFonts.lexend(
+                                    color: const Color.fromARGB(255, 255, 254, 234),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (index == 2) // Show button only if image index is 2 (intro3.png)
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.push(
@@ -68,11 +106,31 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                                 ),
                               );
                             },
-                            child: const Text('Get Started'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: Colors.orangeAccent,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Get Started",
+                                  style: GoogleFonts.lexend(
+                                    color: const Color.fromARGB(255, 255, 254, 234),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      )
-                    : const SizedBox(),
+                      ),
+                  ],
+                ),
               );
             },
           ),
@@ -85,46 +143,48 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
               children: _buildIndicators(),
             ),
           ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 500),
-            bottom: 20,
-            right: _nextButtonOffset,
-            child: TextButton(
-              onPressed: () {
-                _pageController.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-              },
-              child: const Text(
-                'NEXT',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          if (_currentPage == 1) // Show Next and Back buttons only on the second slide
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 500),
+              bottom: 20,
+              right: _nextButtonOffset,
+              child: TextButton(
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+                child: const Text(
+                  'NEXT',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 500),
-            bottom: 20,
-            left: _backButtonOffset,
-            child: _currentPage != 0 ? TextButton(
-              onPressed: () {
-                _pageController.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-              },
-              child: const Text(
-                'BACK',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          if (_currentPage == 1) // Show Next and Back buttons only on the second slide
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 500),
+              bottom: 20,
+              left: _backButtonOffset,
+              child: _currentPage != 0 ? TextButton(
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+                child: const Text(
+                  'BACK',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-            ): const SizedBox(),
-          ),
+              ): const SizedBox(),
+            ),
         ],
       ),
     );
@@ -132,9 +192,9 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
 
   List<Widget> _buildIndicators() {
     List<Widget> indicators = [];
-    // Menampilkan indikator hanya untuk gambar intro dan intro 2
+    // Show indicators only for intro and intro 2 images
     for (int i = 0; i < _imageAssets.length - 1; i++) {
-      // Tambahkan kondisi untuk tidak menampilkan indikator jika indeks gambar adalah 2 (intro 3)
+      // Add condition to not show indicator if image index is 2 (intro 3)
       if (i != 2 && _currentPage != 2) {
         indicators.add(
           Container(

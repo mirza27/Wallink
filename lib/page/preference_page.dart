@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts package
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/page/category_page.dart';
@@ -15,18 +16,23 @@ class _PreferencePageState extends State<PreferencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preference Categories'),
+        title: Text(
+          'Preference Categories',
+          style: TextStyle(color: Colors.black), // Text color changed to black
+        ),
+        backgroundColor: Colors.lightBlue[200], // Background color changed to light blue
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Berikut Kategori yang Mungkin Cocok untuk anda',
-              style: TextStyle(
-                fontSize: 20.0,
+            Text(
+              'Pilih Kategori Sesuai Kebutuhan Anda',
+              style: GoogleFonts.lexend( // Use Google Fonts lexend
+                fontSize: 27.0,
                 fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 0, 0, 0), // Text color changed to dark blue
               ),
             ),
             const SizedBox(height: 16.0),
@@ -75,16 +81,25 @@ class _PreferencePageState extends State<PreferencePage> {
                   (route) => false,
                 );
               },
-              child: const Text('Next'),
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              'Kategori yang dipilih: ${_selectedCategories.join(', ')}',
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.lightBlue[300], // Button background color changed to light blue
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [                  
+                  Text(
+                    "NEXT",
+                    style: GoogleFonts.lexend( // Use Google Fonts lexend
+                      color: const Color.fromARGB(255, 255, 254, 234),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
             ),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),
@@ -99,27 +114,25 @@ class CategoryCardWanted extends StatelessWidget {
   final VoidCallback onTap;
 
   const CategoryCardWanted({
-    super.key,
+    Key? key, // Add Key parameter
     required this.category,
     required this.isSelected,
     required this.onTap,
-  });
+  }) : super(key: key); // Pass key parameter to super constructor
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        onTap();
-      },
+      onTap: onTap,
       child: Card(
-        color: isSelected ? Colors.greenAccent : Colors.blueAccent,
+        color: isSelected ? Colors.lightBlue[300] : Colors.lightBlue[100], // Card background color changed to light blue
         child: Center(
           child: Text(
             category,
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.black : Colors.white,
+              color: isSelected ? Colors.black : Colors.lightBlue[900], // Text color changed to black if selected, dark blue otherwise
             ),
           ),
         ),

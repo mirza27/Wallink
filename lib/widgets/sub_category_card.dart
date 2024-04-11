@@ -264,6 +264,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               // iterasi setiap link dengan link card
               children: [
                 ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   // iterasi widget sub category card
                   itemCount: _links.length,

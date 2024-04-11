@@ -282,27 +282,25 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.add),
-                          Text(
-                            "Tambah Link",
-                            style: GoogleFonts.lexend(
-                              color: const Color.fromARGB(255, 255, 254, 234),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      iconSize: 25,
-                      color: Colors.white,
+                    ElevatedButton.icon(
                       onPressed: () {
-                        _addLink("New Link", "www.example.com");
+                        _addLink("", "");
                       },
+                      icon: const Icon(Icons.add),
+                      label: Text(
+                        "Tambah Link",
+                        style: GoogleFonts.lexend(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF537FE7),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -1,5 +1,7 @@
+import 'dart:async';
+
+import 'package:auto_scroll_text/auto_scroll_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,11 +25,7 @@ class LinkCard extends StatefulWidget {
 class _LinkCardState extends State<LinkCard> {
   // fungsi launch url
   Future<void> _launchURL(String url) async {
-     if (!url.startsWith("https://") && !url.startsWith("http://")) {
-        url = "https://$url";
-    }
-
-     final Uri uri = Uri.parse(url);
+    final Uri uri = Uri(scheme: "https", host: url);
 
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw "can't launch url";
@@ -39,101 +37,130 @@ class _LinkCardState extends State<LinkCard> {
     Clipboard.setData(ClipboardData(text: url));
   }
 
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPosition = 0.0;
+  double _scrollMax = 0.0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollMax = _scrollController.position.maxScrollExtent;
+      _startScrolling();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startScrolling() {
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+      if (_scrollPosition < _scrollMax) {
+        _scrollPosition += 1.0;
+        _scrollController.animateTo(_scrollPosition,
+            duration: const Duration(milliseconds: 50), curve: Curves.linear);
+      } else {
+        _scrollPosition = 0.0;
+        _scrollController.jumpTo(_scrollPosition);
+      }
+    });
+  }
+
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
-    
-    // membatasi panjang nama link dan link ditampilkan
-    String actualLink = widget.link.link as String;
-    String truncatedLink = actualLink.substring(0, actualLink.length <25 ? actualLink.length : 25);
-
-    String actualLinkName = widget.link.nameLink as String;
-    String truncatedLinkName = actualLinkName.substring(0, actualLinkName.length < 10 ? actualLinkName.length : 10);
-
     return ListTile(
-      title: SizedBox(
-        child: Row(
-          children: <Widget>[
-            // LINK DAN LAUNCH LINK
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: <Widget>[
-                      // nama link
-                      Text(
-                        truncatedLinkName,
-                        style: GoogleFonts.lexend(
-                          color: Colors.black87,
-                          fontSize: 15,
-                          fontWeight:FontWeight.w700
+      title: Row(
+        children: <Widget>[
+          // LINK DAN LAUNCH LINK
+          Expanded(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: <Widget>[
+                    // nama link
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          widget.link.nameLink as String,
+                          style: GoogleFonts.lexend(
+                            color: Colors.black87,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-            
-                      // launch button
-                      SizedBox(
-                        child: IconButton(
-                            icon: const Icon(
-                              Icons.launch,
-                              size: 12,
-                            ),
-                            onPressed: () {
-                              _launchURL(widget.link.link as String);
-                            }),
-                      )
-                    ],
-                  ),
-                  // menampilkan link
-                  Text(
-                    truncatedLink,
-                    style:
-                        const TextStyle(color: Colors.black87, fontSize: 10),
-                  )
-                ],
-              ),
-            ),
-            // ICON UNTUK CRUD
-            Expanded(
-                flex: 3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      // icon copy
-                      icon: const Icon(
-                        Icons.copy,
-                        size: 17,
-                      ),
-                      onPressed: () {
-                        _copytoClipboard(widget.link.link as String);
-                      },
                     ),
-                    IconButton(
-                      // icon edit
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 17,
-                      ),
-                      onPressed: () {
-                        widget.onUpdate(widget.link);
-                      },
-                    ),
-                    IconButton(
-                      // icon delete
-                      icon: const Icon(
-                        Icons.delete,
-                        size: 17,
-                      ),
-                      onPressed: () {
-                        widget.onDelete(widget.link.id!);
-                      },
-                    ),
+
+                    // launch button
+                    SizedBox(
+                      child: IconButton(
+                          icon: const Icon(
+                            Icons.launch,
+                            size: 12,
+                          ),
+                          onPressed: () {
+                            _launchURL(widget.link.link as String);
+                          }),
+                    )
                   ],
-                ))
-          ],
-        ),
+                ),
+                Text(
+                  widget.link.link as String,
+                  style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          ),
+          // ICON UNTUK CRUD
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                // icon copy
+                icon: const Icon(
+                  Icons.copy,
+                  size: 17,
+                ),
+                onPressed: () {
+                  _copytoClipboard(widget.link.link as String);
+                },
+              ),
+              IconButton(
+                // icon edit
+                icon: const Icon(
+                  Icons.edit,
+                  size: 17,
+                ),
+                onPressed: () {
+                  widget.onUpdate(widget.link);
+                },
+              ),
+              IconButton(
+                // icon delete
+                icon: const Icon(
+                  Icons.delete,
+                  size: 17,
+                ),
+                onPressed: () {
+                  widget.onDelete(widget.link.id!);
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

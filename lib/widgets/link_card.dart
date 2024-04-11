@@ -39,7 +39,7 @@ class _LinkCardState extends State<LinkCard> {
   double _scrollPosition = 0.0;
   double _scrollMax = 0.0;
   Timer? _timer;
-  final int _delaySeconds = 2; 
+  final int _delaySeconds = 1; 
 
   @override
   void initState() {

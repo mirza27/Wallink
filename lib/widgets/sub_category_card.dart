@@ -83,8 +83,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
             ),
             TextButton(
               onPressed: () async {
-                String newLinkName = linkNameController.text;
-                String newLink = linkController.text;
+                String newLinkName = linkNameController.text.trim();
+                String newLink = linkController.text.trim();
 
                 if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
                   // jika input tidak kosong
@@ -164,8 +164,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               onPressed: () async {
                 
                 // Edit ga bole kosong
-                String newLinkName = linkNameController.text;
-                String newLink = linkController.text;
+                String newLinkName = linkNameController.text.trim();
+                String newLink = linkController.text.trim();
 
                 if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
                   // jika input tidak kosong

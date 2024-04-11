@@ -79,7 +79,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
             ),
             TextButton(
               onPressed: () async {
-                String newName = controller.text;
+                String newName = controller.text.trim();
                 // Edit tidak boleh kosong
                 if (newName.isNotEmpty) {
                   // Jika input tidak kosong

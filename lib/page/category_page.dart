@@ -56,7 +56,7 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             TextButton(
               onPressed: () async {
-                String newCategory = controller.text;
+                String newCategory = controller.text.trim();
 
                 if (newCategory.isNotEmpty) {
                   // Jika input tidak kosong
@@ -123,7 +123,7 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             TextButton(
               onPressed: () async {
-                String newName = controller.text;
+                String newName = controller.text.trim();
                 // Edit tidak boleh kosong
                 if (newName.isNotEmpty) {
                   // Jika input tidak kosong

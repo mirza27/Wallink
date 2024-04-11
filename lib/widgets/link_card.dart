@@ -39,6 +39,7 @@ class _LinkCardState extends State<LinkCard> {
   double _scrollPosition = 0.0;
   double _scrollMax = 0.0;
   Timer? _timer;
+  final int _delaySeconds = 2; 
 
   @override
   void initState() {
@@ -64,6 +65,13 @@ class _LinkCardState extends State<LinkCard> {
       } else {
         _scrollPosition = 0.0;
         _scrollController.jumpTo(_scrollPosition);
+        _timer?.cancel();
+        Future.delayed(
+          Duration(seconds: _delaySeconds),
+          () {
+            _startScrolling();
+          },
+        );
       }
     });
   }

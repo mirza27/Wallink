@@ -20,13 +20,18 @@ class LinkCard extends StatefulWidget {
   State<LinkCard> createState() => _LinkCardState();
 }
 
-class _LinkCardState extends State<LinkCard> {
   // fungsi launch url
+class _LinkCardState extends State<LinkCard> {
   Future<void> _launchURL(String url) async {
-    final Uri uri = Uri(scheme: "https", host: url);
+    // jika tidak ada https / http
+    if (!url.startsWith("https://") && !url.startsWith("http://")) {
+        url = "https://$url";
+    }
+
+    final Uri uri = Uri.parse(url);
 
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw "can't launch url";
+        throw "can't launch url";
     }
   }
 

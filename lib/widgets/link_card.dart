@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:auto_scroll_text/auto_scroll_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/models/link.dart';

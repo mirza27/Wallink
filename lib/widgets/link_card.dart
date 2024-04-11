@@ -113,7 +113,7 @@ class _LinkCardState extends State<LinkCard> {
                 ),
                 Text(
                   widget.link.link as String,
-                  style: const TextStyle(
+                  style: GoogleFonts.lexend(
                     color: Colors.black87,
                     fontSize: 13,
                   ),

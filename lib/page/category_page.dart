@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
+import 'package:wallink_v1/page/fav_page.dart';
 import 'package:wallink_v1/widgets/category_card.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -169,21 +170,17 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
           ),
         ),
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.only(
-        //       right: 8.0,
-        //       top: 12.0,
-        //       bottom: 12.0,
-        //     ),
-        //     child: IconButton(
-        //       icon: const Icon(Icons.search),
-        //       onPressed: () {
-        //         // Handle search icon tap here
-        //       },
-        //     ),
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoriteLinksPage()),
+              ); // Navigasi ke halaman favorit
+            },
+          ),
+        ],
       ),
       body: _categories.isEmpty
           ? Column(

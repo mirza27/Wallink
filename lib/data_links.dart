@@ -1,11 +1,13 @@
 class Link {
   String name;
   String link;
+  bool is_favorite;
   DateTime createdAt;
 
   Link({
     this.name = "link - index",
     required this.link,
+    required this.is_favorite,
     required this.createdAt,
   });
 }
@@ -36,10 +38,13 @@ List<Category> listData = [
       Link(
           name: "materi stack",
           link: "arna.lecturer.pens",
+          is_favorite: true,
           createdAt: DateTime.now()),
+          
       Link(
           name: "materi queue",
           link: "arna.lecturer.pens",
+          is_favorite: true,
           createdAt: DateTime.now())
     ]),
     SubCategory(
@@ -48,23 +53,25 @@ List<Category> listData = [
         Link(
             name: "materi query",
             link: "www.data.com",
+            is_favorite: true,
             createdAt: DateTime.now()),
         Link(
             name: "materi subquery",
             link: "www.data.com",
+            is_favorite: false,
             createdAt: DateTime.now())
       ],
     )
   ]),
   Category(categoryName: "Entertaiment", subCategories: [
     SubCategory(subCategoryName: "Hehe", links: [
-      Link(name: "hehe", link: "hehe.com", createdAt: DateTime.now()),
+      Link(name: "hehe", link: "hehe.com", is_favorite: true, createdAt: DateTime.now()),
     ]),
     SubCategory(
       subCategoryName: "Movie",
       links: [
-        Link(name: "movie 1", link: "lk21.com", createdAt: DateTime.now()),
-        Link(name: "movie 2", link: "rebahin.com", createdAt: DateTime.now())
+        Link(name: "movie 1", link: "lk21.com", is_favorite: true, createdAt: DateTime.now()),
+        Link(name: "movie 2", link: "rebahin.com", is_favorite: false, createdAt: DateTime.now())
       ],
     )
   ]),

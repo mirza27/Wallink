@@ -14,7 +14,7 @@ class LinkDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('ks33.db');
+    _database = await _initDB('ks3sfd3.db');
     return _database!;
   }
 
@@ -54,6 +54,7 @@ class LinkDatabase {
         ${LinkFields.columnSubCategoryId} INTEGER,
         ${LinkFields.columnCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         ${LinkFields.columnUpdatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ${LinkFields.columnIsFavorite} INTEGER, 
         
         FOREIGN KEY (${LinkFields.columnSubCategoryId}) REFERENCES $tableSubCategories(${SubCategoryFields.columnSubCategoryId}) ON DELETE CASCADE
         )
@@ -69,7 +70,7 @@ class LinkDatabase {
         ''');
 
     // INSERT DATA SAAT INISIASI AWAL (hanya saat awal tes)
-    // await _insertInitialData(db);
+     //await _insertInitialData(db);
   }
 
   Future<void> _insertInitialData(Database db) async {
@@ -86,7 +87,8 @@ class LinkDatabase {
           await db.insert(tableLinks, {
             LinkFields.columnLinkName: link.name,
             LinkFields.columnLink: link.link,
-            LinkFields.columnSubCategoryId: subCategoryId
+            LinkFields.columnSubCategoryId: subCategoryId,
+            LinkFields.columnIsFavorite: 0
           });
         }
       }

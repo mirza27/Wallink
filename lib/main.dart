@@ -8,11 +8,13 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key,});
+  const MainApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-   return FutureBuilder<bool>(
+    return FutureBuilder<bool>(
       future: AppPreferences.isFirstTime(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -21,10 +23,12 @@ class MainApp extends StatelessWidget {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            final bool? isFirstTime = snapshot.data; // ambil dari nilai isFirstTime
+            final bool? isFirstTime =
+                snapshot.data; // ambil dari nilai isFirstTime
             return MaterialApp(
               title: 'WALINK',
-              home: isFirstTime! ? const IntroSlidePage() : const CategoryPage(),
+              home:
+                  isFirstTime! ? const IntroSlidePage() : const CategoryPage(),
               debugShowCheckedModeBanner: false,
             );
           }

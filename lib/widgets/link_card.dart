@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
+import 'package:wallink_v1/controller/link_controller.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
@@ -20,18 +21,18 @@ class LinkCard extends StatefulWidget {
   State<LinkCard> createState() => _LinkCardState();
 }
 
-  // fungsi launch url
+// fungsi launch url
 class _LinkCardState extends State<LinkCard> {
   Future<void> _launchURL(String url) async {
     // jika tidak ada https / http
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
-        url = "https://$url";
+      url = "https://$url";
     }
 
     final Uri uri = Uri.parse(url);
 
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        throw "can't launch url";
+      throw "can't launch url";
     }
   }
 
@@ -44,7 +45,7 @@ class _LinkCardState extends State<LinkCard> {
   double _scrollPosition = 0.0;
   double _scrollMax = 0.0;
   Timer? _timer;
-  final int _delaySeconds = 1; 
+  final int _delaySeconds = 1;
 
   @override
   void initState() {
@@ -167,6 +168,34 @@ class _LinkCardState extends State<LinkCard> {
                 ),
                 onPressed: () {
                   widget.onDelete(widget.link.id!);
+                },
+              ),
+              //
+              //
+              //  ICON FAVORITE
+              //
+              //
+              IconButton(
+                icon: Icon(
+                  widget.link.is_favorite ?? false
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  size: 17,
+                  color: widget.link.is_favorite ?? false
+                      ? Colors.red
+                      : null, // Warna abu-abu jika is_favorite false
+                ),
+                onPressed: () async {
+                  if (widget.link.is_favorite ?? false) {
+                    await markAsUnFavorite(widget.link.id!);
+                  } else {
+                    await markAsFavorite(widget.link.id!);
+                  }
+                  setState(() {
+                    // Toggle nilai is_favorite saat tombol ditekan
+                    widget.link.is_favorite =
+                        !(widget.link.is_favorite ?? false);
+                  });
                 },
               ),
             ],

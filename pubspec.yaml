@@ -37,3 +37,13 @@ flutter:
     - assets/intro2.png
     - assets/intro3.png
     - assets/no_data.png
+  fonts :
+    - family: samsung_one
+      fonts: 
+        - asset: assets/fonts/SamsungOne-400.ttf
+        - asset: assets/fonts/SamsungOne-700.ttf
+          weight: 700
+    - family: sharp
+      fonts:
+        - asset: assets/fonts/SamsungSharpSans-Bold.ttf
+          

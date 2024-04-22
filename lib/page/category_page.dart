@@ -43,7 +43,7 @@ class _CategoryPageState extends State<CategoryPage> {
             .addPostFrameCallback((_) => focusNode.requestFocus());
 
         return AlertDialog(
-          title: const Text('Add Category'),
+          title: const Text('Add Category', style: TextStyle(fontFamily: "sharp",),),
           content: TextField(
             controller: controller,
             decoration: const InputDecoration(hintText: 'New Category Name'),

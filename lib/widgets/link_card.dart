@@ -52,7 +52,7 @@ class _LinkCardState extends State<LinkCard> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollMax = _scrollController.position.maxScrollExtent;
-      _startScrolling();
+      // _startScrolling();
     });
   }
 

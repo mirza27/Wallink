@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
-import 'package:wallink_v1/page/sub_category_page.dart';
 
 class CategoryMiniCard extends StatefulWidget {
   final int? categoryId;
+  final Function onCategoryChanged;
 
-  const CategoryMiniCard({super.key, required this.categoryId});
+  const CategoryMiniCard(
+      {super.key, required this.categoryId, required this.onCategoryChanged});
 
   @override
   State<CategoryMiniCard> createState() => _CategoryMiniCardState();
@@ -15,6 +15,7 @@ class CategoryMiniCard extends StatefulWidget {
 
 class _CategoryMiniCardState extends State<CategoryMiniCard> {
   List<Map<String, dynamic>> _categories = [];
+  int _activeCategory = 0;
 
   @override
   void initState() {
@@ -40,43 +41,41 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
         itemCount: _categories.length,
         itemBuilder: (BuildContext context, int index) {
           final Category category = Category.fromMap(_categories[index]);
-          final bool isActive = widget.categoryId ==
+          final bool isActive = _activeCategory ==
               category.id; // logika jika aktif dan tidak aktif
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: GestureDetector(
-              onTap: () {
-                // redirect ke subcategory page
-                // Kembali ke halaman sebelumnya
-                Navigator.pop(context);
-                // Navigasi ke halaman target
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SubCategoryPage(categoryId: category.id),
-                  ),
-                );
-              },
-              child: Chip(
-                label: Text(
-                  category.nameCategory as String,
-                  style: GoogleFonts.lexend(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                backgroundColor: isActive
-                    ? const Color(0xFF181823)
-                    : const Color(0xFFFFFFFF),
-                labelStyle: TextStyle(
-                    color: isActive
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xFF181823).withOpacity(0.8)),
-              ),
-            ),
-          );
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeCategory = category.id!;
+                    widget.onCategoryChanged(category.id);
+                  });
+                },
+                child: Chip(
+                    label: Text(
+                      category.nameCategory as String, style: const TextStyle(fontSize: 16),
+                    ),
+                    backgroundColor: isActive
+                        ? const Color.fromRGBO(201, 226, 255, 1)
+                        : const Color.fromRGBO(239, 240, 243, 1),
+                    labelStyle: TextStyle(
+                      color: isActive
+                          ? const Color.fromRGBO(5, 105, 220, 1)
+                          : const Color.fromRGBO(139, 141, 152, 1),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      
+                      borderRadius: BorderRadius.circular(20.0),
+                      side: const BorderSide(
+                        color: Colors.transparent
+                        
+                      )
+                    )
+
+                    ),
+              ));
         },
       ),
     );

@@ -135,6 +135,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
               // iterasi mini card category
               child: CategoryMiniCard(
                 categoryId: widget.categoryId,
+                onCategoryChanged: () {},
               ),
             ),
           ),

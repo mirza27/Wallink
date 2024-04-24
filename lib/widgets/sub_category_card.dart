@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
@@ -162,7 +163,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
             ),
             TextButton(
               onPressed: () async {
-                
                 // Edit ga bole kosong
                 String newLinkName = linkNameController.text.trim();
                 String newLink = linkController.text.trim();
@@ -205,8 +205,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               end: Alignment(0.97, 0.26),
               colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
             ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)),
             shadows: const [
               BoxShadow(
                 color: Color(0x4C537FE7),
@@ -240,6 +240,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       ),
                     ),
                   ),
+                  
+    
                   // icon edit
                   IconButton(
                     icon: const Icon(Icons.edit),
@@ -249,7 +251,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       widget.onUpdate(widget.subCategory);
                     },
                   ),
-
+    
                   // icon delete
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -270,11 +272,12 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                   itemCount: _links.length,
                   itemBuilder: (context, index) {
                     final Link link = Link.fromMap(_links[index]);
-
+    
                     return LinkCard(
                       link: link,
                       onDelete: _deleteLink,
                       onUpdate: _editLink,
+                      onChanged: _loadData
                     );
                   },
                 ),

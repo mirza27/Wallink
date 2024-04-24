@@ -14,7 +14,7 @@ class LinkDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('ks3sfd3.db');
+    _database = await _initDB('tesetstescasdasd.db');
     return _database!;
   }
 
@@ -23,7 +23,6 @@ class LinkDatabase {
 
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
@@ -42,6 +41,7 @@ class LinkDatabase {
           ${SubCategoryFields.columnSubCategoryId} INTEGER PRIMARY KEY AUTOINCREMENT,
           ${SubCategoryFields.columnSubCategoryName} TEXT NOT NULL,
           ${SubCategoryFields.columnCategoryId} INTEGER,
+          ${SubCategoryFields.columnIsArchive} INTEGER DEFAULT 0,
           FOREIGN KEY (${SubCategoryFields.columnCategoryId}) REFERENCES $tableCategories(${CategoryFields.columnCategoryId}) ON DELETE CASCADE
         )
         ''');
@@ -55,6 +55,7 @@ class LinkDatabase {
         ${LinkFields.columnCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         ${LinkFields.columnUpdatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         ${LinkFields.columnIsFavorite} INTEGER, 
+        ${LinkFields.columnIsArchive} INTEGER DEFAULT 0,
         
         FOREIGN KEY (${LinkFields.columnSubCategoryId}) REFERENCES $tableSubCategories(${SubCategoryFields.columnSubCategoryId}) ON DELETE CASCADE
         )
@@ -70,7 +71,7 @@ class LinkDatabase {
         ''');
 
     // INSERT DATA SAAT INISIASI AWAL (hanya saat awal tes)
-     //await _insertInitialData(db);
+    await _insertInitialData(db);
   }
 
   Future<void> _insertInitialData(Database db) async {
@@ -88,11 +89,11 @@ class LinkDatabase {
             LinkFields.columnLinkName: link.name,
             LinkFields.columnLink: link.link,
             LinkFields.columnSubCategoryId: subCategoryId,
-            LinkFields.columnIsFavorite: 0
+            LinkFields.columnIsFavorite: 0,
+            LinkFields.columnIsArchive: 0
           });
         }
       }
     }
   }
-
 }

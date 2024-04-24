@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
-import 'package:wallink_v1/database/link_database.dart';
+//import 'package:wallink_v1/database/link_database.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 
@@ -20,7 +20,8 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
 
   Future<List<Link>> _getFavoriteLinks() async {
     List<Map<String, dynamic>> favoriteLinksData = await getFavLink();
-    List<Link> favoriteLinks = favoriteLinksData.map((data) => Link.fromMap(data)).toList();
+    List<Link> favoriteLinks =
+        favoriteLinksData.map((data) => Link.fromMap(data)).toList();
     return favoriteLinks;
   }
 
@@ -51,6 +52,7 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
                   onUpdate: (link) {
                     // Implement update functionality if needed
                   },
+                  onChanged: () {},
                 );
               },
             );

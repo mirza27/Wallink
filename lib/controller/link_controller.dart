@@ -14,20 +14,28 @@ Future<int> insertLink(String link, String nameLink, int subCategoryId) async {
 
 Future<List<Map<String, dynamic>>> getAllLink() async {
   Database db = await LinkDatabase.instance.database;
+
   return await db.query(tableLinks);
 }
 
 Future<List<Map<String, dynamic>>> getLink(int? subCategoryId) async {
   Database db = await LinkDatabase.instance.database;
   return await db.query(tableLinks,
-      where: '${LinkFields.columnSubCategoryId} = ?',
-      whereArgs: [subCategoryId]);
+      where:
+          '${LinkFields.columnSubCategoryId} = ? AND ${LinkFields.columnIsArchive} = ?',
+      whereArgs: [subCategoryId, 0]);
 }
 
 Future<List<Map<String, dynamic>>> getFavLink() async {
   Database db = await LinkDatabase.instance.database;
   return await db.query(tableLinks,
       where: '${LinkFields.columnIsFavorite} = ? ', whereArgs: [1]);
+}
+
+Future<List<Map<String, dynamic>>> getArchivedLink() async {
+  Database db = await LinkDatabase.instance.database;
+  return await db.query(tableLinks,
+      where: '${LinkFields.columnIsArchive} = ? ', whereArgs: [1]);
 }
 
 Future<void> editLink(int id, String newName, String newLink) async {
@@ -43,20 +51,29 @@ Future<void> editLink(int id, String newName, String newLink) async {
   );
 }
 
-Future<void> markAsFavorite(int id, ) async {
+Future<void> markAsFavorite(int id) async {
   Database db = await LinkDatabase.instance.database;
-  await db.update(tableLinks, {LinkFields.columnIsFavorite: 1}, 
-  where: '${LinkFields.columnLinkId} = ? ', 
-  whereArgs: [id]);
+  await db.update(tableLinks, {LinkFields.columnIsFavorite: 1},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
 }
 
-Future<void> markAsUnFavorite(int id, ) async {
+Future<void> markAsUnFavorite(int id) async {
   Database db = await LinkDatabase.instance.database;
-  await db.update(tableLinks, {LinkFields.columnIsFavorite: 0}, 
-  where: '${LinkFields.columnLinkId} = ? ', 
-  whereArgs: [id]);
+  await db.update(tableLinks, {LinkFields.columnIsFavorite: 0},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
 }
 
+Future<void> markAsArchived(int id) async {
+  Database db = await LinkDatabase.instance.database;
+  await db.update(tableLinks, {LinkFields.columnIsArchive: 1},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+}
+
+Future<void> markAsUnArchived(int id) async {
+  Database db = await LinkDatabase.instance.database;
+  await db.update(tableLinks, {LinkFields.columnIsArchive: 0},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+}
 
 Future<void> deleteLink(int id) async {
   Database db = await LinkDatabase.instance.database;

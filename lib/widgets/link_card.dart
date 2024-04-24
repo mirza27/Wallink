@@ -9,13 +9,15 @@ import 'package:wallink_v1/controller/link_controller.dart';
 class LinkCard extends StatefulWidget {
   final Link link;
   final Function(int) onDelete; // memanggil fungsi delete di subcategory card
-  final Function(Link) onUpdate; // memanggil fungsi edit di subcategory page
+  final Function(Link) onUpdate;
+  final Function() onChanged; // memanggil fungsi edit di subcategory page
 
   const LinkCard(
       {super.key,
       required this.link,
       required this.onDelete,
-      required this.onUpdate});
+      required this.onUpdate,
+      required this.onChanged});
 
   @override
   State<LinkCard> createState() => _LinkCardState();
@@ -46,6 +48,13 @@ class _LinkCardState extends State<LinkCard> {
   double _scrollMax = 0.0;
   Timer? _timer;
   final int _delaySeconds = 1;
+
+  void _markAsArchived(int id) async {
+    await markAsArchived(id);
+    setState(() {
+      widget.onChanged.call();
+    });
+  }
 
   @override
   void initState() {
@@ -198,6 +207,14 @@ class _LinkCardState extends State<LinkCard> {
                   });
                 },
               ),
+              IconButton(
+                icon: Icon(Icons.archive),
+                onPressed: () {
+                  setState(() {
+                    _markAsArchived(widget.link.id!);
+                  });
+                },
+              )
             ],
           ),
         ],

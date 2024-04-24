@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
+import 'package:wallink_v1/page/archived_page.dart';
 import 'package:wallink_v1/page/fav_page.dart';
 import 'package:wallink_v1/widgets/category_card.dart';
 
@@ -180,7 +181,17 @@ class _CategoryPageState extends State<CategoryPage> {
               ); // Navigasi ke halaman favorit
             },
           ),
+          IconButton(
+            icon: Icon(Icons.archive),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ArchivedLinksPage()),
+              ); // Navigasi ke halaman favorit
+            },
+          ),
         ],
+        
       ),
       body: _categories.isEmpty
           ? Column(

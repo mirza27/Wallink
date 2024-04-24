@@ -12,11 +12,27 @@ Future<int> insertSubCategory(String nameSubCategory, int categoryId) async {
   });
 }
 
-Future<List<Map<String, dynamic>>> getSubCategoryByCategoryId(int? categoryId) async {
+Future<List<Map<String, dynamic>>> getSubCategoryByCategoryId(
+    int? categoryId) async {
   Database db = await LinkDatabase.instance.database;
   return await db.query(tableSubCategories,
       where: '${SubCategoryFields.columnCategoryId} = ?',
       whereArgs: [categoryId]);
+}
+
+Future<List<Map<String, dynamic>>> getSubCategoryByCategoryIdNotArchived(
+    int? categoryId) async {
+  Database db = await LinkDatabase.instance.database;
+  return await db.query(tableSubCategories,
+      where:
+          '${SubCategoryFields.columnCategoryId} = ? AND ${SubCategoryFields.columnIsArchive} =  ?',
+      whereArgs: [categoryId, 0]);
+}
+
+Future<List<Map<String, dynamic>>> getSubCategoryArchived() async {
+  Database db = await LinkDatabase.instance.database;
+  return await db.query(tableSubCategories,
+      where: '${SubCategoryFields.columnIsArchive} = ?', whereArgs: [1]);
 }
 
 Future<void> editSubCategory(int id, String newName) async {
@@ -43,6 +59,23 @@ Future<void> deleteSubCategory(int id) async {
     whereArgs: [id],
   );
 }
+
+Future<void> markAsArchivedSub(int id) async {
+  Database db = await LinkDatabase.instance.database;
+  await db.update(tableSubCategories, {LinkFields.columnIsArchive: 1},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+  await db.update(tableLinks, {LinkFields.columnIsArchive: 1},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+}
+
+Future<void> markAsUnArchivedSub(int id) async {
+  Database db = await LinkDatabase.instance.database;
+  await db.update(tableSubCategories, {LinkFields.columnIsArchive: 0},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+  await db.update(tableLinks, {LinkFields.columnIsArchive: 0},
+      where: '${LinkFields.columnLinkId} = ? ', whereArgs: [id]);
+}
+
 
 // Future<SubCategory> createSubCategory(SubCategory subCategory) async {
 //   final Database db = await LinkDatabase.instance.database;

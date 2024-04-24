@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: TextField(
+                      controller: _searchController,
                       onChanged: (value) {
                         // logika untuk mengubah colomn body
                         if (value.isNotEmpty) {

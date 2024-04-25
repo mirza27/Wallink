@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:wallink_v1/form/link_form.dart';
 import 'package:wallink_v1/page/fav_page.dart';
 import 'package:wallink_v1/page/home_page.dart';
 
@@ -25,15 +26,35 @@ class _RoutePageState extends State<RoutePage> {
       extendBody: false,
       body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+            showDialog(
+              barrierDismissible: false,
+                 context: context,
+              builder: (_) => AlertDialog(
+                backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(30, 31, 36, 1),
+                      width: 1.5,
+                    ),
+                  ),
+                    content: const LinkForm(link: null,),
+                    insetPadding: const EdgeInsets.all(10),
+                  )
+              );
+             
+        },
         backgroundColor: const Color.fromRGBO(5, 105, 220, 1),
-        
         foregroundColor: const Color.fromRGBO(252, 252, 253, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          
         ),
-        child: const Icon(Icons.add, size: 40,),
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(

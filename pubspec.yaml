@@ -18,6 +18,8 @@ dependencies:
   google_fonts: ^5.0.0
   shared_preferences: ^2.0.8
   carousel_slider: ^4.2.1
+  fluttertoast: ^8.0.7
+  
 
 dev_dependencies:
   flutter_test:
@@ -47,4 +49,5 @@ flutter:
     - family: sharp
       fonts:
         - asset: assets/fonts/SamsungSharpSans-Bold.ttf
+
           

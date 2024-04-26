@@ -6,6 +6,7 @@ import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/widgets/category_mini_card.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 import 'package:wallink_v1/widgets/sub_category_card.dart';
+import 'package:wallink_v1/page/sidebar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,21 +87,15 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120),
-          // Search field
           child: Container(
             decoration: const BoxDecoration(
               color: Color.fromRGBO(252, 252, 253, 1),
-              //   border: Border(
-              //   bottom: BorderSide(
-              //       color: Color.fromRGBO(216, 217, 224, 1),
-              //       width: 0.5), // Menambahkan top border
-              // ),
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromRGBO(139, 141, 152, 1), // Warna shadow
-                  spreadRadius: 0.5, // Radius penyebaran shadow
-                  blurRadius: 1, // Radius blur shadow
-                  offset: Offset(0, 1), // Offset shadow
+                  color: Color.fromRGBO(139, 141, 152, 1),
+                  spreadRadius: 0.5,
+                  blurRadius: 1,
+                  offset: Offset(0, 1),
                 ),
               ],
             ),
@@ -109,62 +104,74 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        // logika untuk mengubah colomn body
-                        if (value.isNotEmpty) {
-                          _isSearching = true;
-                        } else {
-                          _isSearching = false;
-                        }
-                        _search(value);
-                      },
-                      decoration: InputDecoration(
-                        suffixIcon: const Icon(Icons.search),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 15.0),
-                        filled: true,
-                        focusColor: Color.fromRGBO(5, 105, 220, 1),
-                        fillColor: Color.fromRGBO(239, 240, 243, 1),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(239, 240, 243, 1),
-                            width: 1.0,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Row(
+                      children: [
+                        Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon: const Icon(Icons.menu),
+                              onPressed: () {
+                                
+                                Scaffold.of(context).openDrawer();
+                              },
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                _isSearching = true;
+                              } else {
+                                _isSearching = false;
+                              }
+                              _search(value);
+                            },
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(Icons.search),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 15.0),
+                              filled: true,
+                              focusColor: Color.fromRGBO(5, 105, 220, 1),
+                              fillColor: Color.fromRGBO(239, 240, 243, 1),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(239, 240, 243, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(239, 240, 243, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(239, 240, 243, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              hintText: 'Search Your Link',
+                              hintStyle: const TextStyle(
+                                fontSize: 16.0,
+                                color: Color.fromRGBO(139, 141, 152, 1),
+                              ),
+                              alignLabelWithHint: true,
+                            ),
                           ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(239, 240, 243, 1),
-                            width: 1.0,
-                          ),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(239, 240, 243, 1),
-                            width: 1.0,
-                          ),
-                        ),
-                        hintText: 'Search Your Link',
-                        hintStyle: const TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromRGBO(139, 141, 152,
-                              1), // Ganti dengan warna yang diinginkan
-                        ),
-                        alignLabelWithHint: true,
-                      ),
+                      ],
                     ),
                   ),
-                  // mini card
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-
-                    // iterasi mini card category
                     child: CategoryMiniCard(
                       categoryId: null,
                       onCategoryChanged: _chooseCategory,
@@ -176,50 +183,47 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      // ini sidebar anjer
 
-      // List subcategory tiles
-      body: !_isSearching //
+      body: !_isSearching
           ? Column(
               children: [
                 Expanded(
                   child: ListView.builder(
-                      shrinkWrap: true,
-                      // iterasi widget sub category card
-
-                      itemCount: _subCategories.length,
-                      itemBuilder: (context, index) {
-                        final SubCategory subCategory =
-                            SubCategory.fromMap(_subCategories[index]);
-
-                        return SubCategoryCard(
-                          // parameter kelas subcategory
-                          subCategory: subCategory,
-                          onDelete: _tes,
-                          onUpdate: _tes2,
-                        );
-                      }),
+                    shrinkWrap: true,
+                    itemCount: _subCategories.length,
+                    itemBuilder: (context, index) {
+                      final SubCategory subCategory =
+                          SubCategory.fromMap(_subCategories[index]);
+                      return SubCategoryCard(
+                        subCategory: subCategory,
+                        onDelete: _tes,
+                        onUpdate: _tes2,
+                      );
+                    },
+                  ),
                 ),
               ],
             )
-          // jika melakukan searching
           : Column(
               children: [
                 Expanded(
-                    child: SizedBox(
-                  child: ListView.builder(
-                    itemCount: _links.length,
-                    itemBuilder: ((context, index) {
-                      final Link link = Link.fromMap(_links[index]);
-
-                      return LinkCard(
+                  child: SizedBox(
+                    child: ListView.builder(
+                      itemCount: _links.length,
+                      itemBuilder: ((context, index) {
+                        final Link link = Link.fromMap(_links[index]);
+                        return LinkCard(
                           key: ValueKey(link.id),
                           link: link,
                           onDelete: _deleteLink,
                           onUpdate: _editLink,
-                          onChanged: _loadData);
-                    }),
+                          onChanged: _loadData,
+                        );
+                      }),
+                    ),
                   ),
-                ))
+                )
               ],
             ),
     );

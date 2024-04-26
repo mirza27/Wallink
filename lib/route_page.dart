@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:wallink_v1/form/link_form.dart';
 import 'package:wallink_v1/page/fav_page.dart';
 import 'package:wallink_v1/page/home_page.dart';
+import 'package:wallink_v1/page/sidebar.dart';
 
 class RoutePage extends StatefulWidget {
   const RoutePage({super.key});
@@ -94,6 +95,7 @@ class _RoutePageState extends State<RoutePage> {
           ),
         ),
       ),
+      drawer: Sidebar(),
     );
   }
 }

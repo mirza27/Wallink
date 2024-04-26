@@ -139,10 +139,12 @@ class _LinkFormState extends State<LinkForm> {
                     if (value == null || value.isEmpty) {
                       return "Category cannot  be empty";
                     }
+
+                    print(value);
                     return null;
                   },
                   decoration: InputDecoration(
-                    fillColor: Color.fromRGBO(224, 225, 230, 1),
+                    fillColor: const Color.fromRGBO(224, 225, 230, 1),
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                     filled: true,
@@ -184,6 +186,8 @@ class _LinkFormState extends State<LinkForm> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "New Category cannot be empty";
+                      } else if (value.trim() == '') {
+                        return "New Category cannot only space";
                       }
                       return null;
                     },
@@ -191,7 +195,7 @@ class _LinkFormState extends State<LinkForm> {
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 20),
                       filled: true,
-                      fillColor: Color.fromRGBO(224, 225, 230, 1),
+                      fillColor: const Color.fromRGBO(224, 225, 230, 1),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: const BorderSide(
@@ -271,7 +275,7 @@ class _LinkFormState extends State<LinkForm> {
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                    fillColor: Color.fromRGBO(224, 225, 230, 1),
+                    fillColor: const Color.fromRGBO(224, 225, 230, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -311,6 +315,8 @@ class _LinkFormState extends State<LinkForm> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "New Subcategory cannot be empty";
+                      } else if (value.trim() == '') {
+                        return "New Category cannot only space";
                       }
                       return null;
                     },
@@ -318,7 +324,7 @@ class _LinkFormState extends State<LinkForm> {
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 20),
                       filled: true,
-                      fillColor: Color.fromRGBO(224, 225, 230, 1),
+                      fillColor: const Color.fromRGBO(224, 225, 230, 1),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: const BorderSide(
@@ -356,7 +362,7 @@ class _LinkFormState extends State<LinkForm> {
                 Column(
                   children: _linkInputs.asMap().entries.map((entry) {
                     final int index = entry.key;
-                    final Link linkInput = entry.value;
+                    // final Link linkInput = entry.value;
                     return Column(
                       children: [
                         Padding(
@@ -393,6 +399,8 @@ class _LinkFormState extends State<LinkForm> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Link name cannot be empty";
+                            } else if (value.trim() == '') {
+                              return "New Category cannot only space";
                             }
                             return null;
                           },
@@ -400,7 +408,7 @@ class _LinkFormState extends State<LinkForm> {
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 4, horizontal: 20),
                             filled: true,
-                            fillColor: Color.fromRGBO(224, 225, 230, 1),
+                            fillColor: const Color.fromRGBO(224, 225, 230, 1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
                               borderSide: const BorderSide(
@@ -441,6 +449,20 @@ class _LinkFormState extends State<LinkForm> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "link cannot be empty";
+                            } else if (value.trim() == '') {
+                              return "Link cannot only space";
+                            }
+                            if (!value.startsWith('http://') &&
+                                !value.startsWith('https://')) {
+                              value = 'https://$value';
+                            }
+
+                            if (!Uri.parse(value).isAbsolute) {
+                              return 'Please enter a valid URL';
+                            }
+
+                            if (!Uri.parse(value).host.contains('.')) {
+                              return 'URL must contain a domain';
                             }
                             return null;
                           },
@@ -448,7 +470,7 @@ class _LinkFormState extends State<LinkForm> {
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 4, horizontal: 20),
                             filled: true,
-                            fillColor: Color.fromRGBO(224, 225, 230, 1),
+                            fillColor: const Color.fromRGBO(224, 225, 230, 1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
                               borderSide: const BorderSide(
@@ -515,15 +537,16 @@ class _LinkFormState extends State<LinkForm> {
                       int finalSubcategoryId = 0;
                       if (_formKey.currentState!.validate()) {
                         if (isAddCategory && isAddSubCategory) {
-                          int categoryId =
-                              await insertCategory(_newCategoryController.text);
+                          int categoryId = await insertCategory(
+                              _newCategoryController.text.trim());
                           int subCategoryId = await insertSubCategory(
-                              _newSubCategoryController.text, categoryId);
+                              _newSubCategoryController.text.trim(),
+                              categoryId);
 
                           finalSubcategoryId = subCategoryId;
                         } else if (isAddSubCategory) {
                           int subCategoryId = await insertSubCategory(
-                              _newSubCategoryController.text,
+                              _newSubCategoryController.text.trim(),
                               int.parse(_choosedCategoryId!));
                           finalSubcategoryId = subCategoryId;
                         } else {
@@ -532,14 +555,16 @@ class _LinkFormState extends State<LinkForm> {
                         }
 
                         for (var linkInput in _linkInputs) {
-                          insertLink(linkInput.link!, linkInput.nameLink!,
-                              finalSubcategoryId);
+                          insertLink(linkInput.link!.trim(),
+                              linkInput.nameLink!.trim(), finalSubcategoryId);
                         }
 
                         Navigator.pop(context);
                         // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RoutePage()));
-                        
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RoutePage()));
                       }
                     },
                     child: const Text('Submit'),

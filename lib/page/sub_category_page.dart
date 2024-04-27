@@ -104,6 +104,29 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     );
   }
 
+  Future<void> _showBottomSheet(BuildContext context, int index) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Delete'),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // INTERFACE UTAMA ================================================
   @override
   Widget build(BuildContext context) {
@@ -214,11 +237,16 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                           final SubCategory subCategory =
                               SubCategory.fromMap(_subCategories[index]);
 
-                          return SubCategoryCard(
-                            // parameter kelas subcategory
-                            subCategory: subCategory,
-                            onDelete: _deleteSubCategory,
-                            onUpdate: _editSubCategory,
+                          return GestureDetector(
+                            onLongPress: () {
+                              _showBottomSheet(context, index);
+                            },
+                            child: SubCategoryCard(
+                              // parameter kelas subcategory
+                              subCategory: subCategory,
+                              onDelete: _deleteSubCategory,
+                              onUpdate: _editSubCategory,
+                            ),
                           );
                         }),
                   ),

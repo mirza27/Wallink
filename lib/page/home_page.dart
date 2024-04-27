@@ -80,6 +80,34 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _editLink(Link link) async {}
 
+  Future<void> _showBottomSheet(BuildContext context, int index) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Delete'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.archive),
+              title: const Text('Archive'),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +140,6 @@ class _HomePageState extends State<HomePage> {
                             return IconButton(
                               icon: const Icon(Icons.menu),
                               onPressed: () {
-                                
                                 Scaffold.of(context).openDrawer();
                               },
                             );
@@ -195,10 +222,15 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       final SubCategory subCategory =
                           SubCategory.fromMap(_subCategories[index]);
-                      return SubCategoryCard(
-                        subCategory: subCategory,
-                        onDelete: _tes,
-                        onUpdate: _tes2,
+                      return GestureDetector(
+                        onLongPress: () {
+                          _showBottomSheet(context, index);
+                        },
+                        child: SubCategoryCard(
+                          subCategory: subCategory,
+                          onDelete: _tes,
+                          onUpdate: _tes2,
+                        ),
                       );
                     },
                   ),

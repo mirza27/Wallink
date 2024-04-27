@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'faq_page.dart';
 
 class Sidebar extends StatelessWidget {
   @override
@@ -95,6 +96,7 @@ class Sidebar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FAQPage()));
               },
             ),
           ],

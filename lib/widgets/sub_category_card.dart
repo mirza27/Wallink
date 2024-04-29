@@ -4,6 +4,7 @@ import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SubCategoryCard extends StatefulWidget {
   final SubCategory subCategory;
@@ -41,14 +42,13 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     });
   }
 
-
   @override
   void didUpdateWidget(covariant SubCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if ((widget.subCategory.id != oldWidget.subCategory.id)) {
       if ((widget.subCategory.id != null || widget.subCategory.id != 0)) {
         _loadData();
-      } 
+      }
     }
   }
 
@@ -210,19 +210,14 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
       child: Card(
         child: Container(
           decoration: ShapeDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment(-0.97, -0.26),
-              end: Alignment(0.97, 0.26),
-              colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
-            ),
+            color: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             shadows: const [
               BoxShadow(
-                color: Color(0x4C537FE7),
-                blurRadius: 3,
-                offset: Offset(0, 3),
-                spreadRadius: 0,
+                color: Color.fromARGB(255, 209, 208, 208),
+                offset: Offset(2, 4),
+                blurRadius: 5,
               )
             ],
           ),
@@ -252,24 +247,24 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                   ),
 
                   // icon edit
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    iconSize: 20,
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    onPressed: () {
-                      widget.onUpdate(widget.subCategory);
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: const Icon(Icons.edit),
+                  //   iconSize: 20,
+                  //   color: const Color.fromARGB(255, 0, 0, 0),
+                  //   onPressed: () {
+                  //     widget.onUpdate(widget.subCategory);
+                  //   },
+                  // ),
 
-                  // icon delete
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    iconSize: 20,
-                    color: const Color.fromARGB(255, 207, 22, 22),
-                    onPressed: () {
-                      widget.onDelete(widget.subCategory.id!);
-                    },
-                  ),
+                  // // icon delete
+                  // IconButton(
+                  //   icon: const Icon(Icons.delete),
+                  //   iconSize: 20,
+                  //   color: const Color.fromARGB(255, 207, 22, 22),
+                  //   onPressed: () {
+                  //     widget.onDelete(widget.subCategory.id!);
+                  //   },
+                  // ),
                 ],
               ),
               // iterasi setiap link dengan link card
@@ -282,11 +277,34 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                   itemBuilder: (context, index) {
                     final Link link = Link.fromMap(_links[index]);
 
-                    return LinkCard(
-                        link: link,
-                        onDelete: _deleteLink,
-                        onUpdate: _editLink,
-                        onChanged: _loadData);
+                    return Slidable(
+                      key: Key('$link'),
+                      endActionPane: ActionPane(
+                        motion: BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {},
+                            backgroundColor: Colors.green,
+                            icon: Icons.edit,
+                          ),
+                          SlidableAction(
+                            onPressed: (context) {},
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete,
+                          ),
+                          SlidableAction(
+                            onPressed: (context) {},
+                            backgroundColor: Colors.blue,
+                            icon: Icons.archive,
+                          ),
+                        ],
+                      ),
+                      child: LinkCard(
+                          link: link,
+                          onDelete: _deleteLink,
+                          onUpdate: _editLink,
+                          onChanged: _loadData),
+                    );
                   },
                 ),
                 // tambah link

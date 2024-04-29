@@ -95,255 +95,78 @@ class _LinkCardState extends State<LinkCard> {
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Row(
-        children: <Widget>[
-          // LINK DAN LAUNCH LINK
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: <Widget>[
-                    // nama link
-                    Expanded(
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        child: Text(
-                          widget.link.nameLink as String,
-                          style: GoogleFonts.lexend(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onLongPress: () {
+        _copytoClipboard(widget.link.link as String);
+      },
+      onTap: () {
+        _launchURL(widget.link.link as String);
+      },
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            // LINK DAN LAUNCH LINK
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      // nama link
+                      Expanded(
+                        child: SingleChildScrollView(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            widget.link.nameLink as String,
+                            style: GoogleFonts.lexend(
+                              color: Colors.black87,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    // launch button
-                    // SizedBox(
-                    //   child: IconButton(
-                    //       icon: const Icon(
-                    //         Icons.launch,
-                    //         size: 12,
-                    //       ),
-                    //       onPressed: () {
-                    //         _launchURL(widget.link.link as String);
-                    //       }),
-                    // )
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _launchURL(widget.link.link as String);
-                  },
-                  child: Text(
+                    ],
+                  ),
+                  Text(
                     widget.link.link as String,
                     style: GoogleFonts.lexend(
                       color: Colors.black87,
                       fontSize: 13,
                     ),
                     overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
-            ),
-          ),
-          // favorit icon
-          IconButton(
-                icon: Icon(
-                  widget.link.is_favorite ?? false
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  size: 17,
-                  color: widget.link.is_favorite ?? false
-                      ? Colors.red
-                      : null, // Warna abu-abu jika is_favorite false
-                ),
-                onPressed: () async {
-                  if (widget.link.is_favorite ?? false) {
-                    await markAsUnFavorite(widget.link.id!);
-                  } else {
-                    await markAsFavorite(widget.link.id!);
-                  }
-                  setState(() {
-                    // Toggle nilai is_favorite saat tombol ditekan
-                    widget.link.is_favorite =
-                        !(widget.link.is_favorite ?? false);
-                  });
-                },
+                  )
+                ],
               ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     IconButton(
-          //       // icon copy
-          //       icon: const Icon(
-          //         Icons.copy,
-          //         size: 17,
-          //       ),
-          //       onPressed: () {
-          //         _copytoClipboard(widget.link.link as String);
-          //       },
-          //     ),
-          //     // icon edit
-          //     IconButton(
-          //       icon: const Icon(
-          //         Icons.edit,
-          //         size: 17,
-          //       ),
-          //       onPressed: () {
-          //         widget.onUpdate(widget.link);
-          //       },
-          //     ),
-          //     // icon delete
-          //     IconButton(
-          //       icon: const Icon(
-          //         Icons.delete,
-          //         size: 17,
-          //       ),
-          //       onPressed: () {
-          //         showDialog(
-          //           context: context,
-          //           builder: (context) => BackdropFilter(
-          //             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          //             child: AlertDialog(
-          //               shape: RoundedRectangleBorder(
-          //                 borderRadius: BorderRadius.circular(10.0),
-          //                 side: BorderSide(
-          //                   color: Colors.black,
-          //                   width: 2.0,
-          //                 ),
-          //               ),
-          //               title: Center(
-          //                 child: Text(
-          //                   'Warning!',
-          //                   textAlign: TextAlign.center,
-          //                   style: TextStyle(
-          //                     fontFamily: 'sharp',
-          //                     fontWeight: FontWeight.bold,
-          //                     color: Colors.black,
-          //                   ),
-          //                 ),
-          //               ),
-          //               content: Text(
-          //                 'Are you sure you want to delete this link? This action cannot be undone',
-          //                 textAlign: TextAlign.center,
-          //                 style: TextStyle(
-          //                   fontFamily: 'sharp',
-          //                   fontWeight: FontWeight.bold,
-          //                   color: Colors.black,
-          //                 ),
-          //               ),
-          //               actions: <Widget>[
-          //                 Row(
-          //                   mainAxisAlignment: MainAxisAlignment.center,
-          //                   children: [
-          //                     TextButton(
-          //                       onPressed: () {
-          //                         Navigator.of(context).pop();
-          //                       },
-          //                       child: Container(
-          //                         decoration: BoxDecoration(
-          //                           borderRadius: BorderRadius.circular(5.0),
-          //                           border: Border.all(
-          //                             color: Colors.black,
-          //                             width: 1.0,
-          //                           ),
-          //                         ),
-          //                         padding: EdgeInsets.symmetric(
-          //                           vertical: 8,
-          //                           horizontal: 12,
-          //                         ),
-          //                         child: Text(
-          //                           'Cancel',
-          //                           style: TextStyle(
-          //                             fontFamily: 'sharp',
-          //                             fontWeight: FontWeight.bold,
-          //                             color: Colors.black,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                     SizedBox(width: 10), // Spasi antara tombol
-          //                     TextButton(
-          //                       onPressed: () {
-          //                         Navigator.of(context).pop();
-          //                         widget.onDelete(widget.link.id!);
-
-          //                         ScaffoldMessenger.of(context).showSnackBar(
-          //                           SnackBar(
-          //                             content:
-          //                                 Text('Link deleted successfully'),
-          //                             backgroundColor: Colors.green,
-          //                           ),
-          //                         );
-          //                       },
-          //                       child: Container(
-          //                         decoration: BoxDecoration(
-          //                           borderRadius: BorderRadius.circular(5.0),
-          //                           color: Colors.red,
-          //                         ),
-          //                         padding: EdgeInsets.symmetric(
-          //                           vertical: 8,
-          //                           horizontal: 12,
-          //                         ),
-          //                         child: Text(
-          //                           'Delete',
-          //                           style: TextStyle(
-          //                             fontFamily: 'sharp',
-          //                             fontWeight: FontWeight.bold,
-          //                             color: Colors.white,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     // ICON FAVORITE
-          //     IconButton(
-          //       icon: Icon(
-          //         widget.link.is_favorite ?? false
-          //             ? Icons.favorite
-          //             : Icons.favorite_border,
-          //         size: 17,
-          //         color: widget.link.is_favorite ?? false
-          //             ? Colors.red
-          //             : null, // Warna abu-abu jika is_favorite false
-          //       ),
-          //       onPressed: () async {
-          //         if (widget.link.is_favorite ?? false) {
-          //           await markAsUnFavorite(widget.link.id!);
-          //         } else {
-          //           await markAsFavorite(widget.link.id!);
-          //         }
-          //         setState(() {
-          //           // Toggle nilai is_favorite saat tombol ditekan
-          //           widget.link.is_favorite =
-          //               !(widget.link.is_favorite ?? false);
-          //         });
-          //       },
-          //     ),
-          //     // icon archive
-          //     IconButton(
-          //       icon: Icon(Icons.archive),
-          //       onPressed: () {
-          //         setState(() {
-          //           _markAsArchived(widget.link.id!);
-          //         });
-          //       },
-          //     )
-          //   ],
-          // ),
-        ],
+            ),
+            // favorit icon
+            IconButton(
+              icon: Icon(
+                widget.link.is_favorite ?? false
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                size: 17,
+                color: widget.link.is_favorite ?? false
+                    ? Colors.red
+                    : null, // Warna abu-abu jika is_favorite false
+              ),
+              onPressed: () async {
+                if (widget.link.is_favorite ?? false) {
+                  await markAsUnFavorite(widget.link.id!);
+                } else {
+                  await markAsFavorite(widget.link.id!);
+                }
+                setState(() {
+                  // Toggle nilai is_favorite saat tombol ditekan
+                  widget.link.is_favorite = !(widget.link.is_favorite ?? false);
+                });
+              },
+            ),
+                      ],
+        ),
       ),
     );
   }

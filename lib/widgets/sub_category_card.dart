@@ -52,6 +52,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     }
   }
 
+  void _markAsArchived(int id) async {
+    await markAsArchived(id);
+    _loadData();
+  }
+
   // fungsi add new link
   Future<void> _addLink(String linkName, String link) async {
     await showDialog<String>(
@@ -198,142 +203,165 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     );
   }
 
+  Future<void> _showBottomSheet(BuildContext context, int index) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit'),
+              onTap: () {
+                widget.onUpdate(widget.subCategory);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Delete'),
+              onTap: () {
+                widget.onDelete(widget.subCategory.id!);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.share),
+              title: const Text('Share'),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        right: 13.0,
-        left: 13.0,
-        bottom: 5.0,
-      ),
-      child: Card(
-        child: Container(
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            shadows: const [
-              BoxShadow(
-                color: Color.fromARGB(255, 209, 208, 208),
-                offset: Offset(2, 4),
-                blurRadius: 5,
-              )
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ExpansionTile(
+    return GestureDetector(
+      onLongPress: () {
+        _showBottomSheet(context, widget.subCategory.id!);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 13.0,
+          left: 13.0,
+          bottom: 5.0,
+        ),
+        child: Card(
+          child: Container(
+            decoration: ShapeDecoration(
+              color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              initiallyExpanded: _isExpanded,
-              onExpansionChanged: (expanded) {
-                setState(() {
-                  _isExpanded = expanded;
-                });
-              },
-              title: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.subCategory.subCategoryName as String,
-                      style: GoogleFonts.lexend(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Changed color to black
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-
-                  // icon edit
-                  // IconButton(
-                  //   icon: const Icon(Icons.edit),
-                  //   iconSize: 20,
-                  //   color: const Color.fromARGB(255, 0, 0, 0),
-                  //   onPressed: () {
-                  //     widget.onUpdate(widget.subCategory);
-                  //   },
-                  // ),
-
-                  // // icon delete
-                  // IconButton(
-                  //   icon: const Icon(Icons.delete),
-                  //   iconSize: 20,
-                  //   color: const Color.fromARGB(255, 207, 22, 22),
-                  //   onPressed: () {
-                  //     widget.onDelete(widget.subCategory.id!);
-                  //   },
-                  // ),
-                ],
-              ),
-              // iterasi setiap link dengan link card
-              children: [
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  // iterasi widget sub category card
-                  itemCount: _links.length,
-                  itemBuilder: (context, index) {
-                    final Link link = Link.fromMap(_links[index]);
-
-                    return Slidable(
-                      key: Key('$link'),
-                      endActionPane: ActionPane(
-                        motion: BehindMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {},
-                            backgroundColor: Colors.green,
-                            icon: Icons.edit,
-                          ),
-                          SlidableAction(
-                            onPressed: (context) {},
-                            backgroundColor: Colors.red,
-                            icon: Icons.delete,
-                          ),
-                          SlidableAction(
-                            onPressed: (context) {},
-                            backgroundColor: Colors.blue,
-                            icon: Icons.archive,
-                          ),
-                        ],
-                      ),
-                      child: LinkCard(
-                          link: link,
-                          onDelete: _deleteLink,
-                          onUpdate: _editLink,
-                          onChanged: _loadData),
-                    );
-                  },
+                  borderRadius: BorderRadius.circular(8)),
+              shadows: const [
+                BoxShadow(
+                  color: Color.fromARGB(255, 209, 208, 208),
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ExpansionTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                // tambah link
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                initiallyExpanded: _isExpanded,
+                onExpansionChanged: (expanded) {
+                  setState(() {
+                    _isExpanded = expanded;
+                  });
+                },
+                title: Row(
                   children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        _addLink("", "");
-                      },
-                      icon: const Icon(Icons.add),
-                      label: Text(
-                        "Tambah Link",
+                    Expanded(
+                      child: Text(
+                        widget.subCategory.subCategoryName as String,
                         style: GoogleFonts.lexend(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF537FE7),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Changed color to black
+                          fontSize: 20,
                         ),
                       ),
                     ),
                   ],
                 ),
-              ],
+                // iterasi setiap link dengan link card
+                children: [
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    // iterasi widget sub category card
+                    itemCount: _links.length,
+                    itemBuilder: (context, index) {
+                      final Link link = Link.fromMap(_links[index]);
+
+                      return Slidable(
+                        key: Key('$link'),
+                        endActionPane: ActionPane(
+                          motion: const BehindMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                _editLink(link);
+                              },
+                              backgroundColor: Colors.green,
+                              icon: Icons.edit,
+                            ),
+                            SlidableAction(
+                              onPressed: (context) {
+                                _deleteLink(link.id!);
+                              },
+                              backgroundColor: Colors.red,
+                              icon: Icons.delete,
+                            ),
+                            SlidableAction(
+                              onPressed: (context) {
+                                _markAsArchived(link.id!);
+                              },
+                              backgroundColor: Colors.blue,
+                              icon: Icons.archive,
+                            ),
+                          ],
+                        ),
+                        child: LinkCard(
+                            link: link,
+                            onDelete: _deleteLink,
+                            onUpdate: _editLink,
+                            onChanged: _loadData),
+                      );
+                    },
+                  ),
+                  // tambah link
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          _addLink("", "");
+                        },
+                        icon: const Icon(Icons.add),
+                        label: Text(
+                          "Tambah Link",
+                          style: GoogleFonts.lexend(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF537FE7),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

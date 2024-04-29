@@ -70,37 +70,61 @@ class _HomePageState extends State<HomePage> {
   }
 
   // FUNGSI SUBCATEGORY
-  Future<void> _tes(int tes) async {}
+  // delete sub category
+  Future<void> _deleteSubCategory(int subCategoryId) async {
+    await deleteSubCategory(subCategoryId);
+    await _loadData();
+  }
 
-  Future<void> _tes2(SubCategory tes) async {}
+  // edit sub category
+  Future<void> _editSubCategory(SubCategory subCategory) async {
+    TextEditingController controller =
+        TextEditingController(text: subCategory.subCategoryName);
+    FocusNode focusNode = FocusNode();
 
-  // FUNGSI LINK
-  // delete link
-  Future<void> _deleteLink(int linkId) async {}
-
-  Future<void> _editLink(Link link) async {}
-
-  Future<void> _showBottomSheet(BuildContext context, int index) async {
-    showModalBottomSheet(
+    await showDialog(
+      // menampilkan pop up edit
       context: context,
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Edit'),
-              onTap: () {},
+      builder: (context) {
+        // keyboard aktif langsung
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => focusNode.requestFocus());
+
+        return AlertDialog(
+          title: const Text('Update Sub Category'),
+          content: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration:
+                const InputDecoration(hintText: 'Enter new sub category name'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
             ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('Delete'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive),
-              title: const Text('Archive'),
-              onTap: () {},
+            TextButton(
+              onPressed: () async {
+                String newName = controller.text.trim();
+                // Edit tidak boleh kosong
+                if (newName.isNotEmpty) {
+                  // Jika input tidak kosong
+                  await editSubCategory(subCategory.id!, newName);
+                  Navigator.pop(context);
+                  await _loadData();
+                } else {
+                  // Jika input kosong
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please fill all fields'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Update'),
             ),
           ],
         );
@@ -108,6 +132,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // FUNGSI LINK
+  // delete link
+  Future<void> _deleteLink(int linkId) async {}
+
+  Future<void> _editLink(Link link) async {}
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,16 +253,11 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       final SubCategory subCategory =
                           SubCategory.fromMap(_subCategories[index]);
-                      return GestureDetector(
-                        onLongPress: () {
-                          _showBottomSheet(context, index);
-                        },
-                        child: SubCategoryCard(
-                          
-                          subCategory: subCategory,
-                          onDelete: _tes,
-                          onUpdate: _tes2,
-                        ),
+                      return SubCategoryCard(
+                        
+                        subCategory: subCategory,
+                        onDelete: _deleteSubCategory,
+                        onUpdate: _editSubCategory,
                       );
                     },
                   ),

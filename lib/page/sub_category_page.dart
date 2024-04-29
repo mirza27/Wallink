@@ -243,6 +243,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                             },
                             child: SubCategoryCard(
                               // parameter kelas subcategory
+                              
                               subCategory: subCategory,
                               onDelete: _deleteSubCategory,
                               onUpdate: _editSubCategory,

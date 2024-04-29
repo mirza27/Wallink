@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
-import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
@@ -40,6 +39,17 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     setState(() {
       _links = links;
     });
+  }
+
+
+  @override
+  void didUpdateWidget(covariant SubCategoryCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if ((widget.subCategory.id != oldWidget.subCategory.id)) {
+      if ((widget.subCategory.id != null || widget.subCategory.id != 0)) {
+        _loadData();
+      } 
+    }
   }
 
   // fungsi add new link
@@ -205,8 +215,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               end: Alignment(0.97, 0.26),
               colors: [Color(0xFF537FE7), Color(0xFFB6FFFA)],
             ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             shadows: const [
               BoxShadow(
                 color: Color(0x4C537FE7),
@@ -240,8 +250,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       ),
                     ),
                   ),
-                  
-    
+
                   // icon edit
                   IconButton(
                     icon: const Icon(Icons.edit),
@@ -251,7 +260,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       widget.onUpdate(widget.subCategory);
                     },
                   ),
-    
+
                   // icon delete
                   IconButton(
                     icon: const Icon(Icons.delete),
@@ -266,19 +275,18 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               // iterasi setiap link dengan link card
               children: [
                 ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   // iterasi widget sub category card
                   itemCount: _links.length,
                   itemBuilder: (context, index) {
                     final Link link = Link.fromMap(_links[index]);
-    
+
                     return LinkCard(
-                      link: link,
-                      onDelete: _deleteLink,
-                      onUpdate: _editLink,
-                      onChanged: _loadData
-                    );
+                        link: link,
+                        onDelete: _deleteLink,
+                        onUpdate: _editLink,
+                        onChanged: _loadData);
                   },
                 ),
                 // tambah link

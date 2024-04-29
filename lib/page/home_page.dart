@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       []; // menyimpan link  dinamis (burubah saat searching)
   List<Map<String, dynamic>> _subCategories = [];
   final TextEditingController _searchController = TextEditingController();
-  int? _categoryId = null;
+  int _categoryId = 0;
   bool _isSearching = false;
 
   @override
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _categoryId = categoryId;
     });
-
+    print("home ganti category $_categoryId");
     _loadData();
   }
 
@@ -227,6 +227,7 @@ class _HomePageState extends State<HomePage> {
                           _showBottomSheet(context, index);
                         },
                         child: SubCategoryCard(
+                          
                           subCategory: subCategory,
                           onDelete: _tes,
                           onUpdate: _tes2,

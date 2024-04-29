@@ -42,6 +42,12 @@ class _LinkCardState extends State<LinkCard> {
   // fungsi copy
   Future<void> _copytoClipboard(String url) async {
     Clipboard.setData(ClipboardData(text: url));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Link copied to clipboard'),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -128,7 +134,6 @@ class _LinkCardState extends State<LinkCard> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                   Text(
@@ -165,7 +170,7 @@ class _LinkCardState extends State<LinkCard> {
                 });
               },
             ),
-                      ],
+          ],
         ),
       ),
     );

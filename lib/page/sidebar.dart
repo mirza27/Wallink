@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallink_v1/page/fav_page.dart';
 import 'faq_page.dart';
 
 class Sidebar extends StatelessWidget {
@@ -52,6 +53,7 @@ class Sidebar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteLinksPage()));
               },
             ),
             SizedBox(

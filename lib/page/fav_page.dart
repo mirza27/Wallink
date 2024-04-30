@@ -46,12 +46,6 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
               itemBuilder: (context, index) {
                 return LinkCard(
                   link: snapshot.data![index],
-                  onDelete: (id) {
-                    // Implement delete functionality if needed
-                  },
-                  onUpdate: (link) {
-                    // Implement update functionality if needed
-                  },
                   onChanged: () {},
                 );
               },

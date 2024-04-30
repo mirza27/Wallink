@@ -275,8 +275,6 @@ class _HomePageState extends State<HomePage> {
                         return LinkCard(
                           key: ValueKey(link.id),
                           link: link,
-                          onDelete: _deleteLink,
-                          onUpdate: _editLink,
                           onChanged: _loadData,
                         );
                       }),

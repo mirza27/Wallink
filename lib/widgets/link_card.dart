@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
@@ -9,16 +11,9 @@ import 'package:wallink_v1/controller/link_controller.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
-  final Function(int) onDelete; // memanggil fungsi delete di subcategory card
-  final Function(Link) onUpdate;
   final Function() onChanged; // memanggil fungsi edit di subcategory page
 
-  const LinkCard(
-      {super.key,
-      required this.link,
-      required this.onDelete,
-      required this.onUpdate,
-      required this.onChanged});
+  const LinkCard({super.key, required this.link, required this.onChanged});
 
   @override
   State<LinkCard> createState() => _LinkCardState();
@@ -43,11 +38,17 @@ class _LinkCardState extends State<LinkCard> {
   Future<void> _copytoClipboard(String url) async {
     Clipboard.setData(ClipboardData(text: url));
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Link copied to clipboard'),
         backgroundColor: Colors.green,
       ),
     );
+  }
+
+  // delete link
+  Future<void> _deleteLink(int linkId) async {
+    await deleteLink(linkId);
+    await widget.onChanged.call();
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -101,76 +102,124 @@ class _LinkCardState extends State<LinkCard> {
   // MAIN WIDGET ==================================================
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        _copytoClipboard(widget.link.link as String);
-      },
-      onTap: () {
-        _launchURL(widget.link.link as String);
-      },
-      child: ListTile(
-        title: Row(
-          children: <Widget>[
-            // LINK DAN LAUNCH LINK
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: <Widget>[
-                      // nama link
-                      Expanded(
-                        child: SingleChildScrollView(
-                          controller: _scrollController,
-                          scrollDirection: Axis.horizontal,
-                          child: Text(
-                            widget.link.nameLink as String,
-                            style: GoogleFonts.lexend(
-                              color: Colors.black87,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const BehindMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(30, 31, 36, 1),
+                            width: 1.5,
+                          ),
+                        ),
+                        content: EditLinkForm(
+                          link: widget.link,
+                          onUpdate: widget.onChanged,
+                        ),
+                        insetPadding: const EdgeInsets.all(10),
+                      ));
+            },
+            backgroundColor: Colors.green,
+            icon: Icons.edit,
+          ),
+          SlidableAction(
+            onPressed: (context) {
+              _deleteLink(widget.link.id!);
+            },
+            backgroundColor: Colors.red,
+            icon: Icons.delete,
+          ),
+          SlidableAction(
+            onPressed: (context) {
+              _markAsArchived(widget.link.id!);
+            },
+            backgroundColor: Colors.blue,
+            icon: Icons.archive,
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onLongPress: () {
+          _copytoClipboard(widget.link.link as String);
+        },
+        onTap: () {
+          _launchURL(widget.link.link as String);
+        },
+        child: ListTile(
+          title: Row(
+            children: <Widget>[
+              // LINK DAN LAUNCH LINK
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        // nama link
+                        Expanded(
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              widget.link.nameLink as String,
+                              style: GoogleFonts.lexend(
+                                color: Colors.black87,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    widget.link.link as String,
-                    style: GoogleFonts.lexend(
-                      color: Colors.black87,
-                      fontSize: 13,
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
+                    Text(
+                      widget.link.link as String,
+                      style: GoogleFonts.lexend(
+                        color: Colors.black87,
+                        fontSize: 13,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
               ),
-            ),
-            // favorit icon
-            IconButton(
-              icon: Icon(
-                widget.link.is_favorite ?? false
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                size: 17,
-                color: widget.link.is_favorite ?? false
-                    ? Colors.red
-                    : null, // Warna abu-abu jika is_favorite false
+              // favorit icon
+              IconButton(
+                icon: Icon(
+                  widget.link.is_favorite ?? false
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  size: 17,
+                  color: widget.link.is_favorite ?? false
+                      ? Colors.red
+                      : null, // Warna abu-abu jika is_favorite false
+                ),
+                onPressed: () async {
+                  if (widget.link.is_favorite ?? false) {
+                    await markAsUnFavorite(widget.link.id!);
+                  } else {
+                    await markAsFavorite(widget.link.id!);
+                  }
+                  setState(() {
+                    // Toggle nilai is_favorite saat tombol ditekan
+                    widget.link.is_favorite =
+                        !(widget.link.is_favorite ?? false);
+                  });
+                },
               ),
-              onPressed: () async {
-                if (widget.link.is_favorite ?? false) {
-                  await markAsUnFavorite(widget.link.id!);
-                } else {
-                  await markAsFavorite(widget.link.id!);
-                }
-                setState(() {
-                  // Toggle nilai is_favorite saat tombol ditekan
-                  widget.link.is_favorite = !(widget.link.is_favorite ?? false);
-                });
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

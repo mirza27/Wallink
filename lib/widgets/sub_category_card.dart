@@ -124,11 +124,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     );
   }
 
-  // delete link
-  Future<void> _deleteLink(int linkId) async {
-    await deleteLink(linkId);
-    await _loadData();
-  }
 
   // edit link
   Future<void> _editLink(Link link) async {
@@ -298,40 +293,10 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     itemBuilder: (context, index) {
                       final Link link = Link.fromMap(_links[index]);
 
-                      return Slidable(
-                        key: Key('$link'),
-                        endActionPane: ActionPane(
-                          motion: const BehindMotion(),
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                _editLink(link);
-                              },
-                              backgroundColor: Colors.green,
-                              icon: Icons.edit,
-                            ),
-                            SlidableAction(
-                              onPressed: (context) {
-                                _deleteLink(link.id!);
-                              },
-                              backgroundColor: Colors.red,
-                              icon: Icons.delete,
-                            ),
-                            SlidableAction(
-                              onPressed: (context) {
-                                _markAsArchived(link.id!);
-                              },
-                              backgroundColor: Colors.blue,
-                              icon: Icons.archive,
-                            ),
-                          ],
-                        ),
-                        child: LinkCard(
+                      return  LinkCard(
                             link: link,
-                            onDelete: _deleteLink,
-                            onUpdate: _editLink,
-                            onChanged: _loadData),
-                      );
+                            onChanged: _loadData);
+                      
                     },
                   ),
                   // tambah link

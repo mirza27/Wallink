@@ -108,11 +108,12 @@ class _LinkCardState extends State<LinkCard> {
         motion: const BehindMotion(),
         children: [
           SlidableAction(
+            // edit link
             onPressed: (context) {
               showDialog(
                   barrierDismissible: false,
                   context: context,
-                  builder: (_) => AlertDialog(
+                  builder: (context) => AlertDialog(
                         backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 15),
@@ -133,8 +134,8 @@ class _LinkCardState extends State<LinkCard> {
             backgroundColor: Colors.green,
             icon: Icons.edit,
           ),
-          SlidableAction(
             // delete link
+          SlidableAction(
             onPressed: (context) {
               showDialog(
                 context: context,

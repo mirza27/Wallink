@@ -182,7 +182,8 @@ class _EditLinkFormState extends State<EditLinkForm> {
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               TextButton(
                 onPressed: () {
-                  widget.onUpdate.call();
+                  Navigator.of(context).pop(); // tutup pop up
+                  
                 },
                 child: const Text('Cancel'),
               ),
@@ -190,6 +191,8 @@ class _EditLinkFormState extends State<EditLinkForm> {
                 onPressed: () async {
                   editLink(widget.link.id!, _linkNameController.text,
                       _linkController.text);
+                  widget.onUpdate.call(); // refresh data
+                  Navigator.of(context).pop(); // tutup pop up
                 },
                 child: const Text('Submit'),
               )

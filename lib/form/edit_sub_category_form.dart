@@ -115,13 +115,14 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  widget.onUpdate.call();
+                  
                 },
                 child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () async {
                   editSubCategory(widget.subCategory.id!, _subCategoryController.text);
+                  widget.onUpdate.call();
                 },
                 child: const Text('Submit'),
               )

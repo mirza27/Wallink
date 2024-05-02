@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -133,8 +134,25 @@ class _LinkCardState extends State<LinkCard> {
             icon: Icons.edit,
           ),
           SlidableAction(
+            // delete link
             onPressed: (context) {
-              _deleteLink(widget.link.id!);
+              showDialog(
+                context: context,
+                builder: (context) => DeleteConfirmationDialog(
+                  title: 'Warning!',
+                  message:
+                      'Are you sure you want to delete this link? This action cannot be undone',
+                  onDeleteConfirmed: () {
+                    _deleteLink(widget.link.id!);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Link deleted successfully'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  },
+                ),
+              );
             },
             backgroundColor: Colors.red,
             icon: Icons.delete,

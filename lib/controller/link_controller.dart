@@ -1,6 +1,7 @@
 import 'package:wallink_v1/database/link_database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:wallink_v1/models/sub_category.dart';
 
 // CRUD Link
 Future<int> insertLink(String link, String nameLink, int subCategoryId) async {
@@ -80,6 +81,24 @@ Future<void> deleteLink(int id) async {
   await db.delete(tableLinks,
       where: '${LinkFields.columnLinkId} = ?', whereArgs: [id]);
 }
+
+Future<bool> checkLinkUrl(int? newSubCategoryId, String? newNameLink) async {
+  Database db = await LinkDatabase.instance.database;
+  List<Map<String, dynamic>> results = await db.query(
+    tableLinks,
+    where:
+        '${LinkFields.columnSubCategoryId} == ? AND ${LinkFields.columnLinkName} == ?',
+    whereArgs: [newSubCategoryId, newNameLink],
+  );
+
+  if (results.isEmpty) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
 
 // Future<Link> createLink(Link link) async {
 //   final Database db = await LinkDatabase.instance.database;

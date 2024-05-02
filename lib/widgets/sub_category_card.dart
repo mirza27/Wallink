@@ -9,8 +9,7 @@ import 'package:wallink_v1/widgets/link_card.dart';
 class SubCategoryCard extends StatefulWidget {
   final SubCategory subCategory;
   final Function(int) onDelete; // memanggil fungsi delete di subcategory page
-  final Function
-      onUpdate; // memanggil fungsi load di home_page.dart
+  final Function onUpdate; // memanggil fungsi load di home_page.dart
 
   const SubCategoryCard({
     super.key,
@@ -102,9 +101,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               onPressed: () async {
                 String newLinkName = linkNameController.text.trim();
                 String newLink = linkController.text.trim();
+                bool checkLink =
+                    await checkLinkUrl(widget.subCategory.id, newLinkName);
 
-                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
-                  // jika input tidak kosong
+                if ((newLinkName.isNotEmpty && newLink.isNotEmpty) &&
+                    checkLink == true) {
                   await insertLink(
                       newLink, newLinkName, widget.subCategory.id!);
                   Navigator.pop(context);
@@ -112,7 +113,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                 } else {
                   // jika input kosong
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Please fill all fields'),
+                    content: Text('Please fill all fields dan Ga boleh sama '),
                     duration: Duration(seconds: 2),
                   ));
                 }
@@ -124,7 +125,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
       },
     );
   }
-
 
   // edit link
   Future<void> _editLink(Link link) async {
@@ -211,25 +211,27 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               title: const Text('Edit'),
               onTap: () {
                 showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(30, 31, 36, 1),
-                            width: 1.5,
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          backgroundColor:
+                              const Color.fromRGBO(249, 249, 251, 1),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(30, 31, 36, 1),
+                              width: 1.5,
+                            ),
                           ),
-                        ),
-                        content: editSubCategoryForm(
-                         subCategory: widget.subCategory,
-                          onUpdate: widget.onUpdate, // load subcategry dihalaman home
-                        ),
-                        insetPadding: const EdgeInsets.all(10),
-                      ));
+                          content: editSubCategoryForm(
+                            subCategory: widget.subCategory,
+                            onUpdate: widget
+                                .onUpdate, // load subcategry dihalaman home
+                          ),
+                          insetPadding: const EdgeInsets.all(10),
+                        ));
               },
             ),
             ListTile(
@@ -313,10 +315,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     itemBuilder: (context, index) {
                       final Link link = Link.fromMap(_links[index]);
 
-                      return  LinkCard(
-                            link: link,
-                            onChanged: _loadData);
-                      
+                      return LinkCard(link: link, onChanged: _loadData);
                     },
                   ),
                   // tambah link

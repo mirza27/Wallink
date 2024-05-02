@@ -12,6 +12,7 @@ import 'package:wallink_v1/controller/link_controller.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
+
   final Function() onChanged; // memanggil fungsi edit di subcategory page
 
   const LinkCard({super.key, required this.link, required this.onChanged});
@@ -22,6 +23,8 @@ class LinkCard extends StatefulWidget {
 
 // fungsi launch url
 class _LinkCardState extends State<LinkCard> {
+  bool _isColored = false;
+
   Future<void> _launchURL(String url) async {
     // jika tidak ada https / http
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
@@ -44,6 +47,17 @@ class _LinkCardState extends State<LinkCard> {
         backgroundColor: Colors.green,
       ),
     );
+
+    setState(() {
+      _isColored = true; // Ubah _isColored menjadi true
+    });
+
+    // Tunggu sampai animasi selesai
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    setState(() {
+      _isColored = false; // Kembalikan _isColored ke false
+    });
   }
 
   // delete link
@@ -134,7 +148,7 @@ class _LinkCardState extends State<LinkCard> {
             backgroundColor: Colors.green,
             icon: Icons.edit,
           ),
-            // delete link
+          // delete link
           SlidableAction(
             onPressed: (context) {
               showDialog(
@@ -174,70 +188,77 @@ class _LinkCardState extends State<LinkCard> {
         onTap: () {
           _launchURL(widget.link.link as String);
         },
-        child: ListTile(
-          title: Row(
-            children: <Widget>[
-              // LINK DAN LAUNCH LINK
-              Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        // nama link
-                        Expanded(
-                          child: SingleChildScrollView(
-                            controller: _scrollController,
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              widget.link.nameLink as String,
-                              style: GoogleFonts.lexend(
-                                color: Colors.black87,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+            color: _isColored ? Colors.grey.withOpacity(0.2) : null,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: ListTile(
+            title: Row(
+              children: <Widget>[
+                // LINK DAN LAUNCH LINK
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          // nama link
+                          Expanded(
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                widget.link.nameLink as String,
+                                style: GoogleFonts.lexend(
+                                  color: Colors.black87,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      widget.link.link as String,
-                      style: GoogleFonts.lexend(
-                        color: Colors.black87,
-                        fontSize: 13,
+                        ],
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  ],
+                      Text(
+                        widget.link.link as String,
+                        style: GoogleFonts.lexend(
+                          color: Colors.black87,
+                          fontSize: 13,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              // favorit icon
-              IconButton(
-                icon: Icon(
-                  widget.link.is_favorite ?? false
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  size: 17,
-                  color: widget.link.is_favorite ?? false
-                      ? Colors.red
-                      : null, // Warna abu-abu jika is_favorite false
+                // favorit icon
+                IconButton(
+                  icon: Icon(
+                    widget.link.is_favorite ?? false
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    size: 17,
+                    color: widget.link.is_favorite ?? false
+                        ? Colors.red
+                        : null, // Warna abu-abu jika is_favorite false
+                  ),
+                  onPressed: () async {
+                    if (widget.link.is_favorite ?? false) {
+                      await markAsUnFavorite(widget.link.id!);
+                    } else {
+                      await markAsFavorite(widget.link.id!);
+                    }
+                    setState(() {
+                      // Toggle nilai is_favorite saat tombol ditekan
+                      widget.link.is_favorite =
+                          !(widget.link.is_favorite ?? false);
+                    });
+                  },
                 ),
-                onPressed: () async {
-                  if (widget.link.is_favorite ?? false) {
-                    await markAsUnFavorite(widget.link.id!);
-                  } else {
-                    await markAsFavorite(widget.link.id!);
-                  }
-                  setState(() {
-                    // Toggle nilai is_favorite saat tombol ditekan
-                    widget.link.is_favorite =
-                        !(widget.link.is_favorite ?? false);
-                  });
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

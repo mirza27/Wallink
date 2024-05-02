@@ -20,6 +20,8 @@ dependencies:
   carousel_slider: ^4.2.1
   fluttertoast: ^8.0.7
   flutter_slidable: ^3.1.0
+  flutter_animator: ^3.2.0
+
   
   
 

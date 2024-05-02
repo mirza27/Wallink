@@ -6,7 +6,6 @@ import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/widgets/category_mini_card.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 import 'package:wallink_v1/widgets/sub_category_card.dart';
-import 'package:wallink_v1/page/sidebar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -257,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                         
                         subCategory: subCategory,
                         onDelete: _deleteSubCategory,
-                        onUpdate: _editSubCategory,
+                        onUpdate: _loadData,
                       );
                     },
                   ),

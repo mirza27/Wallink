@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
 
-class editSubCategoryForm extends StatefulWidget {
+class editCategoryForm extends StatefulWidget {
   final Function onUpdate;
   final Category category;
-  const editSubCategoryForm(
-      {super.key, required this.onUpdate, required this.category});
+  const editCategoryForm(
+      {super.key, required this.onUpdate, required this.category,});
 
   @override
-  State<editSubCategoryForm> createState() => _editSubCategoryFormState();
+  State<editCategoryForm> createState() => _editSubCategoryFormState();
 }
 
-class _editSubCategoryFormState extends State<editSubCategoryForm> {
+class _editSubCategoryFormState extends State<editCategoryForm> {
   final TextEditingController _categoryController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -115,13 +115,15 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  widget.onUpdate.call();
+                  
                 },
                 child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () async {
                   editSubCategory(widget.category.id!, _categoryController.text);
+                  widget.onUpdate.call();
+                  Navigator.pop(context);
                 },
                 child: const Text('Submit'),
               )

@@ -5,6 +5,7 @@ import 'package:wallink_v1/models/sub_category.dart';
 class editSubCategoryForm extends StatefulWidget {
   final Function onUpdate;
   final SubCategory subCategory;
+
   const editSubCategoryForm(
       {super.key, required this.onUpdate, required this.subCategory});
 
@@ -122,7 +123,8 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
               TextButton(
                 onPressed: () async {
                   editSubCategory(widget.subCategory.id!, _subCategoryController.text);
-                  widget.onUpdate.call();
+                  widget.onUpdate.call(); // update data subcategory
+                  Navigator.pop(context);
                 },
                 child: const Text('Submit'),
               )

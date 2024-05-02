@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/form/edit_sub_category_form.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SubCategoryCard extends StatefulWidget {
   final SubCategory subCategory;
   final Function(int) onDelete; // memanggil fungsi delete di subcategory page
-  final Function(SubCategory)
-      onUpdate; // memanggil fungsi edit di subcategory page
+  final Function
+      onUpdate; // memanggil fungsi load di home_page.dart
 
   const SubCategoryCard({
     super.key,
@@ -42,6 +42,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     });
   }
 
+  // load per subcategory ketika subcategory berubah
   @override
   void didUpdateWidget(covariant SubCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -209,7 +210,26 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               leading: const Icon(Icons.edit),
               title: const Text('Edit'),
               onTap: () {
-                widget.onUpdate(widget.subCategory);
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(30, 31, 36, 1),
+                            width: 1.5,
+                          ),
+                        ),
+                        content: editSubCategoryForm(
+                         subCategory: widget.subCategory,
+                          onUpdate: widget.onUpdate, // load subcategry dihalaman home
+                        ),
+                        insetPadding: const EdgeInsets.all(10),
+                      ));
               },
             ),
             ListTile(

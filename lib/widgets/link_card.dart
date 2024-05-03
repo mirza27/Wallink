@@ -79,6 +79,13 @@ class _LinkCardState extends State<LinkCard> {
     });
   }
 
+  void _markAsUnArchived(int id) async {
+    await markAsUnArchived(id);
+    setState(() {
+      widget.onChanged.call();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -174,7 +181,14 @@ class _LinkCardState extends State<LinkCard> {
           ),
           SlidableAction(
             onPressed: (context) {
-              _markAsArchived(widget.link.id!);
+              if (widget.link.is_archive ?? false) {
+                _markAsArchived(widget.link.id!);
+              } else {
+                _markAsUnArchived(widget.link.id!);
+              }
+              setState(() {
+                widget.link.is_archive = !(widget.link.is_archive ?? false);
+              });
             },
             backgroundColor: Colors.blue,
             icon: Icons.archive,

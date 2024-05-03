@@ -15,6 +15,7 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
   void initState() {
     super.initState();
     _archivedLinkFuture = _getArchivedLinks();
+    _loadData;
   }
 
   Future<List<Link>> _getArchivedLinks() async {
@@ -22,6 +23,10 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
     List<Link> archivedLinks =
         archivedLinksData.map((data) => Link.fromMap(data)).toList();
     return archivedLinks;
+  }
+
+  Future<void> _loadData() async {
+    List<Map<String, dynamic>> _archivedLinkFuture = await getArchivedLink();
   }
 
   @override
@@ -45,7 +50,9 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
               itemBuilder: (context, index) {
                 return LinkCard(
                   link: snapshot.data![index],
-                  onChanged: () {},
+                  onChanged: () {
+                    _loadData;
+                  },
                 );
               },
             );

@@ -39,6 +39,8 @@ Future<List<Map<String, dynamic>>> getArchivedLink() async {
       where: '${LinkFields.columnIsArchive} = ? ', whereArgs: [1]);
 }
 
+
+
 Future<void> editLink(int id, String newName, String newLink) async {
   Database db = await LinkDatabase.instance.database;
   await db.update(

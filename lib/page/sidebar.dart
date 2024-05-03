@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallink_v1/page/archived_page.dart';
 import 'package:wallink_v1/page/fav_page.dart';
 import 'faq_page.dart';
 
@@ -46,14 +47,18 @@ class Sidebar extends StatelessWidget {
             SizedBox(height: 10),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.collections_bookmark_sharp, color: Colors.black),
+              leading:
+                  Icon(Icons.collections_bookmark_sharp, color: Colors.black),
               title: Text(
                 'Favorite',
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteLinksPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FavoriteLinksPage()));
               },
             ),
             SizedBox(
@@ -68,13 +73,21 @@ class Sidebar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ArchivedLinksPage()));
               },
             ),
-            SizedBox(height: 350,),
-            Divider( // Gunakan Divider untuk membuat garis pemisah
+            SizedBox(
+              height: 350,
+            ),
+            Divider(
+              // Gunakan Divider untuk membuat garis pemisah
               color: Colors.grey[400],
               thickness: 1.0,
-              height: 40, // Atur tinggi Divider agar memiliki jarak yang cukup dengan ListTile "Settings"
+              height:
+                  40, // Atur tinggi Divider agar memiliki jarak yang cukup dengan ListTile "Settings"
               indent: 16, // Atur indent agar garis dimulai dari kiri
               endIndent: 16, // Atur end indent agar garis berakhir di kanan
             ),
@@ -98,7 +111,8 @@ class Sidebar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FAQPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FAQPage()));
               },
             ),
           ],

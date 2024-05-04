@@ -128,8 +128,33 @@ class _LinkCardState extends State<LinkCard> {
       endActionPane: ActionPane(
         motion: const BehindMotion(),
         children: [
+          // delete link
           SlidableAction(
-            // edit link
+            onPressed: (context) {
+              showDialog(
+                context: context,
+                builder: (context) => DeleteConfirmationDialog(
+                  title: 'Warning!',
+                  message:
+                      'Are you sure you want to delete this link? This action cannot be undone',
+                  onDeleteConfirmed: () {
+                    _deleteLink(widget.link.id!);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Link deleted successfully'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+            icon: Icons.delete,
+            backgroundColor: const Color.fromARGB(255, 255, 201, 201),
+            foregroundColor: const Color.fromARGB(255, 229, 72, 77),
+          ),
+          // edit link
+          SlidableAction(
             onPressed: (context) {
               showDialog(
                   barrierDismissible: false,
@@ -152,33 +177,11 @@ class _LinkCardState extends State<LinkCard> {
                         insetPadding: const EdgeInsets.all(10),
                       ));
             },
-            backgroundColor: Colors.green,
+            backgroundColor: const Color.fromARGB(255, 255, 253, 201),
+            foregroundColor: const Color.fromARGB(255, 220, 211, 5),
             icon: Icons.edit,
           ),
-          // delete link
-          SlidableAction(
-            onPressed: (context) {
-              showDialog(
-                context: context,
-                builder: (context) => DeleteConfirmationDialog(
-                  title: 'Warning!',
-                  message:
-                      'Are you sure you want to delete this link? This action cannot be undone',
-                  onDeleteConfirmed: () {
-                    _deleteLink(widget.link.id!);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Link deleted successfully'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-            backgroundColor: Colors.red,
-            icon: Icons.delete,
-          ),
+          // archive link
           SlidableAction(
             onPressed: (context) {
               if (widget.link.is_archive ?? false) {
@@ -190,7 +193,8 @@ class _LinkCardState extends State<LinkCard> {
                 widget.link.is_archive = !(widget.link.is_archive ?? false);
               });
             },
-            backgroundColor: Colors.blue,
+            foregroundColor: const Color.fromARGB(255, 5, 105, 220),
+            backgroundColor: const Color.fromARGB(255, 201, 226, 255),
             icon: Icons.archive,
           ),
         ],
@@ -226,10 +230,11 @@ class _LinkCardState extends State<LinkCard> {
                               scrollDirection: Axis.horizontal,
                               child: Text(
                                 widget.link.nameLink as String,
-                                style: GoogleFonts.lexend(
+                                style: const TextStyle(
+                                  fontFamily: 'sharp',
                                   color: Colors.black87,
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
@@ -238,8 +243,9 @@ class _LinkCardState extends State<LinkCard> {
                       ),
                       Text(
                         widget.link.link as String,
-                        style: GoogleFonts.lexend(
-                          color: Colors.black87,
+                        style: const TextStyle(
+                          fontFamily: 'sharp',
+                          color: Colors.black54,
                           fontSize: 13,
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -249,6 +255,8 @@ class _LinkCardState extends State<LinkCard> {
                 ),
                 // favorit icon
                 IconButton(
+                  padding: const EdgeInsets.only(left: 5),
+                  alignment: Alignment.centerRight,
                   icon: Icon(
                     widget.link.is_favorite ?? false
                         ? Icons.favorite

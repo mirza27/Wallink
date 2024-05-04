@@ -32,6 +32,112 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
     });
   }
 
+  // hold to show bottom sheet bar
+  Future<void> _showBottomSheet(BuildContext context, int index) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(
+                  Icons.edit,
+                  color: Color.fromRGBO(5, 105, 220, 1),
+                ),
+                title: const Text(
+                  'Edit Category',
+                  style: TextStyle(
+                    fontFamily: 'sharp',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  // showDialog(
+                  //   barrierDismissible: false,
+                  //   context: context,
+                  //   builder: (context) => AlertDialog(
+                  //     backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                  //     contentPadding: const EdgeInsets.symmetric(
+                  //         horizontal: 10, vertical: 15),
+                  //     shape: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(8.0),
+                  //       borderSide: const BorderSide(
+                  //         color: Color.fromRGBO(30, 31, 36, 1),
+                  //         width: 1.5,
+                  //       ),
+                  //     ),
+                  //     content: editSubCategoryForm(
+                  //       subCategory: widget.subCategory,
+                  //       onUpdate:
+                  //           widget.onUpdate, // load subcategry dihalaman home
+                  //     ),
+                  //     insetPadding: const EdgeInsets.all(10),
+                  //   ),
+                  // );
+                },
+              ),
+              // ListTile(
+              //   leading: const Icon(
+              //     Icons.share,
+              //     color: Color.fromRGBO(5, 105, 220, 1),
+              //   ),
+              //   title: const Text(
+              //     'Share Category',
+              //     style: TextStyle(
+              //       fontFamily: 'sharp',
+              //       fontSize: 16.0,
+              //       fontWeight: FontWeight.w700,
+              //       color: Colors.black,
+              //     ),
+              //   ),
+              //   onTap: () {},
+              // ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete,
+                  color: Color.fromARGB(255, 229, 72, 77),
+                ),
+                title: const Text(
+                  'Delete Category',
+                  style: TextStyle(
+                    fontFamily: 'sharp',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (context) => DeleteConfirmationDialog(
+                  //     title: 'Warning!',
+                  //     message:
+                  //         'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                  //     onDeleteConfirmed: () {
+                  //       widget.onDelete(widget.subCategory.id!);
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         const SnackBar(
+                  //           content: Text('SubCategory deleted successfully'),
+                  //           backgroundColor: Colors.green,
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -45,37 +151,38 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
               category.id; // logika jika aktif dan tidak aktif
 
           return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _activeCategory = category.id!;
-                    widget.onCategoryChanged(category.id);
-                  });
-                },
-                child: Chip(
-                    label: Text(
-                      category.nameCategory as String, style: const TextStyle(fontSize: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: GestureDetector(
+              onLongPress: () {
+                _showBottomSheet(context, category.id!);
+              },
+              onTap: () {
+                setState(() {
+                  _activeCategory = category.id!;
+                  widget.onCategoryChanged(category.id);
+                });
+              },
+              child: Chip(
+                  label: Text(
+                    category.nameCategory as String,
+                    style: const TextStyle(
+                      fontFamily: 'sharp',
+                      fontSize: 16,
                     ),
-                    backgroundColor: isActive
-                        ? const Color.fromRGBO(201, 226, 255, 1)
-                        : const Color.fromRGBO(239, 240, 243, 1),
-                    labelStyle: TextStyle(
-                      color: isActive
-                          ? const Color.fromRGBO(5, 105, 220, 1)
-                          : const Color.fromRGBO(139, 141, 152, 1),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      
+                  ),
+                  backgroundColor: isActive
+                      ? const Color.fromRGBO(201, 226, 255, 1)
+                      : const Color.fromRGBO(239, 240, 243, 1),
+                  labelStyle: TextStyle(
+                    color: isActive
+                        ? const Color.fromRGBO(5, 105, 220, 1)
+                        : const Color.fromRGBO(139, 141, 152, 1),
+                  ),
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
-                      side: const BorderSide(
-                        color: Colors.transparent
-                        
-                      )
-                    )
-
-                    ),
-              ));
+                      side: const BorderSide(color: Colors.transparent))),
+            ),
+          );
         },
       ),
     );

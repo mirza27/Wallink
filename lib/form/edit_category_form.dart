@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/controller/sub_category_controller.dart';
+import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/models/category.dart';
 
 class editCategoryForm extends StatefulWidget {
@@ -121,7 +121,7 @@ class _editSubCategoryFormState extends State<editCategoryForm> {
               ),
               TextButton(
                 onPressed: () async {
-                  editSubCategory(widget.category.id!, _categoryController.text);
+                  editCategory(widget.category.id!,  _categoryController.text);
                   widget.onUpdate.call();
                   Navigator.pop(context);
                 },

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -138,7 +137,8 @@ class _LinkCardState extends State<LinkCard> {
                   message:
                       'Are you sure you want to delete this link? This action cannot be undone',
                   onDeleteConfirmed: () {
-                    _deleteLink(widget.link.id!);
+                    _deleteLink(widget.link.id!,);
+                    
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Link deleted successfully'),
@@ -146,6 +146,7 @@ class _LinkCardState extends State<LinkCard> {
                       ),
                     );
                   },
+                  isThisLink: true,
                 ),
               );
             },

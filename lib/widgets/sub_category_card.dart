@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_sub_category_form.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -55,6 +55,12 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
 
   void _markAsArchived(int id) async {
     await markAsArchived(id);
+    _loadData();
+  }
+
+  // delete subcategory
+  void _deleteSubCategory(int id) async {
+    await deleteSubCategory(id);
     _loadData();
   }
 
@@ -213,7 +219,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       message:
                           'Are you sure you want to delete this SubCategory? This action cannot be undone',
                       onDeleteConfirmed: () {
-                        widget.onDelete(widget.subCategory.id!);
+                        deleteSubCategory(index);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('SubCategory deleted successfully'),
@@ -221,6 +227,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                           ),
                         );
                       },
+                      isThisLink: false,
                     ),
                   );
                 },

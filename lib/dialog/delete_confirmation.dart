@@ -4,11 +4,14 @@ class DeleteConfirmationDialog extends StatelessWidget {
   final String title;
   final String message;
   final VoidCallback onDeleteConfirmed;
+  final bool isThisLink;
 
   const DeleteConfirmationDialog({
     required this.title,
     required this.message,
     required this.onDeleteConfirmed,
+    required this.isThisLink,
+    Key? key,
   });
 
   @override
@@ -79,6 +82,9 @@ class DeleteConfirmationDialog extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   onDeleteConfirmed();
+                  if (!isThisLink) { // jika bukan link maka kembali
+                    Navigator.of(context).pop(); 
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

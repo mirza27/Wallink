@@ -76,12 +76,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
       appBar: AppBar(
         shadowColor: Colors.black,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(90),
+          preferredSize: !_isSearching
+              ? Size.fromHeight(0.1 * height)
+              : Size.fromHeight(0.05 * height),
           child: Column(
             children: [
               Padding(
@@ -115,8 +121,8 @@ class _HomePageState extends State<HomePage> {
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15.0),
                           filled: true,
-                          focusColor: Color.fromRGBO(5, 105, 220, 1),
-                          fillColor: Color.fromRGBO(239, 240, 243, 1),
+                          focusColor: const Color.fromRGBO(5, 105, 220, 1),
+                          fillColor: const Color.fromRGBO(239, 240, 243, 1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: const BorderSide(
@@ -151,13 +157,18 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
-                child: CategoryMiniCard(
-                  categoryId: null,
-                  onCategoryChanged: _chooseCategory,
+              if (!_isSearching) ...{
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+                  child: CategoryMiniCard(
+                    categoryId: null,
+                    onCategoryChanged: _chooseCategory,
+                  ),
                 ),
-              ),
+              } else
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(15, 5, 5, 15),
+                )
             ],
           ),
         ),
@@ -203,6 +214,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
+            
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
+import 'package:wallink_v1/dialog/delete_confirmation.dart';
+import 'package:wallink_v1/form/edit_category_form.dart';
 import 'package:wallink_v1/models/category.dart';
 
 class CategoryMiniCard extends StatefulWidget {
@@ -32,8 +34,14 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
     });
   }
 
+  // delete category
+  Future<void> _deleteCategory(int categoryId) async {
+    await deleteCategory(categoryId);
+    _loadData();
+  }
+
   // hold to show bottom sheet bar
-  Future<void> _showBottomSheet(BuildContext context, int index) async {
+  Future<void> _showBottomSheet(BuildContext context, int index, Category category) async {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -57,28 +65,27 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                   ),
                 ),
                 onTap: () {
-                  // showDialog(
-                  //   barrierDismissible: false,
-                  //   context: context,
-                  //   builder: (context) => AlertDialog(
-                  //     backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
-                  //     contentPadding: const EdgeInsets.symmetric(
-                  //         horizontal: 10, vertical: 15),
-                  //     shape: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(8.0),
-                  //       borderSide: const BorderSide(
-                  //         color: Color.fromRGBO(30, 31, 36, 1),
-                  //         width: 1.5,
-                  //       ),
-                  //     ),
-                  //     content: editSubCategoryForm(
-                  //       subCategory: widget.subCategory,
-                  //       onUpdate:
-                  //           widget.onUpdate, // load subcategry dihalaman home
-                  //     ),
-                  //     insetPadding: const EdgeInsets.all(10),
-                  //   ),
-                  // );
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            backgroundColor:
+                                const Color.fromRGBO(249, 249, 251, 1),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromRGBO(30, 31, 36, 1),
+                                width: 1.5,
+                              ),
+                            ),
+                            content: editCategoryForm(
+                              category: category,
+                              onUpdate: _loadData,
+                            ),
+                            insetPadding: const EdgeInsets.all(10),
+                          ));
                 },
               ),
               // ListTile(
@@ -112,23 +119,24 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                   ),
                 ),
                 onTap: () {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (context) => DeleteConfirmationDialog(
-                  //     title: 'Warning!',
-                  //     message:
-                  //         'Are you sure you want to delete this SubCategory? This action cannot be undone',
-                  //     onDeleteConfirmed: () {
-                  //       widget.onDelete(widget.subCategory.id!);
-                  //       ScaffoldMessenger.of(context).showSnackBar(
-                  //         const SnackBar(
-                  //           content: Text('SubCategory deleted successfully'),
-                  //           backgroundColor: Colors.green,
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // );
+                  showDialog(
+                    context: context,
+                    builder: (context) => DeleteConfirmationDialog(
+                      title: 'Warning!',
+                      message:
+                          'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                      onDeleteConfirmed: () {
+                        _deleteCategory(index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('SubCategory deleted successfully'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      },
+                      isThisLink: false,
+                    ),
+                  );
                 },
               ),
             ],
@@ -154,7 +162,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: GestureDetector(
               onLongPress: () {
-                _showBottomSheet(context, category.id!);
+                _showBottomSheet(context, category.id!, category);
               },
               onTap: () {
                 setState(() {

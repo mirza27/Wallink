@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
@@ -11,8 +10,7 @@ import 'package:wallink_v1/controller/link_controller.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
-
-  final Function() onChanged; // memanggil fungsi edit di subcategory page
+  final Function() onChanged; // memanggil fungsi edit di subcategory card
 
   const LinkCard({super.key, required this.link, required this.onChanged});
 

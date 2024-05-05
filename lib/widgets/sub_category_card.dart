@@ -53,17 +53,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     }
   }
 
-  void _markAsArchived(int id) async {
-    await markAsArchived(id);
-    _loadData();
-  }
-
-  // delete subcategory
-  void _deleteSubCategory(int id) async {
-    await deleteSubCategory(id);
-    _loadData();
-  }
-
   // fungsi add new link
   Future<void> _addLink(String linkName, String link) async {
     await showDialog<String>(

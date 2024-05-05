@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 
@@ -189,10 +188,13 @@ class _EditLinkFormState extends State<EditLinkForm> {
               ),
               TextButton(
                 onPressed: () async {
+                  if (_formKey.currentState!.validate()){
+
                   editLink(widget.link.id!, _linkNameController.text,
                       _linkController.text);
                   widget.onUpdate.call(); // refresh data
                   Navigator.of(context).pop(); // tutup pop up
+                  }
                 },
                 child: const Text('Submit'),
               )

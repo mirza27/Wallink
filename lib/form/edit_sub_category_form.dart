@@ -28,6 +28,7 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
   Widget build(BuildContext context) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.2,
         child: Form(
           key: _formKey,
           child: Column(
@@ -57,78 +58,83 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                 height: 10,
               ),
 
-               // NAMA SUB================================
-            TextFormField(
-              controller: _subCategoryController,
-              onChanged: (value) {
-                setState(() {
-                  _subCategoryController.text = value;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "New SubCategory name cannot be empty";
-                } else if (value.trim() == '') {
-                  return "New SubCategory cannot only space";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                filled: true,
-                fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(224, 225, 230, 1),
-                    width: 1.0,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(224, 225, 230, 1),
-                    width: 1.0,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(224, 225, 230, 1),
-                    width: 1.0,
-                  ),
-                ),
-                hintText: 'SubCategory Name',
-                hintStyle: const TextStyle(
-                  fontSize: 12.0,
-                  color: Color.fromRGBO(
-                      139, 141, 152, 1), // Ganti dengan warna yang diinginkan
-                ),
-                alignLabelWithHint: true,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-
-             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  
+              // NAMA SUB================================
+              TextFormField(
+                controller: _subCategoryController,
+                onChanged: (value) {
+                  setState(() {
+                    _subCategoryController.text = value;
+                  });
                 },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  editSubCategory(widget.subCategory.id!, _subCategoryController.text);
-                  widget.onUpdate.call(); // update data subcategory
-                  Navigator.pop(context);
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "New SubCategory name cannot be empty";
+                  } else if (value.trim() == '') {
+                    return "New SubCategory cannot only space";
+                  }
+                  return null;
                 },
-                child: const Text('Submit'),
-              )
-            ])
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                  filled: true,
+                  fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(224, 225, 230, 1),
+                      width: 1.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(224, 225, 230, 1),
+                      width: 1.0,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(224, 225, 230, 1),
+                      width: 1.0,
+                    ),
+                  ),
+                  hintText: 'SubCategory Name',
+                  hintStyle: const TextStyle(
+                    fontSize: 12.0,
+                    color: Color.fromRGBO(
+                        139, 141, 152, 1), // Ganti dengan warna yang diinginkan
+                  ),
+                  alignLabelWithHint: true,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Expanded(child: SizedBox()),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          editSubCategory(widget.subCategory.id!,
+                              _subCategoryController.text);
+                          widget.onUpdate.call(); // update data subcategory
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text('Submit'),
+                    )
+                  ])
             ],
           ),
         ));

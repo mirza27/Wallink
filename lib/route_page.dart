@@ -15,37 +15,48 @@ class RoutePage extends StatefulWidget {
 class _RoutePageState extends State<RoutePage> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _widgetOptions = [
-    const HomePage(),
-    FavoriteLinksPage()
-  ];
+  // static final List<Widget> _widgetOptions = [
+  //   const HomePage(),
+  //   FavoriteLinksPage()
+  // ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: false,
-      body: _widgetOptions.elementAt(_selectedIndex),
+      // body: _widgetOptions.elementAt(_selectedIndex),
+      body: _selectedIndex == 0
+          ? HomePage(
+      drawerButton: (BuildContext context) {
+        return IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        );
+      },
+    )
+  : FavoriteLinksPage(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            showDialog(
+          showDialog(
               barrierDismissible: false,
-                 context: context,
+              context: context,
               builder: (context) => AlertDialog(
-                backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
                     shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(30, 31, 36, 1),
-                      width: 1.5,
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(30, 31, 36, 1),
+                        width: 1.5,
+                      ),
                     ),
-                  ),
                     content: LinkForm(link: null, context: context),
                     insetPadding: const EdgeInsets.all(10),
-                  )
-              );
-             
+                  ));
         },
         backgroundColor: const Color.fromRGBO(5, 105, 220, 1),
         foregroundColor: const Color.fromRGBO(252, 252, 253, 1),

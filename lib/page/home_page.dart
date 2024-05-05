@@ -8,7 +8,8 @@ import 'package:wallink_v1/widgets/link_card.dart';
 import 'package:wallink_v1/widgets/sub_category_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final WidgetBuilder drawerButton;
+  const HomePage({required this.drawerButton, super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -95,16 +96,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Row(
                   children: [
-                    Builder(
-                      builder: (BuildContext context) {
-                        return IconButton(
-                          icon: const Icon(Icons.menu),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                        );
-                      },
-                    ),
+                  widget.drawerButton(context),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextField(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share/share.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
@@ -13,11 +16,11 @@ class SubCategoryCard extends StatefulWidget {
   final Function onUpdate; // memanggil fungsi load di home_page.dart
 
   const SubCategoryCard({
-    super.key,
+    Key? key,
     required this.subCategory,
     required this.onDelete,
     required this.onUpdate,
-  });
+  }) : super(key: key);
 
   @override
   State<SubCategoryCard> createState() => _SubCategoryCardState();
@@ -46,8 +49,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
   @override
   void didUpdateWidget(covariant SubCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if ((widget.subCategory.id != oldWidget.subCategory.id)) {
-      if ((widget.subCategory.id != null || widget.subCategory.id != 0)) {
+    if (widget.subCategory.id != oldWidget.subCategory.id) {
+      if (widget.subCategory.id != null && widget.subCategory.id != 0) {
         _loadData();
       }
     }
@@ -63,8 +66,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
 
         // keyboard aktif langsung
         FocusNode focusNode = FocusNode();
-        WidgetsBinding.instance
-            .addPostFrameCallback((_) => focusNode.requestFocus());
+        WidgetsBinding.instance!.addPostFrameCallback((_) => focusNode.requestFocus());
 
         return AlertDialog(
           title: const Text('Add Link'),
@@ -97,19 +99,16 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               onPressed: () async {
                 String newLinkName = linkNameController.text.trim();
                 String newLink = linkController.text.trim();
-                bool checkLink =
-                    await checkLinkUrl(widget.subCategory.id, newLinkName);
+                bool checkLink = await checkLinkUrl(widget.subCategory.id, newLinkName);
 
-                if ((newLinkName.isNotEmpty && newLink.isNotEmpty) &&
-                    checkLink == true) {
-                  await insertLink(
-                      newLink, newLinkName, widget.subCategory.id!);
+                if (newLinkName.isNotEmpty && newLink.isNotEmpty && checkLink) {
+                  await insertLink(newLink, newLinkName, widget.subCategory.id!);
                   Navigator.pop(context);
                   await _loadData();
                 } else {
                   // jika input kosong
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Please fill all fields dan Ga boleh sama '),
+                    content: Text('Please fill all fields'),
                     duration: Duration(seconds: 2),
                   ));
                 }
@@ -147,27 +146,25 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                 ),
                 onTap: () {
                   showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            backgroundColor:
-                                const Color.fromRGBO(249, 249, 251, 1),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Color.fromRGBO(30, 31, 36, 1),
-                                width: 1.5,
-                              ),
-                            ),
-                            content: editSubCategoryForm(
-                              subCategory: widget.subCategory,
-                              onUpdate: widget
-                                  .onUpdate, // load subcategry dihalaman home
-                            ),
-                            insetPadding: const EdgeInsets.all(10),
-                          ));
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(30, 31, 36, 1),
+                          width: 1.5,
+                        ),
+                      ),
+                      content: editSubCategoryForm(
+                        subCategory: widget.subCategory,
+                        onUpdate: widget.onUpdate, // load subcategory di halaman home
+                      ),
+                      insetPadding: const EdgeInsets.all(10),
+                    ),
+                  );
                 },
               ),
               ListTile(
@@ -184,7 +181,9 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     color: Colors.black,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  _shareSubCategory(widget.subCategory);
+                },
               ),
               ListTile(
                 leading: const Icon(
@@ -205,8 +204,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     context: context,
                     builder: (context) => DeleteConfirmationDialog(
                       title: 'Warning!',
-                      message:
-                          'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                      message: 'Are you sure you want to delete this SubCategory? This action cannot be undone',
                       onDeleteConfirmed: () {
                         deleteSubCategory(index);
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -227,6 +225,24 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
       },
     );
   }
+
+ void _shareSubCategory(SubCategory subCategory) async {
+  List<Link> links = _links.map((linkMap) => Link.fromMap(linkMap)).toList();
+
+  String shareText = 
+  'Saya membagikan kumpulan link untuk Anda menggunakan Wallink\n\n'
+  'Sub Category: ${subCategory.subCategoryName}';
+  shareText += '\nLinks:\n';
+  for (Link link in links) {
+    shareText += '${link.linkName}: ${link.link}\n';
+  }
+  
+  await Clipboard.setData(ClipboardData(text: shareText));
+  Share.share(
+      '$shareText',
+      subject: 'Sub Category Info',
+    );
+}
 
   // MAIN WIDGET ==================================================
   @override
@@ -270,7 +286,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                         style: const TextStyle(
                           fontFamily: 'sharp',
                           fontWeight: FontWeight.w800,
-                          color: Colors.black, // Changed color to black
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                       ),
@@ -290,32 +306,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       return LinkCard(link: link, onChanged: _loadData);
                     },
                   ),
-                  // tambah link
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     ElevatedButton.icon(
-                  //       onPressed: () {
-                  //         _addLink("", "");
-                  //       },
-                  //       icon: const Icon(Icons.add),
-                  //       label: Text(
-                  //         "Tambah Link",
-                  //         style: GoogleFonts.lexend(
-                  //           fontWeight: FontWeight.w500,
-                  //           fontSize: 15,
-                  //         ),
-                  //       ),
-                  //       style: ElevatedButton.styleFrom(
-                  //         backgroundColor: const Color(0xFF537FE7),
-                  //         foregroundColor: Colors.white,
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(10),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ),

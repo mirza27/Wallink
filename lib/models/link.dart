@@ -35,6 +35,8 @@ class Link {
       this.is_favorite,
       this.is_archive = false});
 
+  get linkName => nameLink;
+
   Map<String, dynamic> toMap() {
     return {
       LinkFields.columnLinkId: id,

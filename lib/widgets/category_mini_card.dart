@@ -25,6 +25,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
     _loadData();
   }
 
+
   // refresh dan load data
   Future<void> _loadData() async {
     List<Map<String, dynamic>> categories = await getCategories();

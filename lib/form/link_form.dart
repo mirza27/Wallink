@@ -3,11 +3,13 @@ import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/route_page.dart';
 
 class LinkForm extends StatefulWidget {
   final Link? link;
-  const LinkForm({required this.link, super.key});
+  final BuildContext context;
+  const LinkForm({required this.link, required this.context ,super.key});
 
   @override
   State<LinkForm> createState() => _LinkFormState();
@@ -108,6 +110,7 @@ class _LinkFormState extends State<LinkForm> {
                     setState(() {
                       _choosedCategoryId = value!;
                       isAddCategory = false;
+                      isAddSubCategory= false;
                     });
                   }
 
@@ -549,6 +552,7 @@ class _LinkFormState extends State<LinkForm> {
                   ),
                   TextButton(
                     onPressed: () async {
+                      int finalCategoryId = 0;
                       int finalSubcategoryId = 0;
                       if (_formKey.currentState!.validate()) {
                         // submit add link
@@ -558,27 +562,36 @@ class _LinkFormState extends State<LinkForm> {
                           int subCategoryId = await insertSubCategory(
                               _newSubCategoryController.text.trim(),
                               categoryId);
-
+                          finalCategoryId = categoryId;
                           finalSubcategoryId = subCategoryId;
+
                         } else if (isAddSubCategory) {
                           int subCategoryId = await insertSubCategory(
                               _newSubCategoryController.text.trim(),
                               int.parse(_choosedCategoryId!));
+                          finalCategoryId = int.parse(_choosedCategoryId!);
                           finalSubcategoryId = subCategoryId;
+
+
                         } else {
                           finalSubcategoryId =
                               int.parse(_choosedSubCategoryId!);
+                          finalCategoryId = int.parse(_choosedSubCategoryId!);
                         }
 
                         for (var linkInput in _linkInputs) {
                           insertLink(linkInput.link!.trim(),
                               linkInput.nameLink!.trim(), finalSubcategoryId);
                         }
+                        
+                        // set lastCategory
+                        AppPreferences.setLastCategory(finalCategoryId);
 
-                        Navigator.pop(context);
+                        // back to home page
+                        // Navigator.pop(context);
                         // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
                         Navigator.pushReplacement(
-                            context,
+                          context,
                             MaterialPageRoute(
                                 builder: (context) => const RoutePage()));
                       }

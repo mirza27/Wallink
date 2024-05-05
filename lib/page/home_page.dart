@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     _loadData();
   }
 
+
   // logika search
   Future<void> _search(String keywords) async {
     List<Map<String, dynamic>> results = [];
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
                   child: CategoryMiniCard(
-                    categoryId: null,
+                    categoryId: 0,
                     onCategoryChanged: _chooseCategory,
                   ),
                 ),

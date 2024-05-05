@@ -31,7 +31,7 @@ class _RoutePageState extends State<RoutePage> {
             showDialog(
               barrierDismissible: false,
                  context: context,
-              builder: (_) => AlertDialog(
+              builder: (context) => AlertDialog(
                 backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     shape: OutlineInputBorder(
@@ -41,7 +41,7 @@ class _RoutePageState extends State<RoutePage> {
                       width: 1.5,
                     ),
                   ),
-                    content: const LinkForm(link: null,),
+                    content: LinkForm(link: null, context: context),
                     insetPadding: const EdgeInsets.all(10),
                   )
               );

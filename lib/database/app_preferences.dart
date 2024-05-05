@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppPreferences {
   static const String isFirstTimeKey = 'isFirstTime';
   static const String isExpandedKey = 'isExpanded';
+  static const String lastCategoryKey = 'lastCategory';
 
   static Future<bool> isFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -23,4 +24,17 @@ class AppPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(isExpandedKey, value);
   }
+
+
+  static Future<int> getLastCategory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(lastCategoryKey) ?? 0;
+  }
+
+  static Future<void> setLastCategory(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(lastCategoryKey, value);
+  }
+
+
 }

@@ -207,6 +207,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       message: 'Are you sure you want to delete this SubCategory? This action cannot be undone',
                       onDeleteConfirmed: () {
                         deleteSubCategory(index);
+                        widget.onUpdate.call();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('SubCategory deleted successfully'),

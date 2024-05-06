@@ -35,6 +35,17 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Favorite Links'),
+          backgroundColor: Color.fromRGBO(201, 226, 255, 1),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
+            onPressed: () {
+              Navigator.pop(
+                  context); // Fungsi Navigator.pop untuk kembali ke halaman sebelumnya
+            },
+          ),
         ),
         body: Column(
           children: [

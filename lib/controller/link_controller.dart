@@ -84,13 +84,29 @@ Future<void> deleteLink(int id) async {
       where: '${LinkFields.columnLinkId} = ?', whereArgs: [id]);
 }
 
-Future<bool> checkLinkUrl(int? newSubCategoryId, String? newNameLink) async {
+  // checklink e kek anj
+
+Future<bool> checkLinkUrl(String? newUrlLink) async {
   Database db = await LinkDatabase.instance.database;
   List<Map<String, dynamic>> results = await db.query(
     tableLinks,
-    where:
-        '${LinkFields.columnSubCategoryId} == ? AND ${LinkFields.columnLinkName} == ?',
-    whereArgs: [newSubCategoryId, newNameLink],
+    where: '${LinkFields.columnLink} == ?',
+    whereArgs: [newUrlLink],
+  );
+
+  if (results.isEmpty) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> checkLinkNama(String? newNameLink) async {
+  Database db = await LinkDatabase.instance.database;
+  List<Map<String, dynamic>> results = await db.query(
+    tableLinks,
+    where: '${LinkFields.columnLinkName} == ?',
+    whereArgs: [newNameLink],
   );
 
   if (results.isEmpty) {

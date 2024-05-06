@@ -9,7 +9,7 @@ import 'package:wallink_v1/route_page.dart';
 class LinkForm extends StatefulWidget {
   final Link? link;
   final BuildContext context;
-  const LinkForm({required this.link, required this.context ,super.key});
+  const LinkForm({required this.link, required this.context, super.key});
 
   @override
   State<LinkForm> createState() => _LinkFormState();
@@ -39,7 +39,6 @@ class _LinkFormState extends State<LinkForm> {
   void initState() {
     super.initState();
     _loadData();
-   
   }
 
   // refresh dan load data
@@ -110,7 +109,7 @@ class _LinkFormState extends State<LinkForm> {
                     setState(() {
                       _choosedCategoryId = value!;
                       isAddCategory = false;
-                      isAddSubCategory= false;
+                      isAddSubCategory = false;
                     });
                   }
 
@@ -258,7 +257,6 @@ class _LinkFormState extends State<LinkForm> {
                 },
                 items: [
                   const DropdownMenuItem<String>(
-                    
                     value: 'add_new_subcategory',
                     child: Text('Add New Subcategory',
                         style: TextStyle(
@@ -467,6 +465,8 @@ class _LinkFormState extends State<LinkForm> {
                           });
                         },
                         validator: (value) {
+
+
                           if (value == null || value.isEmpty) {
                             return "Link cannot be empty";
                           } else if (value.trim() == '') {
@@ -564,15 +564,12 @@ class _LinkFormState extends State<LinkForm> {
                               categoryId);
                           finalCategoryId = categoryId;
                           finalSubcategoryId = subCategoryId;
-
                         } else if (isAddSubCategory) {
                           int subCategoryId = await insertSubCategory(
                               _newSubCategoryController.text.trim(),
                               int.parse(_choosedCategoryId!));
                           finalCategoryId = int.parse(_choosedCategoryId!);
                           finalSubcategoryId = subCategoryId;
-
-
                         } else {
                           finalSubcategoryId =
                               int.parse(_choosedSubCategoryId!);
@@ -583,7 +580,7 @@ class _LinkFormState extends State<LinkForm> {
                           insertLink(linkInput.link!.trim(),
                               linkInput.nameLink!.trim(), finalSubcategoryId);
                         }
-                        
+
                         // set lastCategory
                         AppPreferences.setLastCategory(finalCategoryId);
 
@@ -591,7 +588,7 @@ class _LinkFormState extends State<LinkForm> {
                         // Navigator.pop(context);
                         // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
                         Navigator.pushReplacement(
-                          context,
+                            context,
                             MaterialPageRoute(
                                 builder: (context) => const RoutePage()));
                       }

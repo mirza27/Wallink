@@ -14,7 +14,7 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
   @override
   void initState() {
     super.initState();
-   
+
     _getArchivedLinks();
   }
 
@@ -26,17 +26,24 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
     });
   }
 
-  Future<void> _loadData() async {
-    List<Map<String, dynamic>> _archivedLinkFuture = await getArchivedLink();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Archived Links'),
-      ),
-      body: Column(
+        appBar: AppBar(
+          title: Text('Archived Links'),
+          backgroundColor: Color.fromRGBO(201, 226, 255, 1),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
+            onPressed: () {
+              Navigator.pop(
+                  context); // Fungsi Navigator.pop untuk kembali ke halaman sebelumnya
+            },
+          ),
+        ),
+        body: Column(
           children: [
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),

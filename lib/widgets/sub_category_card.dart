@@ -50,7 +50,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
   @override
   void didUpdateWidget(covariant SubCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.subCategory.id != oldWidget.subCategory.id || widget.isExpanded!= oldWidget.isExpanded) {
+    if (widget.subCategory.id != oldWidget.subCategory.id ||
+        widget.isExpanded != oldWidget.isExpanded) {
       if (widget.subCategory.id != null && widget.subCategory.id != 0) {
         _loadData();
       }
@@ -67,7 +68,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
 
         // keyboard aktif langsung
         FocusNode focusNode = FocusNode();
-        WidgetsBinding.instance!.addPostFrameCallback((_) => focusNode.requestFocus());
+        WidgetsBinding.instance!
+            .addPostFrameCallback((_) => focusNode.requestFocus());
 
         return AlertDialog(
           title: const Text('Add Link'),
@@ -100,10 +102,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               onPressed: () async {
                 String newLinkName = linkNameController.text.trim();
                 String newLink = linkController.text.trim();
-                bool checkLink = await checkLinkUrl(widget.subCategory.id, newLinkName);
+               // bool checkLink = await checkLinkUrl(newLink, newLinkName);
 
-                if (newLinkName.isNotEmpty && newLink.isNotEmpty && checkLink) {
-                  await insertLink(newLink, newLinkName, widget.subCategory.id!);
+                if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
+                  await insertLink(
+                      newLink, newLinkName, widget.subCategory.id!);
                   Navigator.pop(context);
                   await _loadData();
                 } else {
@@ -151,7 +154,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     context: context,
                     builder: (context) => AlertDialog(
                       backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
                       shape: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: const BorderSide(
@@ -161,7 +165,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       ),
                       content: editSubCategoryForm(
                         subCategory: widget.subCategory,
-                        onUpdate: widget.onUpdate, // load subcategory di halaman home
+                        onUpdate:
+                            widget.onUpdate, // load subcategory di halaman home
                       ),
                       insetPadding: const EdgeInsets.all(10),
                     ),
@@ -205,13 +210,15 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     context: context,
                     builder: (context) => DeleteConfirmationDialog(
                       title: 'Warning!',
-                      message: 'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                      message:
+                          'Are you sure you want to delete this SubCategory? This action cannot be undone',
                       onDeleteConfirmed: () {
                         deleteSubCategory(index);
                         widget.onUpdate();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('SubCategory deleted successfully, Please refresh'),
+                            content: Text(
+                                'SubCategory deleted successfully, Please refresh'),
                             backgroundColor: Colors.green,
                           ),
                         );
@@ -228,23 +235,23 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
     );
   }
 
- void _shareSubCategory(SubCategory subCategory) async {
-  List<Link> links = _links.map((linkMap) => Link.fromMap(linkMap)).toList();
+  void _shareSubCategory(SubCategory subCategory) async {
+    List<Link> links = _links.map((linkMap) => Link.fromMap(linkMap)).toList();
 
-  String shareText = 
-  'Saya membagikan kumpulan link untuk Anda menggunakan Wallink\n\n'
-  'Sub Category: ${subCategory.subCategoryName}';
-  shareText += '\nLinks:\n';
-  for (Link link in links) {
-    shareText += '${link.linkName}: ${link.link}\n';
-  }
-  
-  await Clipboard.setData(ClipboardData(text: shareText));
-  Share.share(
+    String shareText =
+        'Saya membagikan kumpulan link untuk Anda menggunakan Wallink\n\n'
+        'Sub Category: ${subCategory.subCategoryName}';
+    shareText += '\nLinks:\n';
+    for (Link link in links) {
+      shareText += '${link.linkName}: ${link.link}\n';
+    }
+
+    await Clipboard.setData(ClipboardData(text: shareText));
+    Share.share(
       '$shareText',
       subject: 'Sub Category Info',
     );
-}
+  }
 
   // MAIN WIDGET ==================================================
   @override
@@ -271,7 +278,6 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ExpansionTile(
-
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

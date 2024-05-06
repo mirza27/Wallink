@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share/share.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
@@ -14,12 +13,14 @@ class SubCategoryCard extends StatefulWidget {
   final SubCategory subCategory;
   final Function(int) onDelete; // memanggil fungsi delete di subcategory page
   final Function onUpdate; // memanggil fungsi load di home_page.dart
+  final bool isExpanded;
 
   const SubCategoryCard({
     Key? key,
     required this.subCategory,
     required this.onDelete,
     required this.onUpdate,
+    required this.isExpanded,
   }) : super(key: key);
 
   @override
@@ -28,12 +29,12 @@ class SubCategoryCard extends StatefulWidget {
 
 class _SubCategoryCardState extends State<SubCategoryCard> {
   List<Map<String, dynamic>> _links = [];
-  bool _isExpanded = true;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    print("always expanded: ${widget.isExpanded}");
   }
 
   // refresh dan load data
@@ -49,7 +50,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
   @override
   void didUpdateWidget(covariant SubCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.subCategory.id != oldWidget.subCategory.id) {
+    if (widget.subCategory.id != oldWidget.subCategory.id || widget.isExpanded!= oldWidget.isExpanded) {
       if (widget.subCategory.id != null && widget.subCategory.id != 0) {
         _loadData();
       }
@@ -207,10 +208,10 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       message: 'Are you sure you want to delete this SubCategory? This action cannot be undone',
                       onDeleteConfirmed: () {
                         deleteSubCategory(index);
-                        widget.onUpdate.call();
+                        widget.onUpdate();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('SubCategory deleted successfully'),
+                            content: Text('SubCategory deleted successfully, Please refresh'),
                             backgroundColor: Colors.green,
                           ),
                         );
@@ -270,15 +271,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ExpansionTile(
+
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                initiallyExpanded: _isExpanded,
-                onExpansionChanged: (expanded) {
-                  setState(() {
-                    _isExpanded = expanded;
-                  });
-                },
+                initiallyExpanded: widget.isExpanded,
                 title: Row(
                   children: [
                     Expanded(

@@ -247,6 +247,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                               subCategory: subCategory,
                               onDelete: _deleteSubCategory,
                               onUpdate: _editSubCategory,
+                              isExpanded: true,
                             ),
                           );
                         }),

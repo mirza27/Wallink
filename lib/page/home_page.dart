@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/models/sub_category.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
@@ -23,13 +24,23 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   int _categoryId = 0;
   bool _isSearching = false;
+  bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
+    _loadPreferences();
     _loadData();
   }
 
+   // get preference always expanded
+  Future<void> _loadPreferences() async {
+    bool alwaysExpanded = await AppPreferences.isExpanded();
+    setState(() {
+      _isExpanded = alwaysExpanded;
+    });
+    print("nilia expanded: $_isExpanded");
+  }
 
   // logika search
   Future<void> _search(String keywords) async {
@@ -169,25 +180,35 @@ class _HomePageState extends State<HomePage> {
       // ini sidebar anjer
 
       body: !_isSearching
-          ? Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _subCategories.length,
-                    itemBuilder: (context, index) {
-                      final SubCategory subCategory =
-                          SubCategory.fromMap(_subCategories[index]);
-                      return SubCategoryCard(
-                        subCategory: subCategory,
-                        onDelete: _deleteSubCategory,
-                        onUpdate: _loadData,
-                      );
-                    },
+          ? RefreshIndicator(
+            onRefresh: () {
+              return Future.delayed(Duration.zero, () {
+            _loadPreferences();
+            _loadData();
+          });
+              
+            },
+            child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _subCategories.length,
+                      itemBuilder: (context, index) {
+                        final SubCategory subCategory =
+                            SubCategory.fromMap(_subCategories[index]);
+                        return SubCategoryCard(
+                          subCategory: subCategory,
+                          onDelete: _deleteSubCategory,
+                          onUpdate: _loadData,
+                          isExpanded: _isExpanded,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+          )
           : Column(
               children: [
                 Expanded(

@@ -30,7 +30,9 @@ Future<List<Map<String, dynamic>>> getLink(int? subCategoryId) async {
 Future<List<Map<String, dynamic>>> getFavLink() async {
   Database db = await LinkDatabase.instance.database;
   return await db.query(tableLinks,
-      where: '${LinkFields.columnIsFavorite} = ? ', whereArgs: [1]);
+      where:
+          '${LinkFields.columnIsFavorite} = ? AND ${LinkFields.columnIsArchive} = ? ',
+      whereArgs: [1, 0]);
 }
 
 Future<List<Map<String, dynamic>>> getArchivedLink() async {
@@ -38,8 +40,6 @@ Future<List<Map<String, dynamic>>> getArchivedLink() async {
   return await db.query(tableLinks,
       where: '${LinkFields.columnIsArchive} = ? ', whereArgs: [1]);
 }
-
-
 
 Future<void> editLink(int id, String newName, String newLink) async {
   Database db = await LinkDatabase.instance.database;

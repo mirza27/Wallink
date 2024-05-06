@@ -9,20 +9,21 @@ class ArchivedLinksPage extends StatefulWidget {
 }
 
 class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
-  late Future<List<Link>> _archivedLinkFuture;
+  List<Map<String, dynamic>> _archiveLinkFuture = [];
 
   @override
   void initState() {
     super.initState();
-    _archivedLinkFuture = _getArchivedLinks();
-    _loadData;
+   
+    _getArchivedLinks();
   }
 
-  Future<List<Link>> _getArchivedLinks() async {
+  Future<void> _getArchivedLinks() async {
     List<Map<String, dynamic>> archivedLinksData = await getArchivedLink();
-    List<Link> archivedLinks =
-        archivedLinksData.map((data) => Link.fromMap(data)).toList();
-    return archivedLinks;
+
+    setState(() {
+      _archiveLinkFuture = archivedLinksData;
+    });
   }
 
   Future<void> _loadData() async {
@@ -35,30 +36,20 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
       appBar: AppBar(
         title: Text('Archived Links'),
       ),
-      body: FutureBuilder<List<Link>>(
-        future: _archivedLinkFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return Center(child: Text('No Archived links found.'));
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
+      body: Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              // iterasi widget sub category card
+              itemCount: _archiveLinkFuture.length,
               itemBuilder: (context, index) {
-                return LinkCard(
-                  link: snapshot.data![index],
-                  onChanged: () {
-                    _loadData;
-                  },
-                );
+                final Link link = Link.fromMap(_archiveLinkFuture[index]);
+
+                return LinkCard(link: link, onChanged: _getArchivedLinks);
               },
-            );
-          }
-        },
-      ),
-    );
+            ),
+          ],
+        ));
   }
 }

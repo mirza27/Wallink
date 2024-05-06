@@ -10,23 +10,25 @@ class FavoriteLinksPage extends StatefulWidget {
 }
 
 class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
-  late Future<List<Link>> _favoriteLinksFuture;
+  List<Map<String, dynamic>> _favoriteLinksFuture = [];
 
   @override
   void initState() {
     super.initState();
-    _favoriteLinksFuture = _getFavoriteLinks();
+    _getFavoriteLinks();
   }
 
-  Future<List<Link>> _getFavoriteLinks() async {
+  Future<void> _getFavoriteLinks() async {
     List<Map<String, dynamic>> favoriteLinksData = await getFavLink();
-    List<Link> favoriteLinks =
-        favoriteLinksData.map((data) => Link.fromMap(data)).toList();
-    return favoriteLinks;
+
+    setState(() {
+      _favoriteLinksFuture = favoriteLinksData;
+    });
+
+    // List<Link> favoriteLinks =
+    //     favoriteLinksData.map((data) => Link.fromMap(data)).toList();
+    // return favoriteLinks;
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +36,20 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
         appBar: AppBar(
           title: Text('Favorite Links'),
         ),
-        body: FutureBuilder<List<Link>>(
-          future: _favoriteLinksFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-              return Center(child: Text('No favorite links found.'));
-            } else {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return LinkCard(
-                    link: snapshot.data![index],
-                    onChanged: () {
-                      
-                    },
-                  );
-                },
-              );
-            }
-          },
+        body: Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              // iterasi widget sub category card
+              itemCount: _favoriteLinksFuture.length,
+              itemBuilder: (context, index) {
+                final Link link = Link.fromMap(_favoriteLinksFuture[index]);
+
+                return LinkCard(link: link, onChanged: _getFavoriteLinks);
+              },
+            ),
+          ],
         ));
-    
   }
 }

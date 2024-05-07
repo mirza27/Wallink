@@ -21,6 +21,20 @@ class _LinkFormState extends State<LinkForm> {
   String? _choosedCategoryId;
   List<Map<String, dynamic>> _subCategories = [];
   String? _choosedSubCategoryId;
+  List<Link> _allLink = [];
+
+  Future<void> _getLink() async {
+    List<Map<String, dynamic>> linkData = await getAllLink();
+    List<Link> links = linkData.map((data) => Link.fromMap(data)).toList();
+    setState(() {
+      _allLink = links;
+    });
+
+    //print(_allLink);
+    // for (int i = 0; i < _allLink.length; i++) {
+    //   print(_allLink[i].link);
+    // }
+  }
 
   final List<Link> _linkInputs = [
     Link(nameLink: '', link: '')
@@ -39,6 +53,7 @@ class _LinkFormState extends State<LinkForm> {
   void initState() {
     super.initState();
     _loadData();
+    _getLink();
   }
 
   // refresh dan load data
@@ -413,8 +428,15 @@ class _LinkFormState extends State<LinkForm> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Link name cannot be empty";
-                          } else if (value.trim() == '') {
-                            return "New Category cannot only space";
+                          } else if (value.trim().isEmpty) {
+                            return "New Category cannot only contain spaces";
+                          }
+
+                          // Memeriksa apakah nama link sudah ada dalam _allLink
+                          bool isNameUnique =
+                              _allLink.every((link) => link.nameLink != value);
+                          if (!isNameUnique) {
+                            return "Link name must be unique";
                           }
                           return null;
                         },
@@ -465,17 +487,23 @@ class _LinkFormState extends State<LinkForm> {
                           });
                         },
                         validator: (value) {
-
-
                           if (value == null || value.isEmpty) {
                             return "Link cannot be empty";
                           } else if (value.trim() == '') {
                             return "Link cannot only contain spaces";
                           }
 
+                          bool isUrlUnique =
+                              _allLink.every((link) => link.link != value);
+                          if (!isUrlUnique) {
+                            return "You already have this url link";
+                          }
+
                           if (!RegExp(r'^https?://').hasMatch(value)) {
                             value = 'https://$value';
                           }
+
+                         
 
                           if (!RegExp(
                                   r'^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$')

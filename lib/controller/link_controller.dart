@@ -84,7 +84,7 @@ Future<void> deleteLink(int id) async {
       where: '${LinkFields.columnLinkId} = ?', whereArgs: [id]);
 }
 
-  // checklink e kek anj
+// checklink e kek anj
 
 Future<bool> checkLinkUrl(String? newUrlLink) async {
   Database db = await LinkDatabase.instance.database;

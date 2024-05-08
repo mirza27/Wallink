@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
             return MaterialApp(
               title: 'WALINK',
               home:
-                  isFirstTime! ? const IntroSlidePage() : const RoutePage(),
+                  isFirstTime! ? const IntroSlidePage() : const RoutePage(selectedIndex: 0,),
               debugShowCheckedModeBanner: false,
             );
           }

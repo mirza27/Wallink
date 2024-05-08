@@ -6,7 +6,7 @@ import 'package:wallink_v1/page/home_page.dart';
 import 'package:wallink_v1/page/sidebar.dart';
 
 class RoutePage extends StatefulWidget {
-  const RoutePage({super.key});
+  const RoutePage({super.key, required int selectedIndex});
 
   @override
   State<RoutePage> createState() => _RoutePageState();
@@ -19,6 +19,12 @@ class _RoutePageState extends State<RoutePage> {
   //   const HomePage(),
   //   FavoriteLinksPage()
   // ];
+
+Future<void>SetRoute(int index)async {
+  setState(() {
+    _selectedIndex = index;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +112,7 @@ class _RoutePageState extends State<RoutePage> {
           ),
         ),
       ),
-      drawer: Sidebar(),
+      drawer: Sidebar(setIndex: SetRoute,),
     );
   }
 }

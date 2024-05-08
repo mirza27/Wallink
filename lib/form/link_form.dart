@@ -618,7 +618,7 @@ class _LinkFormState extends State<LinkForm> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RoutePage()));
+                                builder: (context) => const RoutePage(selectedIndex: 0,)));
                       }
                     },
                     child: const Text('Submit'),

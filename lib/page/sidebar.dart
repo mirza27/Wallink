@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/page/archived_page.dart';
+import 'package:wallink_v1/page/setting_page.dart';
 import 'package:wallink_v1/page/fav_page.dart';
 import 'package:wallink_v1/page/home_page.dart';
 import 'package:wallink_v1/route_page.dart';
@@ -7,7 +8,6 @@ import 'faq_page.dart';
 
 class Sidebar extends StatelessWidget {
   final Function(int index) setIndex;
-  
   const Sidebar({Key? key, required this.setIndex}) : super(key: key);
 
   @override
@@ -86,12 +86,11 @@ class Sidebar extends StatelessWidget {
               height: 350,
             ),
             Divider(
-              // Gunakan Divider untuk membuat garis pemisah
               color: Colors.grey[400],
               thickness: 1.0,
-              height: 40, // Atur tinggi Divider
-              indent: 16, // Atur indent agar garis dimulai dari kiri
-              endIndent: 16, // Atur end indent agar garis berakhir di kanan
+              height: 40,
+              indent: 16,
+              endIndent: 16,
             ),
             ListTile(
               tileColor: Colors.white,
@@ -101,8 +100,8 @@ class Sidebar extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
-                Navigator.pop(context);
-                // Tambahkan logika untuk menavigasi ke halaman Settings jika diperlukan
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const  SettingPage()));
               },
             ),
             ListTile(

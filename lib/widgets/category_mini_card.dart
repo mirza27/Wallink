@@ -89,22 +89,6 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                           ));
                 },
               ),
-              // ListTile(
-              //   leading: const Icon(
-              //     Icons.share,
-              //     color: Color.fromRGBO(5, 105, 220, 1),
-              //   ),
-              //   title: const Text(
-              //     'Share Category',
-              //     style: TextStyle(
-              //       fontFamily: 'sharp',
-              //       fontSize: 16.0,
-              //       fontWeight: FontWeight.w700,
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              //   onTap: () {},
-              // ),
               ListTile(
                 leading: const Icon(
                   Icons.delete,

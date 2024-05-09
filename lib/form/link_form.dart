@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
-import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
+import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/route_page.dart';
 
 class LinkForm extends StatefulWidget {
@@ -82,550 +84,683 @@ class _LinkFormState extends State<LinkForm> {
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            // mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Add ",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        TextSpan(
-                          text: "Link",
-                          style: TextStyle(
-                              color: Color.fromRGBO(5, 105, 220, 1),
-                              fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              // ==============================dropdown category
-              DropdownButtonFormField<String>(
-                value: _choosedCategoryId,
-                onChanged: (value) {
-                  if (value == "add_new_category") {
-                    setState(() {
-                      _choosedCategoryId = null;
-                      isAddCategory = true;
-                    });
-                  } else {
-                    setState(() {
-                      _choosedCategoryId = value!;
-                      isAddCategory = false;
-                      isAddSubCategory = false;
-                    });
-                  }
-
-                  setState(() {
-                    // set null ketika sudah pilih category dan sub namun merubah category lagi
-                    _choosedSubCategoryId = null;
-                    _loadData();
-                  });
-                },
-                items: [
-                  const DropdownMenuItem<String>(
-                    value: 'add_new_category',
-                    child: Text('Add New Category',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(30, 31, 36, 1))),
-                  ),
-                  ..._categories.map((category) {
-                    return DropdownMenuItem<String>(
-                      value: category['id'].toString(),
-                      child: Text(
-                        category['category_name'],
-                        style: const TextStyle(
-                            fontSize: 12, color: Color.fromRGBO(30, 31, 36, 1)),
-                      ),
-                    );
-                  }).toList(),
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Category cannot  be empty";
-                  }
-
-                  return null;
-                },
-                decoration: InputDecoration(
-                  fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  hintText: 'Category',
-                  hintStyle: const TextStyle(
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(
-                        139, 141, 152, 1), // Ganti dengan warna yang diinginkan
-                  ),
-                  alignLabelWithHint: true,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              // ==================================jika add new category
-              if (isAddCategory) ...[
-                TextFormField(
-                  controller: _newCategoryController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "New Category cannot be empty";
-                    } else if (value.trim() == '') {
-                      return "New Category cannot only space";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                    filled: true,
-                    fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    hintText: 'New Category',
-                    hintStyle: const TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromRGBO(139, 141, 152,
-                          1), // Ganti dengan warna yang diinginkan
-                    ),
-                    alignLabelWithHint: true,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                )
-              ],
-
-              // ==============================dropdown subcategory
-              DropdownButtonFormField<String>(
-                enableFeedback: true,
-                value: _choosedSubCategoryId,
-                onChanged: (value) {
-                  if (value == 'add_new_subcategory') {
-                    setState(() {
-                      isAddSubCategory = true;
-                    });
-                  } else {
-                    setState(() {
-                      isAddSubCategory = false;
-                    });
-                  }
-
-                  setState(() {
-                    _choosedSubCategoryId = value!;
-                  });
-                },
-                items: [
-                  const DropdownMenuItem<String>(
-                    value: 'add_new_subcategory',
-                    child: Text('Add New Subcategory',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(30, 31, 36, 1))),
-                  ),
-                  ..._subCategories.map((subcategory) {
-                    return DropdownMenuItem<String>(
-                      value: subcategory['id'].toString(),
-                      child: Text(subcategory['sub_category_name'],
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Color.fromRGBO(30, 31, 36, 1))),
-                    );
-                  }).toList(),
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Sub Category cannot  be empty";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                  fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  hintText: 'Sub Category',
-                  hintStyle: const TextStyle(
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(
-                        139, 141, 152, 1), // Ganti dengan warna yang diinginkan
-                  ),
-                  alignLabelWithHint: true,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              // ==============================jika add new subcategory
-              if (isAddSubCategory) ...[
-                TextFormField(
-                  controller: _newSubCategoryController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "New Subcategory cannot be empty";
-                    } else if (value.trim() == '') {
-                      return "New Category cannot only space";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                    filled: true,
-                    fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(224, 225, 230, 1),
-                        width: 1.0,
-                      ),
-                    ),
-                    hintText: 'New Subcategory',
-                    hintStyle: const TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromRGBO(139, 141, 152,
-                          1), // Ganti dengan warna yang diinginkan
-                    ),
-                    alignLabelWithHint: true,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-
-              const SizedBox(height: 10),
-              // ============================== Iterasi array Link
-              Column(
-                children: _linkInputs.asMap().entries.map((entry) {
-                  final int index = entry.key;
-                  // final Link linkInput = entry.value;
-                  return Column(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      RichText(
+                        text: const TextSpan(
                           children: [
-                            const Text("Link"),
-                            if (index != 0) ...[
-                              // delete icon tidak belaku jika data link cuma 1
-                              IconButton(
-                                padding: const EdgeInsets.all(0),
-                                icon: const Icon(
-                                  Icons.delete,
-                                  size: 13,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _linkInputs.removeAt(index);
-                                  });
-                                },
-                              )
-                            ],
+                            TextSpan(
+                              text: "Add ",
+                              style: TextStyle(
+                                fontFamily: 'sharp',
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Link",
+                              style: TextStyle(
+                                fontFamily: 'sharp',
+                                color: Color.fromRGBO(5, 105, 220, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                      // nama link
-                      TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            _linkInputs[index].nameLink = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Link name cannot be empty";
-                          } else if (value.trim().isEmpty) {
-                            return "New Category cannot only contain spaces";
-                          }
-
-                          // Memeriksa apakah nama link sudah ada dalam _allLink
-                          bool isNameUnique =
-                              _allLink.every((link) => link.nameLink != value);
-                          if (!isNameUnique) {
-                            return "Link name must be unique";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 20),
-                          filled: true,
-                          fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                          focusColor: const Color.fromRGBO(252, 252, 253, 1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: 'Link Title',
-                          hintStyle: const TextStyle(
-                            fontSize: 12.0,
-                            color: Color.fromRGBO(139, 141, 152,
-                                1), // Ganti dengan warna yang diinginkan
-                          ),
-                          alignLabelWithHint: true,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      // link
-                      TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            _linkInputs[index].link = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Link cannot be empty";
-                          } else if (value.trim() == '') {
-                            return "Link cannot only contain spaces";
-                          }
-
-                          bool isUrlUnique =
-                              _allLink.every((link) => link.link != value);
-                          if (!isUrlUnique) {
-                            return "You already have this url link";
-                          }
-
-                          if (!RegExp(r'^https?://').hasMatch(value)) {
-                            value = 'https://$value';
-                          }
-
-                         
-
-                          if (!RegExp(
-                                  r'^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$')
-                              .hasMatch(value)) {
-                            return 'Please enter a valid URL';
-                          }
-
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 20),
-                          filled: true,
-                          fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(224, 225, 230, 1),
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: 'Link',
-                          hintStyle: const TextStyle(
-                            fontSize: 12.0,
-                            color: Color.fromRGBO(139, 141, 152,
-                                1), // Ganti dengan warna yang diinginkan
-                          ),
-                          alignLabelWithHint: true,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (index == _linkInputs.length - 1)
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                setState(() {
-                                  // memasukkan array link
-                                  _linkInputs.add(Link(nameLink: '', link: ''));
-                                });
-                              },
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
+                      )
                     ],
-                  );
-                }).toList(),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel'),
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      int finalCategoryId = 0;
-                      int finalSubcategoryId = 0;
-                      if (_formKey.currentState!.validate()) {
-                        // submit add link
-                        if (isAddCategory && isAddSubCategory) {
-                          int categoryId = await insertCategory(
-                              _newCategoryController.text.trim());
-                          int subCategoryId = await insertSubCategory(
-                              _newSubCategoryController.text.trim(),
-                              categoryId);
-                          finalCategoryId = categoryId;
-                          finalSubcategoryId = subCategoryId;
-                        } else if (isAddSubCategory) {
-                          int subCategoryId = await insertSubCategory(
-                              _newSubCategoryController.text.trim(),
-                              int.parse(_choosedCategoryId!));
-                          finalCategoryId = int.parse(_choosedCategoryId!);
-                          finalSubcategoryId = subCategoryId;
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                // ==============================dropdown category
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 18.0, bottom: 5.0),
+                      child: Text(
+                        'Category',
+                        style: TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: _choosedCategoryId,
+                      onChanged: (value) {
+                        if (value == "add_new_category") {
+                          setState(() {
+                            _choosedCategoryId = null;
+                            isAddCategory = true;
+                          });
                         } else {
-                          finalSubcategoryId =
-                              int.parse(_choosedSubCategoryId!);
-                          finalCategoryId = int.parse(_choosedSubCategoryId!);
+                          setState(() {
+                            _choosedCategoryId = value!;
+                            isAddCategory = false;
+                            isAddSubCategory = false;
+                          });
                         }
 
-                        for (var linkInput in _linkInputs) {
-                          insertLink(linkInput.link!.trim(),
-                              linkInput.nameLink!.trim(), finalSubcategoryId);
+                        setState(() {
+                          // set null ketika sudah pilih category dan sub namun merubah category lagi
+                          _choosedSubCategoryId = null;
+                          _loadData();
+                        });
+                      },
+                      items: [
+                        const DropdownMenuItem<String>(
+                          value: 'add_new_category',
+                          child: Text(
+                            'Add New Category',
+                            style: TextStyle(
+                              fontFamily: 'sharp',
+                              fontSize: 12,
+                              color: Color.fromRGBO(30, 31, 36, 1),
+                            ),
+                          ),
+                        ),
+                        ..._categories.map((category) {
+                          return DropdownMenuItem<String>(
+                            value: category['id'].toString(),
+                            child: Text(
+                              category['category_name'],
+                              style: const TextStyle(
+                                  fontFamily: 'sharp',
+                                  fontSize: 12,
+                                  color: Color.fromRGBO(30, 31, 36, 1)),
+                            ),
+                          );
+                        }).toList(),
+                      ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Category cannot  be empty";
                         }
 
-                        // set lastCategory
-                        AppPreferences.setLastCategory(finalCategoryId);
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 20),
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        hintText: 'Add New or Select Category',
+                        hintStyle: const TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(139, 141, 152, 1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
 
-                        // back to home page
-                        // Navigator.pop(context);
-                        // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RoutePage(selectedIndex: 0,)));
+                // ==================================jika add new category
+                if (isAddCategory) ...[
+                  TextFormField(
+                    controller: _newCategoryController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "New Category cannot be empty";
+                      } else if (value.trim() == '') {
+                        return "New Category cannot only space";
                       }
+                      return null;
                     },
-                    child: const Text('Submit'),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 20),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      hintText: 'New Category',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'sharp',
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(139, 141, 152, 1),
+                      ),
+                      alignLabelWithHint: true,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
+                ],
+
+                // ==============================dropdown subcategory
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 18.0, bottom: 5.0),
+                      child: Text(
+                        'Sub Category',
+                        style: TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                    DropdownButtonFormField<String>(
+                      enableFeedback: true,
+                      value: _choosedSubCategoryId,
+                      onChanged: (value) {
+                        if (value == 'add_new_subcategory') {
+                          setState(() {
+                            isAddSubCategory = true;
+                          });
+                        } else {
+                          setState(() {
+                            isAddSubCategory = false;
+                          });
+                        }
+
+                        setState(() {
+                          _choosedSubCategoryId = value!;
+                        });
+                      },
+                      items: [
+                        const DropdownMenuItem<String>(
+                          value: 'add_new_subcategory',
+                          child: Text(
+                            'Add New Subcategory',
+                            style: TextStyle(
+                              fontFamily: 'sharp',
+                              fontSize: 12,
+                              color: Color.fromRGBO(30, 31, 36, 1),
+                            ),
+                          ),
+                        ),
+                        ..._subCategories.map((subcategory) {
+                          return DropdownMenuItem<String>(
+                            value: subcategory['id'].toString(),
+                            child: Text(subcategory['sub_category_name'],
+                                style: const TextStyle(
+                                    fontFamily: 'sharp',
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(30, 31, 36, 1))),
+                          );
+                        }).toList(),
+                      ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Sub Category cannot  be empty";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 20),
+                        fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(224, 225, 230, 1),
+                            width: 1.0,
+                          ),
+                        ),
+                        hintText: 'Add New or Select Sub Category',
+                        hintStyle: const TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(139, 141, 152, 1),
+                        ),
+                        alignLabelWithHint: true,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                // ==============================jika add new subcategory
+                if (isAddSubCategory) ...[
+                  TextFormField(
+                    controller: _newSubCategoryController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "New Subcategory cannot be empty";
+                      } else if (value.trim() == '') {
+                        return "New Category cannot only space";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 20),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(224, 225, 230, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                      hintText: 'New Subcategory',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'sharp',
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(139, 141, 152, 1),
+                      ),
+                      alignLabelWithHint: true,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                 ],
-              )
-            ],
+
+                const SizedBox(height: 10),
+
+                // ============================== Iterasi array Link
+                Column(
+                  children: _linkInputs.asMap().entries.map(
+                    (entry) {
+                      final int index = entry.key;
+                      // final Link linkInput = entry.value;
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Padding(
+                                padding:
+                                    EdgeInsets.only(left: 20.0, bottom: 5.0),
+                                child: Text(
+                                  'Link',
+                                  style: TextStyle(
+                                    fontFamily: 'sharp',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ),
+                              if (index != 0) ...[
+                                // delete icon tidak belaku jika data link cuma 1
+                                IconButton(
+                                  icon: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.red,
+                                        ),
+                                        borderRadius: BorderRadius.circular(3)),
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 15,
+                                      weight: 20,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _linkInputs.removeAt(index);
+                                    });
+                                  },
+                                )
+                              ],
+                            ],
+                          ),
+
+                          // nama link
+                          TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _linkInputs[index].nameLink = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Link name cannot be empty";
+                              } else if (value.trim().isEmpty) {
+                                return "New Category cannot only space";
+                              }
+
+                              // Memeriksa apakah nama link sudah ada dalam _allLink
+                              bool isNameUnique = _allLink
+                                  .every((link) => link.nameLink != value);
+                              if (!isNameUnique) {
+                                return "Link name must be unique";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 20),
+                              filled: true,
+                              fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                              focusColor:
+                                  const Color.fromRGBO(252, 252, 253, 1),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              hintText: 'Link Title',
+                              hintStyle: const TextStyle(
+                                fontFamily: 'sharp',
+                                fontSize: 12.0,
+                                color: Color.fromRGBO(139, 141, 152, 1),
+                              ),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 10,
+                          ),
+
+                          // link
+                          TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _linkInputs[index].link = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Link cannot be empty";
+                              } else if (value.trim() == '') {
+                                return "Link cannot only contain spaces";
+                              }
+
+                              bool isUrlUnique =
+                                  _allLink.every((link) => link.link != value);
+                              if (!isUrlUnique) {
+                                return "You already have this url link";
+                              }
+
+                              if (!RegExp(r'^https?://').hasMatch(value)) {
+                                value = 'https://$value';
+                              }
+
+                              if (!RegExp(
+                                      r'^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$')
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid URL';
+                              }
+
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 20,
+                              ),
+                              filled: true,
+                              fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(224, 225, 230, 1),
+                                  width: 1.0,
+                                ),
+                              ),
+                              hintText: 'Link',
+                              hintStyle: const TextStyle(
+                                fontFamily: 'sharp',
+                                fontSize: 12.0,
+                                color: Color.fromRGBO(139, 141, 152, 1),
+                              ),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+
+                          // tombol add link
+                          if (index == _linkInputs.length - 1)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 14.0),
+                              child: IconButton(
+                                icon: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.blue,
+                                        ),
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 15,
+                                        weight: 20,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    const Text(
+                                      'Add More Link',
+                                      style: TextStyle(
+                                        fontFamily: 'sharp',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      // memasukkan array link
+                                      _linkInputs.add(
+                                        Link(nameLink: '', link: ''),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ).toList(),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                            fontFamily: 'sharp',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    FilledButton(
+                      style:
+                          FilledButton.styleFrom(backgroundColor: Colors.blue),
+                      onPressed: () async {
+                        int finalCategoryId = 0;
+                        int finalSubcategoryId = 0;
+                        if (_formKey.currentState!.validate()) {
+                          // submit add link
+                          if (isAddCategory && isAddSubCategory) {
+                            int categoryId = await insertCategory(
+                                _newCategoryController.text.trim());
+                            int subCategoryId = await insertSubCategory(
+                                _newSubCategoryController.text.trim(),
+                                categoryId);
+                            finalCategoryId = categoryId;
+                            finalSubcategoryId = subCategoryId;
+                          } else if (isAddSubCategory) {
+                            int subCategoryId = await insertSubCategory(
+                                _newSubCategoryController.text.trim(),
+                                int.parse(_choosedCategoryId!));
+                            finalCategoryId = int.parse(_choosedCategoryId!);
+                            finalSubcategoryId = subCategoryId;
+                          } else {
+                            finalSubcategoryId =
+                                int.parse(_choosedSubCategoryId!);
+                            finalCategoryId = int.parse(_choosedSubCategoryId!);
+                          }
+
+                          for (var linkInput in _linkInputs) {
+                            insertLink(linkInput.link!.trim(),
+                                linkInput.nameLink!.trim(), finalSubcategoryId);
+                          }
+
+                          // set lastCategory
+                          AppPreferences.setLastCategory(finalCategoryId);
+
+                          // back to home page
+                          // Navigator.pop(context);
+                          // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RoutePage(
+                                selectedIndex: 0,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                            fontFamily: 'sharp',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

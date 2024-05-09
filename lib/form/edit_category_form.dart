@@ -33,111 +33,145 @@ class _editSubCategoryFormState extends State<editCategoryForm> {
         height: MediaQuery.of(context).size.height * 0.2,
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Edit ",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12.0, left: 12.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Edit ",
+                              style: TextStyle(
+                                fontFamily: 'sharp',
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Category",
+                              style: TextStyle(
+                                fontFamily: 'sharp',
+                                color: Color.fromRGBO(5, 105, 220, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
                         ),
-                        TextSpan(
-                          text: "Category",
-                          style: TextStyle(
-                              color: Color.fromRGBO(5, 105, 220, 1),
-                              fontSize: 15),
-                        ),
-                      ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                // NAMA SUB================================
+                TextFormField(
+                  controller: _categoryController,
+                  onChanged: (value) {
+                    setState(() {
+                      _categoryController.text = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "New Category name cannot be empty";
+                    } else if (value.trim() == '') {
+                      return "New Category cannot only space";
+                    }
+                    return null;
+                  },
+                  style: const TextStyle(
+                    fontFamily: 'sharp',
+                    fontSize: 15.0,
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                    filled: true,
+                    fillColor: const Color.fromRGBO(224, 225, 230, 1),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(224, 225, 230, 1),
+                        width: 1.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(224, 225, 230, 1),
+                        width: 1.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(224, 225, 230, 1),
+                        width: 1.0,
+                      ),
+                    ),
+                    hintText: 'Category Name',
+                    hintStyle: const TextStyle(
+                      fontFamily: 'sharp',
+                      fontSize: 12.0,
+                      color: Color.fromRGBO(139, 141, 152,
+                          1), // Ganti dengan warna yang diinginkan
+                    ),
+                    alignLabelWithHint: true,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Expanded(child: SizedBox()),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  FilledButton(
+                    style: FilledButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        editCategory(
+                            widget.category.id!, _categoryController.text);
+                        widget.onUpdate.call();
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                          fontFamily: 'sharp',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white),
                     ),
                   )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              // NAMA SUB================================
-              TextFormField(
-                controller: _categoryController,
-                onChanged: (value) {
-                  setState(() {
-                    _categoryController.text = value;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "New Category name cannot be empty";
-                  } else if (value.trim() == '') {
-                    return "New Category cannot only space";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                  filled: true,
-                  fillColor: const Color.fromRGBO(224, 225, 230, 1),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(224, 225, 230, 1),
-                      width: 1.0,
-                    ),
-                  ),
-                  hintText: 'Category Name',
-                  hintStyle: const TextStyle(
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(
-                        139, 141, 152, 1), // Ganti dengan warna yang diinginkan
-                  ),
-                  alignLabelWithHint: true,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Expanded(child: SizedBox()),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          editCategory(
-                              widget.category.id!, _categoryController.text);
-                          widget.onUpdate.call();
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text('Submit'),
-                    )
-                  ])
-            ],
+                ])
+              ],
+            ),
           ),
         ));
   }

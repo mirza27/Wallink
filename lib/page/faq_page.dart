@@ -13,7 +13,6 @@ class FAQPage extends StatelessWidget {
     'What is Wallink?': {
       'text':
           'Wallink is a digital link management and management application. This application provides features such as link storage, link categorization, search features, and is able to integrate with other browsers. The Wallink application is designed to meet the needs and preferences of Generation Z in managing their digital links, with a focus on effectiveness, efficiency and minimal user interaction.',
-      'image': 'assets/images/wallink_logo.png',
     },
     'What are the advantages\nof Wallink?': {
       'text':
@@ -28,7 +27,7 @@ class FAQPage extends StatelessWidget {
       'text':
           'Click the pencil icon to edit the link.\n'
           'Click the trash icon to delete the link.',
-      'image': 'assets/images/edit_delete_icons.png',
+      'image': 'assets/editdelete.png',
     },
     'How to delete subcategories\nin Wallink?': {
       'text': 'Click the icon "Delete SubCategory"',
@@ -38,7 +37,7 @@ class FAQPage extends StatelessWidget {
       'text':
           'Step 1:\n Find the link you want to launch. This link can be found under SubCategory > Click Category > Link.\n'
           'Step 2:\n Click the link. This link will open your web browser and launch the link automatically.',
-      'image': 'assets/images/launch_link_icon.png',
+      'image': 'assets/deletesubcategory.png',
     },
   };
 
@@ -96,22 +95,25 @@ class FAQPage extends StatelessWidget {
                           Divider(color: Colors.grey),
                           Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  answers[questions[index]]!['text'],
-                                  style: TextStyle(fontSize: 16.0),
-                                ),
-                                SizedBox(height: 5),
-                                if (answers[questions[index]]!['image'] != null)
-                                  Image.asset(
-                                    answers[questions[index]]!['image'],
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
+                            child: Align(
+                              alignment: Alignment.centerLeft, // Mengatur rata kiri
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    answers[questions[index]]!['text'],
+                                    style: TextStyle(fontSize: 16.0),
                                   ),
-                              ],
+                                  SizedBox(height: 5),
+                                  if (answers[questions[index]]!['image'] != null)
+                                    Image.asset(
+                                      answers[questions[index]]!['image'],
+                                      height: 100,
+                                      width: 100,
+                                      fit: BoxFit.contain, // Menampilkan gambar secara proporsional tanpa terpotong
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

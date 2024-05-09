@@ -70,7 +70,7 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                 const SizedBox(
                   height: 10,
                 ),
-            
+
                 // NAMA SUB================================
                 TextFormField(
                   controller: _subCategoryController,
@@ -120,8 +120,8 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                     hintText: 'SubCategory Name',
                     hintStyle: const TextStyle(
                       fontSize: 12.0,
-                      color: Color.fromRGBO(
-                          139, 141, 152, 1), // Ganti dengan warna yang diinginkan
+                      color: Color.fromRGBO(139, 141, 152,
+                          1), // Ganti dengan warna yang diinginkan
                     ),
                     alignLabelWithHint: true,
                   ),
@@ -131,27 +131,47 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                 ),
                 const Expanded(child: SizedBox()),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel'),
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                            fontFamily: 'sharp',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black),
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            editSubCategory(widget.subCategory.id!,
-                                _subCategoryController.text);
-                            widget.onUpdate.call(); // update data subcategory
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Submit'),
-                      )
-                    ])
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    FilledButton(
+                      style:
+                          FilledButton.styleFrom(backgroundColor: Colors.blue),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          editSubCategory(widget.subCategory.id!,
+                              _subCategoryController.text);
+                          widget.onUpdate.call(); // update data subcategory
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                            fontFamily: 'sharp',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),

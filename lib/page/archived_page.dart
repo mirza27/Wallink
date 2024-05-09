@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:wallink_v1/page/home_page.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 
 class ArchivedLinksPage extends StatefulWidget {
@@ -38,8 +39,15 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
               size: 16,
             ),
             onPressed: () {
-              Navigator.pop(
-                  context); // Fungsi Navigator.pop untuk kembali ke halaman sebelumnya
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                    drawerButton: (context) =>
+                        Icon(Icons.menu),
+                  ),
+                ),
+              );
             },
           ),
         ),

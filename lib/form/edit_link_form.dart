@@ -18,8 +18,8 @@ class EditLinkForm extends StatefulWidget {
 class _EditLinkFormState extends State<EditLinkForm> {
   final TextEditingController _linkNameController = TextEditingController();
   final TextEditingController _linkController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
+  List<Link> _allLink = [];
 
   @override
   void initState() {
@@ -27,6 +27,14 @@ class _EditLinkFormState extends State<EditLinkForm> {
 
     _linkController.text = widget.link.link ?? '';
     _linkNameController.text = widget.link.nameLink ?? '';
+  }
+
+  Future<void> _getLink() async {
+    List<Map<String, dynamic>> linkData = await getAllLink();
+    List<Link> links = linkData.map((data) => Link.fromMap(data)).toList();
+    setState(() {
+      _allLink = links;
+    });
   }
 
   @override
@@ -91,6 +99,11 @@ class _EditLinkFormState extends State<EditLinkForm> {
                   } else if (value.trim() == '') {
                     return "New Category cannot only space";
                   }
+                  bool isNameUnique =
+                      _allLink.every((link) => link.nameLink != value);
+                  if (!isNameUnique) {
+                    return "Link name must be unique";
+                  }
                   return null;
                 },
                 style: const TextStyle(
@@ -149,6 +162,12 @@ class _EditLinkFormState extends State<EditLinkForm> {
                     return "Link cannot be empty";
                   } else if (value.trim() == '') {
                     return "Link cannot only contain spaces";
+                  }
+
+                  bool isUrlUnique =
+                      _allLink.every((link) => link.link != value);
+                  if (!isUrlUnique) {
+                    return "You already have this url link";
                   }
 
                   if (!RegExp(r'^https?://').hasMatch(value)) {

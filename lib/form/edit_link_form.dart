@@ -24,6 +24,7 @@ class _EditLinkFormState extends State<EditLinkForm> {
   @override
   void initState() {
     super.initState();
+    _getLink();
 
     _linkController.text = widget.link.link ?? '';
     _linkNameController.text = widget.link.nameLink ?? '';

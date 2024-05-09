@@ -47,6 +47,8 @@ flutter:
     - assets/intro2.png
     - assets/intro3.png
     - assets/no_data.png
+    - assets/editdelete.png
+    - assets/deletesubcategory.png
   fonts :
     - family: samsung_one
       fonts: 

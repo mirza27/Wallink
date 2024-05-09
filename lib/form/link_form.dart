@@ -245,6 +245,10 @@ class _LinkFormState extends State<LinkForm> {
                       }
                       return null;
                     },
+                    style: const TextStyle(
+                      fontFamily: 'sharp',
+                      fontSize: 12.0,
+                    ),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 20),
@@ -400,6 +404,10 @@ class _LinkFormState extends State<LinkForm> {
                       }
                       return null;
                     },
+                    style: const TextStyle(
+                      fontFamily: 'sharp',
+                      fontSize: 12.0,
+                    ),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 20),
@@ -514,6 +522,10 @@ class _LinkFormState extends State<LinkForm> {
                               }
                               return null;
                             },
+                            style: const TextStyle(
+                              fontFamily: 'sharp',
+                              fontSize: 12.0,
+                            ),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 4, horizontal: 20),
@@ -588,6 +600,10 @@ class _LinkFormState extends State<LinkForm> {
 
                               return null;
                             },
+                            style: const TextStyle(
+                              fontFamily: 'sharp',
+                              fontSize: 12.0,
+                            ),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 4,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
-//import 'package:wallink_v1/database/link_database.dart';
 import 'package:wallink_v1/models/link.dart';
-import 'package:wallink_v1/page/home_page.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 
 class FavoriteLinksPage extends StatefulWidget {
@@ -35,23 +33,15 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Favorite Links'),
-          backgroundColor: Color.fromRGBO(201, 226, 255, 1),
+          title: const Text('Favorite Links'),
+          backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 16,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(
-                    drawerButton: (context) =>
-                        Icon(Icons.menu),
-                  ),
-                ),
-              );
+              
             },
           ),
         ),

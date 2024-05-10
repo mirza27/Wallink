@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/page/archived_page.dart';
 import 'package:wallink_v1/page/setting_page.dart';
-import 'package:wallink_v1/page/fav_page.dart';
-import 'package:wallink_v1/page/home_page.dart';
-import 'package:wallink_v1/route_page.dart';
 import 'faq_page.dart';
 
 class Sidebar extends StatelessWidget {
   final Function(int index) setIndex;
-  const Sidebar({Key? key, required this.setIndex}) : super(key: key);
+  const Sidebar({super.key, required this.setIndex});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       elevation: 16,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.zero,
         ),
         child: ListView(
-          padding: EdgeInsets.only(top: 60),
+          padding: const EdgeInsets.only(top: 60),
           children: [
             ListTile(
               tileColor: Colors.white,
-              title: Text(
+              title: const Text(
                 'WALLINK',
                 style: TextStyle(
                   color: Colors.black,
@@ -36,13 +33,13 @@ class Sidebar extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 1,
             ),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.home, color: Colors.black),
-              title: Text(
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text(
                 'Home',
                 style: TextStyle(color: Colors.black),
               ),
@@ -51,11 +48,12 @@ class Sidebar extends StatelessWidget {
                 setIndex(0);
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.collections_bookmark_sharp, color: Colors.black),
-              title: Text(
+              leading: const Icon(Icons.collections_bookmark_sharp,
+                  color: Colors.black),
+              title: const Text(
                 'Favorite',
                 style: TextStyle(color: Colors.black),
               ),
@@ -64,25 +62,26 @@ class Sidebar extends StatelessWidget {
                 setIndex(1);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.archive_rounded, color: Colors.black),
-              title: Text(
+              leading: const Icon(Icons.archive_rounded, color: Colors.black),
+              title: const Text(
                 'Archive',
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ArchivedLinksPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ArchivedLinksPage()),
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 350,
             ),
             Divider(
@@ -94,20 +93,23 @@ class Sidebar extends StatelessWidget {
             ),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.settings, color: Colors.black),
-              title: Text(
+              leading: const Icon(Icons.settings, color: Colors.black),
+              title: const Text(
                 'Settings',
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const  SettingPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingPage()));
               },
             ),
             ListTile(
               tileColor: Colors.white,
-              leading: Icon(Icons.help_outline_sharp, color: Colors.black),
-              title: Text(
+              leading:
+                  const Icon(Icons.help_outline_sharp, color: Colors.black),
+              title: const Text(
                 'Help',
                 style: TextStyle(color: Colors.black),
               ),

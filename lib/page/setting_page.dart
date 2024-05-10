@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/setting_confirmation.dart';
@@ -88,7 +86,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               activeColor: const Color.fromRGBO(5, 105, 220, 1),
               activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
-              inactiveTrackColor: Colors.white,
+              inactiveTrackColor: const Color.fromRGBO(201, 226, 255, 1),
               inactiveThumbColor: const Color.fromARGB(255, 229, 72, 77),
               value: _alwaysExpanded,
               onChanged: (value) async {
@@ -105,7 +103,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               activeColor: const Color.fromRGBO(5, 105, 220, 1),
               activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
-              inactiveTrackColor: Colors.white,
+              inactiveTrackColor: const Color.fromRGBO(201, 226, 255, 1),
               inactiveThumbColor: const Color.fromARGB(255, 229, 72, 77),
               value: _alwaysAskConfirmation,
               onChanged: (value) async {
@@ -139,7 +137,7 @@ class _SettingPageState extends State<SettingPage> {
                         fontFamily: 'sharp',
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white),
+                        color: Color.fromRGBO(201, 226, 255, 1),),
                   ),
                 ),
               ],

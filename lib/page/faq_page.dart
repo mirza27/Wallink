@@ -15,8 +15,7 @@ class FAQPage extends StatelessWidget {
           'Wallink is a digital link management and management application. This application provides features such as link storage, link categorization, search features, and is able to integrate with other browsers. The Wallink application is designed to meet the needs and preferences of Generation Z in managing their digital links, with a focus on effectiveness, efficiency and minimal user interaction.',
     },
     'What are the advantages\nof Wallink?': {
-      'text':
-          '1. Structured and easy to understand display.\n'
+      'text': '1. Structured and easy to understand display.\n'
           '2. Note links with categories and sub-categories.\n'
           '3. Reminder for selected data.\n'
           '4. Automatic category (Auto fill for selected link domains).\n'
@@ -24,8 +23,7 @@ class FAQPage extends StatelessWidget {
       'image': null,
     },
     'How to edit or delete links\nin Wallink?': {
-      'text':
-          'Click the pencil icon to edit the link.\n'
+      'text': 'Click the pencil icon to edit the link.\n'
           'Click the trash icon to delete the link.',
       'image': 'assets/editdelete.png',
     },
@@ -34,8 +32,7 @@ class FAQPage extends StatelessWidget {
       'image': null,
     },
     'How do you launch a link\non Wallink?': {
-      'text':
-          'Step 1:\n Find the link you want to launch. This link can be found under SubCategory > Click Category > Link.\n'
+      'text': 'Step 1:\n Find the link you want to launch. This link can be found under SubCategory > Click Category > Link.\n'
           'Step 2:\n Click the link. This link will open your web browser and launch the link automatically.',
       'image': 'assets/deletesubcategory.png',
     },
@@ -44,6 +41,26 @@ class FAQPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
+        title: const Text(
+          'FAQ',
+          style: TextStyle(
+              color: Color.fromRGBO(5, 105, 220, 1),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'sharp'),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 16,
+            color: Color.fromRGBO(5, 105, 220, 1),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -57,22 +74,14 @@ class FAQPage extends StatelessWidget {
                 ),
               ],
             ),
-            child: AppBar(
-              backgroundColor: Color(0xFF005ACC),
-              title: Text(
-                'FAQ',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              leadingWidth: 25.0,
-              iconTheme: IconThemeData(color: Colors.white),
-            ),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: questions.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 8.0),
                   child: Material(
                     elevation: 5,
                     borderRadius: BorderRadius.circular(8.0),
@@ -87,7 +96,8 @@ class FAQPage extends StatelessWidget {
                           children: [
                             Text(
                               questions[index],
-                              style: TextStyle(color: const Color.fromARGB(255, 6, 6, 6)),
+                              style: TextStyle(
+                                  color: const Color.fromARGB(255, 6, 6, 6)),
                             ),
                           ],
                         ),
@@ -96,7 +106,8 @@ class FAQPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(16.0),
                             child: Align(
-                              alignment: Alignment.centerLeft, // Mengatur rata kiri
+                              alignment:
+                                  Alignment.centerLeft, // Mengatur rata kiri
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -105,12 +116,14 @@ class FAQPage extends StatelessWidget {
                                     style: TextStyle(fontSize: 16.0),
                                   ),
                                   SizedBox(height: 5),
-                                  if (answers[questions[index]]!['image'] != null)
+                                  if (answers[questions[index]]!['image'] !=
+                                      null)
                                     Image.asset(
                                       answers[questions[index]]!['image'],
                                       height: 100,
                                       width: 100,
-                                      fit: BoxFit.contain, // Menampilkan gambar secara proporsional tanpa terpotong
+                                      fit: BoxFit
+                                          .contain, // Menampilkan gambar secara proporsional tanpa terpotong
                                     ),
                                 ],
                               ),

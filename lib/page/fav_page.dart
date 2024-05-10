@@ -33,15 +33,22 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Favorite Links'),
+          title: const Text(
+            'Favorite Links',
+            style: TextStyle(
+                color: Color.fromRGBO(5, 105, 220, 1),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'sharp'),
+          ),
           backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
               size: 16,
+              color: Color.fromRGBO(5, 105, 220, 1),
             ),
             onPressed: () {
-              
+              Navigator.pop(context);
             },
           ),
         ),

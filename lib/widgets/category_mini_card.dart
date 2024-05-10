@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_category_form.dart';
 import 'package:wallink_v1/models/category.dart';
@@ -25,7 +26,6 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
     _loadData();
   }
 
-
   // refresh dan load data
   Future<void> _loadData() async {
     List<Map<String, dynamic>> categories = await getCategories();
@@ -42,7 +42,8 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
   }
 
   // hold to show bottom sheet bar
-  Future<void> _showBottomSheet(BuildContext context, int index, Category category) async {
+  Future<void> _showBottomSheet(
+      BuildContext context, int index, Category category) async {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -141,6 +142,12 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
         itemCount: _categories.length,
         itemBuilder: (BuildContext context, int index) {
           final Category category = Category.fromMap(_categories[index]);
+
+          if (widget.categoryId != null || widget.categoryId != 0) {
+            _activeCategory = widget.categoryId!;
+          } // jika ada last category yang dipilih, maka diaktifkan
+
+
           final bool isActive = _activeCategory ==
               category.id; // logika jika aktif dan tidak aktif
 
@@ -154,6 +161,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                 setState(() {
                   _activeCategory = category.id!;
                   widget.onCategoryChanged(category.id);
+                  AppPreferences.setLastCategory(category.id!);
                 });
               },
               child: Chip(

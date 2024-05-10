@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       []; // menyimpan link  dinamis (burubah saat searching)
   List<Map<String, dynamic>> _subCategories = [];
   final TextEditingController _searchController = TextEditingController();
-  int _categoryId = 0;
+  int _categoryId = 0; // category terplih saat ini
   bool _isSearching = false;
   bool _isExpanded = false;
 
@@ -30,10 +30,20 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadPreferences();
+    _loadLastcategory();
+  }
+
+  Future<void> _loadLastcategory() async {
+    int categoryId = await AppPreferences.getLastCategory();
+    if (categoryId != 0) {
+      setState(() {
+        _categoryId = categoryId;
+      });
+    }
     _loadData();
   }
 
-   // get preference always expanded
+  // get preference always expanded
   Future<void> _loadPreferences() async {
     bool alwaysExpanded = await AppPreferences.isExpanded();
     setState(() {
@@ -107,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Row(
                   children: [
-                  widget.drawerButton(context),
+                    widget.drawerButton(context),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextField(
@@ -165,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
                   child: CategoryMiniCard(
-                    categoryId: 0,
+                    categoryId: _categoryId,
                     onCategoryChanged: _chooseCategory,
                   ),
                 ),
@@ -181,14 +191,13 @@ class _HomePageState extends State<HomePage> {
 
       body: !_isSearching
           ? RefreshIndicator(
-            onRefresh: () {
-              return Future.delayed(Duration.zero, () {
-            _loadPreferences();
-            _loadData();
-          });
-              
-            },
-            child: Column(
+              onRefresh: () {
+                return Future.delayed(Duration.zero, () {
+                  _loadPreferences();
+                  _loadData();
+                });
+              },
+              child: Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
@@ -208,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-          )
+            )
           : Column(
               children: [
                 Expanded(
@@ -228,7 +237,6 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            
     );
   }
 }

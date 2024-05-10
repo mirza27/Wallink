@@ -102,7 +102,7 @@ class Sidebar extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SettingPage()));
+                        builder: (context) => SettingPage(onChangedPreference: setIndex,)));
               },
             ),
             ListTile(

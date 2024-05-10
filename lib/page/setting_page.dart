@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
+import 'package:wallink_v1/dialog/setting_confirmation.dart';
 
 class SettingPage extends StatefulWidget {
+  final Function onChangedPreference;
   const SettingPage({
     super.key,
+    required this.onChangedPreference,
   });
 
   @override
@@ -30,51 +35,116 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
+  Future<void> _savePreferences() async {
+    await AppPreferences.setExpanded(_alwaysExpanded);
+    await AppPreferences.setAlwaysAsk(_alwaysAskConfirmation);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const Text(
-                'Configure Behavior :',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              // switch untuk always Expanded
-              SwitchListTile(
-                title: const Text('Always Expand Tile'),
-                inactiveTrackColor: const Color.fromRGBO(238, 238, 238, 1.0),
-                activeColor: const Color.fromRGBO(0, 173, 181, 1.0),
-                inactiveThumbColor: const Color.fromRGBO(57, 62, 70, 1.0),
-                value: _alwaysExpanded,
-                onChanged: (value) async {
-                  await AppPreferences.setExpanded(value);
-                  setState(() {
-                    _alwaysExpanded = value;
-                  });
-
-                  print("set ke ${await AppPreferences.isExpanded()}");
-                },
-              ),
-
-              SwitchListTile(
-                title: const Text('Always Ask Delete Confirmation'),
-                inactiveTrackColor: const Color.fromRGBO(238, 238, 238, 1.0),
-                activeColor: const Color.fromRGBO(0, 173, 181, 1.0),
-                inactiveThumbColor: const Color.fromRGBO(57, 62, 70, 1.0),
-                value: _alwaysAskConfirmation,
-                onChanged: (value) async {
-                  await AppPreferences.setAlwaysAsk(value);
-                  setState(() {
-                    _alwaysAskConfirmation = value;
-                  });
-                },
-              ),
-            ],
+      appBar: AppBar(
+        title: const Text(
+          'Settings',
+          style: TextStyle(
+              color: Color.fromRGBO(5, 105, 220, 1),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'sharp'),
+        ),
+        backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 16,
+            color: Color.fromRGBO(5, 105, 220, 1),
           ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 12),
+              child: const Text(
+                'Configure Behavior :',
+                style: TextStyle(
+                  fontFamily: 'sharp',
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            // switch untuk always Expanded
+            SwitchListTile(
+              title: const Text(
+                'Always Expand Tile',
+                style: TextStyle(fontFamily: 'sharp'),
+              ),
+              activeColor: const Color.fromRGBO(5, 105, 220, 1),
+              activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
+              inactiveTrackColor: Colors.white,
+              inactiveThumbColor: const Color.fromARGB(255, 229, 72, 77),
+              value: _alwaysExpanded,
+              onChanged: (value) async {
+                setState(() {
+                  _alwaysExpanded = value;
+                });
+              },
+            ),
+
+            SwitchListTile(
+              title: const Text(
+                'Always Ask Delete Confirmation',
+                style: TextStyle(fontFamily: 'sharp'),
+              ),
+              activeColor: const Color.fromRGBO(5, 105, 220, 1),
+              activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
+              inactiveTrackColor: Colors.white,
+              inactiveThumbColor: const Color.fromARGB(255, 229, 72, 77),
+              value: _alwaysAskConfirmation,
+              onChanged: (value) async {
+                await AppPreferences.setAlwaysAsk(value);
+                setState(() {
+                  _alwaysAskConfirmation = value;
+                });
+              },
+            ),
+
+            const Expanded(child: SizedBox()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FilledButton(
+                  style: FilledButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SettingConfirmationDialog(
+                        title: 'Warning!',
+                        message:
+                            'Are you sure you want save this setting? This action will restart the app',
+                        saveSettings: _savePreferences,
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                        fontFamily: 'sharp',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

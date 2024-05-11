@@ -154,13 +154,12 @@ class _LinkCardState extends State<LinkCard> {
                         widget.link.id!,
                       );
                       Get.snackbar(
-                        'Success', // Title here
-                        'Link deleted successfully', // Message here
+                        'Success',
+                        'Link deleted successfully',
                         backgroundColor: Colors.green,
                         colorText: Colors.white,
                         duration: Duration(seconds: 2),
-                        icon:
-                            Icon(Icons.delete), // Adjust the duration as needed
+                        icon: Icon(Icons.delete),
                       );
                     },
                     isThisLink: true,
@@ -228,21 +227,17 @@ class _LinkCardState extends State<LinkCard> {
               });
               Get.snackbar(
                 widget.link.is_archive ?? false
-                    ? 'Link Unarchived' // Judul snackbar ketika link diarsipkan
-                    : 'Link Archived', // Judul snackbar ketika link ditarik dari arsip
+                    ? 'Link Unarchived'
+                    : 'Link Archived',
                 widget.link.is_archive ?? false
-                    ? 'Link has been successfully unarchived' // Pesan snackbar ketika link diarsipkan
-                    : 'Link has been successfully archived', // Pesan snackbar ketika link ditarik dari arsip
-                backgroundColor: Colors
-                    .blue, // Warna latar belakang snackbar disesuaikan dengan status arsip
+                    ? 'Link has been successfully unarchived'
+                    : 'Link has been successfully archived',
+                backgroundColor: Colors.blue,
                 colorText: Colors.white,
-                duration: const Duration(
-                    seconds: 2), // Sesuaikan durasi snackbar sesuai kebutuhan
+                duration: const Duration(seconds: 2),
                 icon: widget.link.is_archive ?? false
-                    ? const Icon(Icons
-                        .unarchive) // Ikon yang sesuai ketika link diarsipkan
-                    : const Icon(Icons
-                        .archive), // Ikon yang sesuai ketika link ditarik dari arsip
+                    ? const Icon(Icons.unarchive)
+                    : const Icon(Icons.archive),
               );
             },
             foregroundColor: const Color.fromARGB(255, 5, 105, 220),
@@ -323,25 +318,22 @@ class _LinkCardState extends State<LinkCard> {
                     if (widget.link.is_favorite ?? false) {
                       await markAsUnFavorite(widget.link.id!);
                       Get.snackbar(
-                        'Removed from Favorites', // Judul snackbar ketika link dihapus dari favorit
-                        'Link removed from favorites', // Pesan snackbar ketika link dihapus dari favorit
-                        backgroundColor:
-                            Colors.pink, // Warna latar belakang snackbar
+                        'Removed from Favorites',
+                        'Link removed from favorites',
+                        backgroundColor: Colors.pink,
                         colorText: Colors.white,
                         duration: const Duration(seconds: 2),
-                        icon: const Icon(
-                            Icons.favorite_border), // Icon yang sesuai
+                        icon: const Icon(Icons.favorite_border),
                       );
                     } else {
                       await markAsFavorite(widget.link.id!);
                       Get.snackbar(
-                        'Added to Favorites', // Judul snackbar ketika link ditambahkan ke favorit
-                        'Link added to favorites', // Pesan snackbar ketika link ditambahkan ke favorit
-                        backgroundColor:
-                            Colors.pink, // Warna latar belakang snackbar
+                        'Added to Favorites',
+                        'Link added to favorites',
+                        backgroundColor: Colors.pink,
                         colorText: Colors.white,
                         duration: const Duration(seconds: 2),
-                        icon: const Icon(Icons.favorite), // Icon yang sesuai
+                        icon: const Icon(Icons.favorite),
                       );
                     }
                     setState(() {

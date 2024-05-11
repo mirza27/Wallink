@@ -239,8 +239,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                           deleteSubCategory(index);
                           widget.onUpdate();
                           Get.snackbar(
-                            'Success', // Title here
-                            'SubCategory deleted successfully, Please refresh', // Message here
+                            'Success',
+                            'SubCategory deleted successfully, Please refresh',
                             backgroundColor: Colors.green,
                             colorText: Colors.white,
                             icon: const Icon(Icons.delete_outlined),
@@ -255,8 +255,8 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     widget.onUpdate();
                     Navigator.pop(context);
                     Get.snackbar(
-                      'Success', // Title here
-                      'SubCategory deleted successfully, Please refresh', // Message here
+                      'Success',
+                      'SubCategory deleted successfully, Please refresh',
                       backgroundColor: Colors.green,
                       colorText: Colors.white,
                       icon: const Icon(Icons.delete),

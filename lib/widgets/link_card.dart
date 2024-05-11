@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -21,6 +22,7 @@ class LinkCard extends StatefulWidget {
 // fungsi launch url
 class _LinkCardState extends State<LinkCard> {
   bool _isColored = false;
+  bool _alwaysAskConfirmation = true;
 
   Future<void> _launchURL(String url) async {
     // jika tidak ada https / http
@@ -86,9 +88,18 @@ class _LinkCardState extends State<LinkCard> {
   @override
   void initState() {
     super.initState();
+    _loadPreferences();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollMax = _scrollController.position.maxScrollExtent;
       // _startScrolling();
+    });
+  }
+
+  Future<void> _loadPreferences() async {
+    bool alwaysAskConfirmation = await AppPreferences.getAlwaysAsk();
+
+    setState(() {
+      _alwaysAskConfirmation = alwaysAskConfirmation;
     });
   }
 
@@ -128,25 +139,33 @@ class _LinkCardState extends State<LinkCard> {
           // delete link
           SlidableAction(
             onPressed: (context) {
-              showDialog(
-                context: context,
-                builder: (context) => DeleteConfirmationDialog(
-                  title: 'Warning!',
-                  message:
-                      'Are you sure you want to delete this link? This action cannot be undone',
-                  onDeleteConfirmed: () {
-                    _deleteLink(widget.link.id!,);
-                    
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Link deleted successfully'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  },
-                  isThisLink: true,
-                ),
-              );
+              if (_alwaysAskConfirmation) {
+                showDialog(
+                  context: context,
+                  builder: (context) => DeleteConfirmationDialog(
+                    title: 'Warning!',
+                    message:
+                        'Are you sure you want to delete this link? This action cannot be undone',
+                    onDeleteConfirmed: () {
+                      _deleteLink(
+                        widget.link.id!,
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Link deleted successfully'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    },
+                    isThisLink: true,
+                  ),
+                );
+              } else {
+                _deleteLink(
+                  widget.link.id!,
+                );
+              }
             },
             icon: Icons.delete,
             backgroundColor: const Color.fromARGB(255, 255, 201, 201),

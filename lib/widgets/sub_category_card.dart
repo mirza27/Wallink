@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_sub_category_form.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -29,12 +30,22 @@ class SubCategoryCard extends StatefulWidget {
 
 class _SubCategoryCardState extends State<SubCategoryCard> {
   List<Map<String, dynamic>> _links = [];
+  bool _alwaysAskConfirmation = true;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _loadPreferences();
     print("always expanded: ${widget.isExpanded}");
+  }
+
+  Future<void> _loadPreferences() async {
+    bool alwaysAskConfirmation = await AppPreferences.getAlwaysAsk();
+
+    setState(() {
+      _alwaysAskConfirmation = alwaysAskConfirmation;
+    });
   }
 
   // refresh dan load data
@@ -102,7 +113,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               onPressed: () async {
                 String newLinkName = linkNameController.text.trim();
                 String newLink = linkController.text.trim();
-               // bool checkLink = await checkLinkUrl(newLink, newLinkName);
+                // bool checkLink = await checkLinkUrl(newLink, newLinkName);
 
                 if (newLinkName.isNotEmpty && newLink.isNotEmpty) {
                   await insertLink(
@@ -206,26 +217,40 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                   ),
                 ),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => DeleteConfirmationDialog(
-                      title: 'Warning!',
-                      message:
-                          'Are you sure you want to delete this SubCategory? This action cannot be undone',
-                      onDeleteConfirmed: () {
-                        deleteSubCategory(index);
-                        widget.onUpdate();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'SubCategory deleted successfully, Please refresh'),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
-                      },
-                      isThisLink: false,
-                    ),
-                  );
+                  if (_alwaysAskConfirmation) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DeleteConfirmationDialog(
+                        title: 'Warning!',
+                        message:
+                            'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                        onDeleteConfirmed: () {
+                          deleteSubCategory(index);
+                          widget.onUpdate();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'SubCategory deleted successfully, Please refresh'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        isThisLink: false,
+                      ),
+                    );
+                  } else {
+                    // langsung menghapus
+                    deleteSubCategory(index);
+                    widget.onUpdate();
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'SubCategory deleted successfully, Please refresh'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
                 },
               ),
             ],

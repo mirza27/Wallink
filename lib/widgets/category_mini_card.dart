@@ -19,11 +19,21 @@ class CategoryMiniCard extends StatefulWidget {
 class _CategoryMiniCardState extends State<CategoryMiniCard> {
   List<Map<String, dynamic>> _categories = [];
   int _activeCategory = 0;
+  bool _alwaysAskConfirmation = true;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    bool alwaysAskConfirmation = await AppPreferences.getAlwaysAsk();
+
+    setState(() {
+      _alwaysAskConfirmation = alwaysAskConfirmation;
+    });
   }
 
   // refresh dan load data
@@ -105,25 +115,39 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                   ),
                 ),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => DeleteConfirmationDialog(
-                      title: 'Warning!',
-                      message:
-                          'Are you sure you want to delete this SubCategory? This action cannot be undone',
-                      onDeleteConfirmed: () {
-                        _deleteCategory(index);
-                        _loadData();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('SubCategory deleted successfully'),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
-                      },
-                      isThisLink: false,
-                    ),
-                  );
+                  if (_alwaysAskConfirmation) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DeleteConfirmationDialog(
+                        title: 'Warning!',
+                        message:
+                            'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                        onDeleteConfirmed: () {
+                          _deleteCategory(index);
+                          _loadData();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('SubCategory deleted successfully'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        isThisLink: false,
+                      ),
+                    );
+                  } else {
+                    // langsung menghapus
+                    _deleteCategory(index);
+                    _loadPreferences();
+                    _loadData();
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('SubCategory deleted successfully'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
                 },
               ),
             ],
@@ -146,7 +170,6 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
           if (widget.categoryId != null || widget.categoryId != 0) {
             _activeCategory = widget.categoryId!;
           } // jika ada last category yang dipilih, maka diaktifkan
-
 
           final bool isActive = _activeCategory ==
               category.id; // logika jika aktif dan tidak aktif

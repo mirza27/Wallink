@@ -4,7 +4,7 @@ class AppPreferences {
   static const String isFirstTimeKey = 'isFirstTime';
   static const String isExpandedKey = 'isExpanded';
   static const String lastCategoryKey = 'lastCategory';
-  static const String isaAlwaysAsk = 'isaAlwaysAsk';
+  static const String isAlwaysAsk = 'isAlwaysAsk';
 
   // value apakah pertama kali
   static Future<bool> isFirstTime() async {
@@ -29,14 +29,14 @@ class AppPreferences {
   }
 
   // cek apakah pengecekan konfirmasi
-  static Future<bool> isAlwaysAsk() async {
+  static Future<bool> getAlwaysAsk() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(isaAlwaysAsk) ?? true;
+    return prefs.getBool(isAlwaysAsk) ?? true;
   }
 
   static Future<void> setAlwaysAsk(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(isaAlwaysAsk, value);
+    await prefs.setBool(isAlwaysAsk, value);
   }
 
   // get last category selected

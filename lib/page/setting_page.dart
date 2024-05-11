@@ -25,7 +25,7 @@ class _SettingPageState extends State<SettingPage> {
 
   Future<void> _loadPreferences() async {
     bool alwaysExpanded = await AppPreferences.isExpanded();
-    bool alwaysAskConfirmation = await AppPreferences.isAlwaysAsk();
+    bool alwaysAskConfirmation = await AppPreferences.getAlwaysAsk();
 
     setState(() {
       _alwaysAskConfirmation = alwaysAskConfirmation;
@@ -107,7 +107,6 @@ class _SettingPageState extends State<SettingPage> {
               inactiveThumbColor: const Color.fromARGB(255, 229, 72, 77),
               value: _alwaysAskConfirmation,
               onChanged: (value) async {
-                await AppPreferences.setAlwaysAsk(value);
                 setState(() {
                   _alwaysAskConfirmation = value;
                 });

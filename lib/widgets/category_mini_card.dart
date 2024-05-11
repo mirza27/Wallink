@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
@@ -94,10 +95,21 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                             ),
                             content: editCategoryForm(
                               category: category,
-                              onUpdate: _loadData,
+                              onUpdate: () {
+                                _loadData();
+                                Get.snackbar(
+                                  'Success',
+                                  'Category edited successfully',
+                                  backgroundColor:
+                                      Color.fromARGB(255, 220, 211, 5),
+                                  colorText: Colors.white,
+                                  icon: const Icon(Icons.security_update_good),
+                                );
+                              },
                             ),
                             insetPadding: const EdgeInsets.all(10),
-                          ));
+                          )).then((value) => Navigator.pop(
+                      context)); //agar showModalBottomSheet bisa hilang sendiri;
                 },
               ),
               ListTile(
@@ -125,11 +137,12 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                         onDeleteConfirmed: () {
                           _deleteCategory(index);
                           _loadData();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('SubCategory deleted successfully'),
-                              backgroundColor: Colors.green,
-                            ),
+                          Get.snackbar(
+                            'Success', // Title here
+                            'Category deleted successfully', // Message here
+                            backgroundColor: Colors.green,
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.delete_rounded),
                           );
                         },
                         isThisLink: false,
@@ -141,11 +154,12 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                     _loadPreferences();
                     _loadData();
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('SubCategory deleted successfully'),
-                        backgroundColor: Colors.green,
-                      ),
+                    Get.snackbar(
+                      'Success', // Title here
+                      'Category deleted successfully', // Message here
+                      backgroundColor: Colors.green,
+                      colorText: Colors.white,
+                      icon: const Icon(Icons.delete_rounded),
                     );
                   }
                 },

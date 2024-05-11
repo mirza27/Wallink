@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
@@ -176,12 +177,22 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       ),
                       content: editSubCategoryForm(
                         subCategory: widget.subCategory,
-                        onUpdate:
-                            widget.onUpdate, // load subcategory di halaman home
+                        onUpdate: () {
+                          _loadData();
+                          Get.snackbar(
+                            'Success',
+                            'Subcategory edited successfully',
+                            backgroundColor: Color.fromARGB(255, 220, 211, 5),
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.security_update_good),
+                          );
+                          widget.onUpdate();
+                        },
                       ),
                       insetPadding: const EdgeInsets.all(10),
                     ),
-                  );
+                  ).then((value) => Navigator.pop(
+                      context)); //agar showModalBottomSheet bisa hilang sendiri
                 },
               ),
               ListTile(
@@ -227,12 +238,12 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                         onDeleteConfirmed: () {
                           deleteSubCategory(index);
                           widget.onUpdate();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'SubCategory deleted successfully, Please refresh'),
-                              backgroundColor: Colors.green,
-                            ),
+                          Get.snackbar(
+                            'Success', // Title here
+                            'SubCategory deleted successfully, Please refresh', // Message here
+                            backgroundColor: Colors.green,
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.delete_outlined),
                           );
                         },
                         isThisLink: false,
@@ -243,12 +254,12 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     deleteSubCategory(index);
                     widget.onUpdate();
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            'SubCategory deleted successfully, Please refresh'),
-                        backgroundColor: Colors.green,
-                      ),
+                    Get.snackbar(
+                      'Success', // Title here
+                      'SubCategory deleted successfully, Please refresh', // Message here
+                      backgroundColor: Colors.green,
+                      colorText: Colors.white,
+                      icon: const Icon(Icons.delete),
                     );
                   }
                 },

@@ -1,13 +1,15 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/services.dart';
-import 'package:wallink_v1/controller/link_controller.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
@@ -40,11 +42,12 @@ class _LinkCardState extends State<LinkCard> {
   // fungsi copy
   Future<void> _copytoClipboard(String url) async {
     Clipboard.setData(ClipboardData(text: url));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Link copied to clipboard'),
-        backgroundColor: Colors.green,
-      ),
+    Get.snackbar(
+      'Success',
+      'Link copied to clipboard', // Message here
+      backgroundColor: Colors.lightGreen,
+      colorText: Colors.white,
+      icon: const Icon(Icons.content_copy),
     );
 
     setState(() {
@@ -150,12 +153,14 @@ class _LinkCardState extends State<LinkCard> {
                       _deleteLink(
                         widget.link.id!,
                       );
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Link deleted successfully'),
-                          backgroundColor: Colors.green,
-                        ),
+                      Get.snackbar(
+                        'Success', // Title here
+                        'Link deleted successfully', // Message here
+                        backgroundColor: Colors.green,
+                        colorText: Colors.white,
+                        duration: Duration(seconds: 2),
+                        icon:
+                            Icon(Icons.delete), // Adjust the duration as needed
                       );
                     },
                     isThisLink: true,
@@ -171,6 +176,7 @@ class _LinkCardState extends State<LinkCard> {
             backgroundColor: const Color.fromARGB(255, 255, 201, 201),
             foregroundColor: const Color.fromARGB(255, 229, 72, 77),
           ),
+
           // edit link
           SlidableAction(
             onPressed: (context) {
@@ -190,7 +196,17 @@ class _LinkCardState extends State<LinkCard> {
                         ),
                         content: EditLinkForm(
                           link: widget.link,
-                          onUpdate: widget.onChanged,
+                          //onUpdate: widget.onChanged,
+                          onUpdate: () {
+                            Get.snackbar(
+                              'Success', // Title here
+                              'Link updated successfully', // Message here
+                              backgroundColor: Color.fromARGB(255, 220, 211, 5),
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.security_update_good),
+                            );
+                            widget.onChanged();
+                          },
                         ),
                         insetPadding: const EdgeInsets.all(10),
                       ));
@@ -210,6 +226,24 @@ class _LinkCardState extends State<LinkCard> {
               setState(() {
                 widget.link.is_archive = !(widget.link.is_archive ?? false);
               });
+              Get.snackbar(
+                widget.link.is_archive ?? false
+                    ? 'Link Unarchived' // Judul snackbar ketika link diarsipkan
+                    : 'Link Archived', // Judul snackbar ketika link ditarik dari arsip
+                widget.link.is_archive ?? false
+                    ? 'Link has been successfully unarchived' // Pesan snackbar ketika link diarsipkan
+                    : 'Link has been successfully archived', // Pesan snackbar ketika link ditarik dari arsip
+                backgroundColor: Colors
+                    .blue, // Warna latar belakang snackbar disesuaikan dengan status arsip
+                colorText: Colors.white,
+                duration: const Duration(
+                    seconds: 2), // Sesuaikan durasi snackbar sesuai kebutuhan
+                icon: widget.link.is_archive ?? false
+                    ? const Icon(Icons
+                        .unarchive) // Ikon yang sesuai ketika link diarsipkan
+                    : const Icon(Icons
+                        .archive), // Ikon yang sesuai ketika link ditarik dari arsip
+              );
             },
             foregroundColor: const Color.fromARGB(255, 5, 105, 220),
             backgroundColor: const Color.fromARGB(255, 201, 226, 255),
@@ -271,6 +305,7 @@ class _LinkCardState extends State<LinkCard> {
                     ],
                   ),
                 ),
+
                 // favorit icon
                 IconButton(
                   padding: const EdgeInsets.only(left: 5),
@@ -287,8 +322,27 @@ class _LinkCardState extends State<LinkCard> {
                   onPressed: () async {
                     if (widget.link.is_favorite ?? false) {
                       await markAsUnFavorite(widget.link.id!);
+                      Get.snackbar(
+                        'Removed from Favorites', // Judul snackbar ketika link dihapus dari favorit
+                        'Link removed from favorites', // Pesan snackbar ketika link dihapus dari favorit
+                        backgroundColor:
+                            Colors.pink, // Warna latar belakang snackbar
+                        colorText: Colors.white,
+                        duration: const Duration(seconds: 2),
+                        icon: const Icon(
+                            Icons.favorite_border), // Icon yang sesuai
+                      );
                     } else {
                       await markAsFavorite(widget.link.id!);
+                      Get.snackbar(
+                        'Added to Favorites', // Judul snackbar ketika link ditambahkan ke favorit
+                        'Link added to favorites', // Pesan snackbar ketika link ditambahkan ke favorit
+                        backgroundColor:
+                            Colors.pink, // Warna latar belakang snackbar
+                        colorText: Colors.white,
+                        duration: const Duration(seconds: 2),
+                        icon: const Icon(Icons.favorite), // Icon yang sesuai
+                      );
                     }
                     setState(() {
                       // Toggle nilai is_favorite saat tombol ditekan

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
@@ -723,6 +722,27 @@ class _LinkFormState extends State<LinkForm> {
                         int finalSubcategoryId = 0;
                         if (_formKey.currentState!.validate()) {
                           // submit add link
+                          // if (isAddCategory && isAddSubCategory) {
+                          //   int categoryId = await insertCategory(
+                          //       _newCategoryController.text.trim());
+                          //   int subCategoryId = await insertSubCategory(
+                          //       _newSubCategoryController.text.trim(),
+                          //       categoryId);
+                          //   finalCategoryId = categoryId;
+                          //   finalSubcategoryId = subCategoryId;
+                          // } else if (isAddSubCategory) {
+                          //   int subCategoryId = await insertSubCategory(
+                          //       _newSubCategoryController.text.trim(),
+                          //       int.parse(_choosedCategoryId!));
+                          //   finalCategoryId = int.parse(_choosedCategoryId!);
+                          //   finalSubcategoryId = subCategoryId;
+                          // } else {
+                          //   finalSubcategoryId =
+                          //       int.parse(_choosedSubCategoryId!);
+                          //   finalCategoryId = int.parse(_choosedSubCategoryId!);
+                          // }
+
+                          // snackbar muncul saat menambahkan category baru saja
                           if (isAddCategory && isAddSubCategory) {
                             int categoryId = await insertCategory(
                                 _newCategoryController.text.trim());
@@ -731,7 +751,17 @@ class _LinkFormState extends State<LinkForm> {
                                 categoryId);
                             finalCategoryId = categoryId;
                             finalSubcategoryId = subCategoryId;
+
+                            // Display Snackbar for adding a new category
+                            Get.snackbar(
+                              'Success',
+                              'New category added successfully!',
+                              backgroundColor: Colors.lightGreen,
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.check),
+                            );
                           } else if (isAddSubCategory) {
+                            // Inserting a new subcategory
                             int subCategoryId = await insertSubCategory(
                                 _newSubCategoryController.text.trim(),
                                 int.parse(_choosedCategoryId!));

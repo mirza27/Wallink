@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/category_page.dart';
-import 'package:wallink_v1/page/intro_slide_page.dart';
+import 'package:get/get.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
+import 'package:wallink_v1/page/intro_slide_page.dart';
 import 'package:wallink_v1/route_page.dart';
-import 'package:get/get.dart'; 
 
 void main() {
   runApp(const MainApp());
@@ -29,8 +28,11 @@ class MainApp extends StatelessWidget {
                 snapshot.data; // ambil dari nilai isFirstTime
             return GetMaterialApp(
               title: 'WALINK',
-              home:
-                  isFirstTime! ? const IntroSlidePage() : const RoutePage(selectedIndex: 0,),
+              home: isFirstTime!
+                  ? const IntroSlidePage()
+                  : const RoutePage(
+                      selectedIndex: 0,
+                    ),
               debugShowCheckedModeBanner: false,
             );
           }

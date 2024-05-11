@@ -133,13 +133,13 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                       builder: (context) => DeleteConfirmationDialog(
                         title: 'Warning!',
                         message:
-                            'Are you sure you want to delete this SubCategory? This action cannot be undone',
+                            'Are you sure you want to delete this Category? This action cannot be undone',
                         onDeleteConfirmed: () {
                           _deleteCategory(index);
                           _loadData();
                           Get.snackbar(
-                            'Success', // Title here
-                            'Category deleted successfully', // Message here
+                            'Success', 
+                            'Category deleted successfully', 
                             backgroundColor: Colors.green,
                             colorText: Colors.white,
                             icon: const Icon(Icons.delete_rounded),
@@ -155,8 +155,8 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                     _loadData();
                     Navigator.pop(context);
                     Get.snackbar(
-                      'Success', // Title here
-                      'Category deleted successfully', // Message here
+                      'Success', 
+                      'Category deleted successfully', 
                       backgroundColor: Colors.green,
                       colorText: Colors.white,
                       icon: const Icon(Icons.delete_rounded),

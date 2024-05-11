@@ -318,20 +318,14 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 initiallyExpanded: widget.isExpanded,
-                title: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.subCategory.subCategoryName as String,
-                        style: const TextStyle(
-                          fontFamily: 'sharp',
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
+                title: Text(
+                  widget.subCategory.subCategoryName as String,
+                  style: const TextStyle(
+                    fontFamily: 'sharp',
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
                 ),
                 // iterasi setiap link dengan link card
                 children: [

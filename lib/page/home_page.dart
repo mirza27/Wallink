@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -104,9 +105,8 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromRGBO(249, 249, 251, 1),
       appBar: AppBar(
-        shadowColor: Colors.black,
+        surfaceTintColor: Colors.white,
         bottom: PreferredSize(
           preferredSize: !_isSearching
               ? Size.fromHeight(0.1 * height)
@@ -200,19 +200,21 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _subCategories.length,
-                      itemBuilder: (context, index) {
-                        final SubCategory subCategory =
-                            SubCategory.fromMap(_subCategories[index]);
-                        return SubCategoryCard(
-                          subCategory: subCategory,
-                          onDelete: _deleteSubCategory,
-                          onUpdate: _loadData,
-                          isExpanded: _isExpanded,
-                        );
-                      },
+                    child: SlidableAutoCloseBehavior(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _subCategories.length,
+                        itemBuilder: (context, index) {
+                          final SubCategory subCategory =
+                              SubCategory.fromMap(_subCategories[index]);
+                          return SubCategoryCard(
+                            subCategory: subCategory,
+                            onDelete: _deleteSubCategory,
+                            onUpdate: _loadData,
+                            isExpanded: _isExpanded,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],

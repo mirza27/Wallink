@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
@@ -54,16 +55,18 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
         ),
         body: Column(
           children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              // iterasi widget sub category card
-              itemCount: _favoriteLinksFuture.length,
-              itemBuilder: (context, index) {
-                final Link link = Link.fromMap(_favoriteLinksFuture[index]);
-
-                return LinkCard(link: link, onChanged: _getFavoriteLinks);
-              },
+            SlidableAutoCloseBehavior(
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                // iterasi widget sub category card
+                itemCount: _favoriteLinksFuture.length,
+                itemBuilder: (context, index) {
+                  final Link link = Link.fromMap(_favoriteLinksFuture[index]);
+              
+                  return LinkCard(link: link, onChanged: _getFavoriteLinks);
+                },
+              ),
             ),
           ],
         ));

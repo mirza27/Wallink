@@ -141,6 +141,8 @@ class _LinkCardState extends State<LinkCard> {
         children: [
           // delete link
           SlidableAction(
+            borderRadius: BorderRadius.circular(8),
+            padding: const EdgeInsets.all(0),
             onPressed: (context) {
               if (_alwaysAskConfirmation) {
                 showDialog(
@@ -175,9 +177,14 @@ class _LinkCardState extends State<LinkCard> {
             backgroundColor: const Color.fromARGB(255, 255, 201, 201),
             foregroundColor: const Color.fromARGB(255, 229, 72, 77),
           ),
+          const SizedBox(
+            width: 5,
+          ),
 
           // edit link
           SlidableAction(
+            borderRadius: BorderRadius.circular(8),
+            padding: const EdgeInsets.all(0),
             onPressed: (context) {
               showDialog(
                   barrierDismissible: false,
@@ -214,8 +221,14 @@ class _LinkCardState extends State<LinkCard> {
             foregroundColor: const Color.fromARGB(255, 220, 211, 5),
             icon: Icons.edit,
           ),
+          const SizedBox(
+            width: 5,
+          ),
+
           // archive link
           SlidableAction(
+            borderRadius: BorderRadius.circular(8),
+            padding: const EdgeInsets.all(0),
             onPressed: (context) {
               if (widget.link.is_archive ?? false) {
                 _markAsArchived(widget.link.id!);
@@ -243,6 +256,9 @@ class _LinkCardState extends State<LinkCard> {
             foregroundColor: const Color.fromARGB(255, 5, 105, 220),
             backgroundColor: const Color.fromARGB(255, 201, 226, 255),
             icon: Icons.archive,
+          ),
+          const SizedBox(
+            width: 5,
           ),
         ],
       ),

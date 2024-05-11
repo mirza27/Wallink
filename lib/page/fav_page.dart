@@ -24,10 +24,6 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
     setState(() {
       _favoriteLinksFuture = favoriteLinksData;
     });
-
-    // List<Link> favoriteLinks =
-    //     favoriteLinksData.map((data) => Link.fromMap(data)).toList();
-    // return favoriteLinks;
   }
 
   @override
@@ -42,16 +38,6 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
                 fontFamily: 'sharp'),
           ),
           backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 16,
-              color: Color.fromRGBO(5, 105, 220, 1),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
         ),
         body: Column(
           children: [

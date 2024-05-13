@@ -190,14 +190,22 @@ class _HomePageState extends State<HomePage> {
       // ini sidebar anjer
 
       body: !_isSearching
-          ? RefreshIndicator(
-              onRefresh: () {
-                return Future.delayed(Duration.zero, () {
-                  _loadPreferences();
-                  _loadData();
-                });
-              },
-              child: Column(
+    ? RefreshIndicator(
+        onRefresh: () {
+          return Future.delayed(Duration.zero, () {
+            _loadPreferences();
+            _loadData();
+          });
+        },
+        child: _subCategories.isEmpty
+            ? Center(
+                child: Image.asset(
+                  'assets/no_data.png',
+                  width: 350,
+                  height: 350,
+                ),
+              )
+            : Column(
                 children: [
                   Expanded(
                     child: SlidableAutoCloseBehavior(
@@ -219,26 +227,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            )
-          : Column(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    child: ListView.builder(
-                      itemCount: _links.length,
-                      itemBuilder: ((context, index) {
-                        final Link link = Link.fromMap(_links[index]);
-                        return LinkCard(
-                          key: ValueKey(link.id),
-                          link: link,
-                          onChanged: _loadData,
-                        );
-                      }),
-                    ),
-                  ),
-                )
-              ],
+      )
+    : Column(
+        children: [
+          Expanded(
+            child: SizedBox(
+              child: ListView.builder(
+                itemCount: _links.length,
+                itemBuilder: ((context, index) {
+                  final Link link = Link.fromMap(_links[index]);
+                  return LinkCard(
+                    key: ValueKey(link.id),
+                    link: link,
+                    onChanged: _loadData,
+                  );
+                }),
+              ),
             ),
+          )
+        ],
+      ),
     );
   }
 }

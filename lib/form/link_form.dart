@@ -752,7 +752,6 @@ class _LinkFormState extends State<LinkForm> {
                             finalCategoryId = categoryId;
                             finalSubcategoryId = subCategoryId;
 
-                            // Display Snackbar for adding a new category
                             Get.snackbar(
                               'Success',
                               'New category added successfully!',
@@ -767,6 +766,14 @@ class _LinkFormState extends State<LinkForm> {
                                 int.parse(_choosedCategoryId!));
                             finalCategoryId = int.parse(_choosedCategoryId!);
                             finalSubcategoryId = subCategoryId;
+
+                            Get.snackbar(
+                              'Success',
+                              'New subcategory added successfully!',
+                              backgroundColor: Colors.lightGreen,
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.check),
+                            );
                           } else {
                             finalSubcategoryId =
                                 int.parse(_choosedSubCategoryId!);
@@ -776,6 +783,13 @@ class _LinkFormState extends State<LinkForm> {
                           for (var linkInput in _linkInputs) {
                             insertLink(linkInput.link!.trim(),
                                 linkInput.nameLink!.trim(), finalSubcategoryId);
+                            Get.snackbar(
+                              'Success',
+                              'New link added successfully!',
+                              backgroundColor: Colors.lightGreen,
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.check),
+                            );
                           }
 
                           // set lastCategory

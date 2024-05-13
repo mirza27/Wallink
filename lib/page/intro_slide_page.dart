@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/preference_page.dart';
+import 'package:wallink_v1/page/home_page.dart';
+import 'package:wallink_v1/route_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
   const IntroSlidePage({Key? key}) : super(key: key);
@@ -12,13 +13,14 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   late PageController _pageController;
   int _currentPage = 0;
   final List<String> _imageAssets = [
-    'assets/intro.png',
-    'assets/intro2.png',
-    'assets/intro3.png',
+    'assets/intr1.png',
+    'assets/intr2.png',
+    'assets/intr3.png',
+    'assets/intr4.png',
   ];
 
   double _nextButtonOffset = 0.0;
-  double _backButtonOffset = 0.0;
+  double _indicator4Offset = 0.0;
 
   @override
   void initState() {
@@ -35,127 +37,136 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-              _animateButtons();
-            },
-            itemCount: _imageAssets.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(_imageAssets[index]),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: index == 2 // Tampilkan tombol hanya jika indeks gambar adalah 2
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 24.0), // Sesuaikan jarak ke bawah di sini
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PreferencePage(),
-                                ),
-                              );
-                            },
-                            child: const Text('Get Started'),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 15,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildIndicators(),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: _updateCurrentPage,
+              itemCount: _imageAssets.length,
+              itemBuilder: _buildPage,
             ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 500),
-            bottom: 20,
-            right: _nextButtonOffset,
-            child: TextButton(
-              onPressed: () {
-                _pageController.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-              },
-              child: const Text(
-                'NEXT',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+            Positioned(
+              bottom: 100, // Ubah posisi titik 4 lebih ke bawah
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildIndicator(0),
+                  SizedBox(width: 8),
+                  _buildIndicator(1),
+                  SizedBox(width: 8),
+                  _buildIndicator(2),
+                  SizedBox(width: 8),
+                  _buildIndicator(3),
+                ],
               ),
             ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 500),
-            bottom: 20,
-            left: _backButtonOffset,
-            child: _currentPage != 0 ? TextButton(
-              onPressed: () {
-                _pageController.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-              },
-              child: const Text(
-                'BACK',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+            Positioned(
+              bottom: 50, // Ubah posisi tombol Next dan Mulai lebih ke bawah
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  _buildNextButton(),
+                ],
               ),
-            ): const SizedBox(),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  List<Widget> _buildIndicators() {
-    List<Widget> indicators = [];
-    // Menampilkan indikator hanya untuk gambar intro dan intro 2
-    for (int i = 0; i < _imageAssets.length - 1; i++) {
-      // Tambahkan kondisi untuk tidak menampilkan indikator jika indeks gambar adalah 2 (intro 3)
-      if (i != 2 && _currentPage != 2) {
-        indicators.add(
-          Container(
-            width: 8,
-            height: 8,
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: i == _currentPage ? Colors.white : Colors.grey,
+  Widget _buildPage(BuildContext context, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(_imageAssets[index]),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNextButton() {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 500),
+      bottom: _nextButtonOffset,
+      left: 0,
+      right: 0,
+      child: Container(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+          child: TextButton(
+            onPressed: () {
+              if (_currentPage < _imageAssets.length - 1) {
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
+              } else {
+                 Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RoutePage(
+                                selectedIndex: 0,
+                              ),
+                            ),
+                          );
+              }
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            ),
+            child: Text(
+              _currentPage == _imageAssets.length - 1 ? 'Mulai' : 'Next',
+              style: TextStyle(
+                color: Color(0xFF0569DC),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIndicator(int index) {
+    return GestureDetector(
+      onTap: () {
+        _pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
         );
-      }
-    }
-    return indicators;
+      },
+      child: Container(
+        width: 8,
+        height: 8,
+        margin: EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _currentPage == index ? Colors.white : Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  void _updateCurrentPage(int page) {
+    setState(() {
+      _currentPage = page;
+    });
+    _animateButtons();
   }
 
   void _animateButtons() {
     setState(() {
       _nextButtonOffset = _currentPage == _imageAssets.length - 1 ? -80.0 : 0.0;
-      _backButtonOffset = _currentPage == 0 ? -80.0 : 0.0;
+      _indicator4Offset = _currentPage >= 2 ? -80.0 : 0.0;
     });
   }
 }

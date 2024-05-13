@@ -50,6 +50,10 @@ flutter:
     - assets/no_data.png
     - assets/editdelete.png
     - assets/deletesubcategory.png
+    - assets/intr1.png
+    - assets/intr2.png
+    - assets/intr3.png
+    - assets/intr4.png
   fonts :
     - family: samsung_one
       fonts: 

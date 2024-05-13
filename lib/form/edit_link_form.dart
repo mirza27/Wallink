@@ -20,11 +20,13 @@ class _EditLinkFormState extends State<EditLinkForm> {
   final TextEditingController _linkController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<Link> _allLink = [];
+  List<Link> _idLink = [];
 
   @override
   void initState() {
     super.initState();
     _getLink();
+    // _getLinkId();
 
     _linkController.text = widget.link.link ?? '';
     _linkNameController.text = widget.link.nameLink ?? '';
@@ -37,6 +39,14 @@ class _EditLinkFormState extends State<EditLinkForm> {
       _allLink = links;
     });
   }
+
+  // Future<void> _getLinkId() async {
+  //   List<Map<String, dynamic>> linkDataId = await getAllLinkById();
+  //   List<Link> links = linkDataId.map((data) => Link.fromMap(data)).toList();
+  //   setState(() {
+  //     _idLink = links;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +110,17 @@ class _EditLinkFormState extends State<EditLinkForm> {
                   } else if (value.trim() == '') {
                     return "New Category cannot only space";
                   }
-                  bool isNameUnique =
-                      _allLink.every((link) => link.nameLink != value);
+
+                  bool isNameUnique = true;
+                  if (value != widget.link.nameLink) {
+                    isNameUnique = _allLink.every((link) =>
+                        link.nameLink != value || link.id == widget.link.id);
+                  }
+
                   if (!isNameUnique) {
                     return "Link name must be unique";
                   }
+
                   return null;
                 },
                 style: const TextStyle(
@@ -165,8 +181,12 @@ class _EditLinkFormState extends State<EditLinkForm> {
                     return "Link cannot only contain spaces";
                   }
 
-                  bool isUrlUnique =
-                      _allLink.every((link) => link.link != value);
+                  bool isUrlUnique = true;
+                  if (value != widget.link.link) {
+                    isUrlUnique = _allLink.every((link) =>
+                        link.link != value || link.id == widget.link.id);
+                  }
+
                   if (!isUrlUnique) {
                     return "You already have this url link";
                   }

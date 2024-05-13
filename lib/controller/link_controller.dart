@@ -116,6 +116,29 @@ Future<bool> checkLinkNama(String? newNameLink) async {
   }
 }
 
+Future<bool> checkLinkNamaUpdate(String? newNameLink, int link_id) async {
+  Database db = await LinkDatabase.instance.database;
+  List<Map<String, dynamic>> results = await db.query(
+    tableLinks,
+    where:
+        '${LinkFields.columnLinkName} == ? AND ${LinkFields.columnLinkId} != ?',
+    whereArgs: [newNameLink, link_id],
+  );
+
+  if (results.isEmpty) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<List<Map<String, dynamic>>> getAllLinkById(int linkId) async {
+  Database db = await LinkDatabase.instance.database;
+
+  return await db.query(tableLinks,
+      where: '${LinkFields.columnLinkId} == ? ', whereArgs: [linkId]);
+}
+
 
 
 // Future<Link> createLink(Link link) async {

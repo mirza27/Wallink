@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
         child: _subCategories.isEmpty
             ? Center(
                 child: Image.asset(
-                  'assets/no_data.png',
+                  'assets/noData.jpeg',
                   width: 350,
                   height: 350,
                 ),

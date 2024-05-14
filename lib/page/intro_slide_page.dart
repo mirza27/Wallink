@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:wallink_v1/database/app_preferences.dart';
-=======
->>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
 import 'package:wallink_v1/route_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
@@ -49,7 +46,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
               itemCount: _imageAssets.length,
               itemBuilder: _buildPage,
             ),
-<<<<<<< HEAD
             Positioned(
               bottom: 100, // Ubah posisi titik 4 lebih ke bawah
               left: 0,
@@ -65,26 +61,9 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   const SizedBox(width: 8),
                   _buildIndicator(3),
                 ],
-=======
-            // Tampilkan indikator dan tombol jika halaman saat ini bukan splashscreen
-            if (_currentPage != 0)
-              Positioned(
-                bottom: 100,
-                left: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    _imageAssets.length - 1,
-                    (index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: _buildIndicator(index + 1),
-                    ),
-                  ),
-                ),
->>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
               ),
-            if (_currentPage != 0)
+            ),
+            if (_currentPage != 0) ...{
               Positioned(
                 bottom: 50,
                 left: 0,
@@ -95,6 +74,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   ],
                 ),
               ),
+            },
           ],
         ),
       ),
@@ -133,24 +113,14 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
           child: TextButton(
-            onPressed: () async{
+            onPressed: () async {
               if (_currentPage < _imageAssets.length - 1) {
                 _pageController.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,
                 );
               } else {
-<<<<<<< HEAD
                 await AppPreferences.setFirstTime(false);
-                 Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RoutePage(
-                                selectedIndex: 0,
-                              ),
-                            ),
-                          );
-=======
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -159,7 +129,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                     ),
                   ),
                 );
->>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
               }
             },
             style: ButtonStyle(

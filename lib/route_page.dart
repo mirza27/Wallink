@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:wallink_v1/form/link_form.dart';
@@ -70,7 +71,7 @@ Future<void>SetRoute(int index)async {
           borderRadius: BorderRadius.circular(30.0),
         ),
         child: const Icon(
-          Icons.add,
+          CupertinoIcons.add,
           size: 40,
         ),
       ),
@@ -90,8 +91,8 @@ Future<void>SetRoute(int index)async {
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: GNav(
               tabs: const [
-                GButton(icon: Icons.home),
-                GButton(icon: Icons.favorite_border),
+                GButton(icon: CupertinoIcons.home, iconSize: 30,),
+                GButton(icon: CupertinoIcons.heart, iconSize: 30,),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

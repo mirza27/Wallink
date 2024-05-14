@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wallink_v1/page/home_page.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/route_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
@@ -54,11 +54,11 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _buildIndicator(0),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _buildIndicator(1),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _buildIndicator(2),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _buildIndicator(3),
                 ],
               ),
@@ -101,13 +101,14 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
           child: TextButton(
-            onPressed: () {
+            onPressed: () async{
               if (_currentPage < _imageAssets.length - 1) {
                 _pageController.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,
                 );
               } else {
+                await AppPreferences.setFirstTime(false);
                  Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -123,8 +124,8 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             ),
             child: Text(
               _currentPage == _imageAssets.length - 1 ? 'Mulai' : 'Next',
-              style: TextStyle(
-                color: Color(0xFF0569DC),
+              style: const TextStyle(
+                color: const Color(0xFF0569DC),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -147,7 +148,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
       child: Container(
         width: 8,
         height: 8,
-        margin: EdgeInsets.only(bottom: 5),
+        margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: _currentPage == index ? Colors.white : Colors.grey,

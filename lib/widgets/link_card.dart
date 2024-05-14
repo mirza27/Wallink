@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -173,7 +174,7 @@ class _LinkCardState extends State<LinkCard> {
                 );
               }
             },
-            icon: Icons.delete,
+            icon: CupertinoIcons.delete,
             backgroundColor: const Color.fromARGB(255, 255, 201, 201),
             foregroundColor: const Color.fromARGB(255, 229, 72, 77),
           ),
@@ -218,8 +219,8 @@ class _LinkCardState extends State<LinkCard> {
                       ));
             },
             backgroundColor: const Color.fromARGB(255, 255, 253, 201),
-            foregroundColor: const Color.fromARGB(255, 220, 211, 5),
-            icon: Icons.edit,
+            foregroundColor: Color.fromARGB(255, 167, 159, 0),
+            icon: CupertinoIcons.square_pencil,
           ),
           const SizedBox(
             width: 5,
@@ -255,7 +256,7 @@ class _LinkCardState extends State<LinkCard> {
             },
             foregroundColor: const Color.fromARGB(255, 5, 105, 220),
             backgroundColor: const Color.fromARGB(255, 201, 226, 255),
-            icon: Icons.archive,
+            icon: CupertinoIcons.archivebox,
           ),
           const SizedBox(
             width: 5,

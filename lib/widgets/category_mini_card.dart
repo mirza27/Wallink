@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
@@ -65,7 +66,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
             children: [
               ListTile(
                 leading: const Icon(
-                  Icons.edit,
+                  CupertinoIcons.square_pencil,
                   color: Color.fromRGBO(5, 105, 220, 1),
                 ),
                 title: const Text(
@@ -114,7 +115,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
               ),
               ListTile(
                 leading: const Icon(
-                  Icons.delete,
+                  CupertinoIcons.delete,
                   color: Color.fromARGB(255, 229, 72, 77),
                 ),
                 title: const Text(

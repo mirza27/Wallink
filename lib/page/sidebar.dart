@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/page/archived_page.dart';
 import 'package:wallink_v1/page/setting_page.dart';
@@ -16,112 +17,127 @@ class Sidebar extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.zero,
         ),
-        child: ListView(
-          padding: const EdgeInsets.only(top: 60),
-          children: [
-            ListTile(
-              tileColor: Colors.white,
-              title: const Text(
-                'WALLINK',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 33,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    ListTile(
+                      tileColor: Colors.white,
+                      title: const Text(
+                        'Wallink',
+                        style: TextStyle(
+                          fontFamily: 'sharp',
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 1,
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      leading:
+                          const Icon(CupertinoIcons.home, color: Colors.black),
+                      title: const Text(
+                        'Home',
+                        style: TextStyle(
+                          fontFamily: 'sharp',
+                          color: Colors.black,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        setIndex(0);
+                      },
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      leading:
+                          const Icon(CupertinoIcons.heart, color: Colors.black),
+                      title: const Text(
+                        'Favorite',
+                        style:
+                            TextStyle(fontFamily: 'sharp', color: Colors.black),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        setIndex(1);
+                      },
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      leading: const Icon(CupertinoIcons.archivebox,
+                          color: Colors.black),
+                      title: const Text(
+                        'Archive',
+                        style:
+                            TextStyle(fontFamily: 'sharp', color: Colors.black),
+                      ),
+                      onTap: () {
+                        // Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ArchivedLinksPage()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(
-              height: 1,
-            ),
-            ListTile(
-              tileColor: Colors.white,
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text(
-                'Home',
-                style: TextStyle(color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      tileColor: Colors.white,
+                      leading:
+                          const Icon(CupertinoIcons.gear, color: Colors.black),
+                      title: const Text(
+                        'Settings',
+                        style:
+                            TextStyle(fontFamily: 'sharp', color: Colors.black),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SettingPage(
+                                      onChangedPreference: setIndex,
+                                    )));
+                      },
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      leading: const Icon(CupertinoIcons.question_circle,
+                          color: Colors.black),
+                      title: const Text(
+                        'Help',
+                        style: TextStyle(
+                          fontFamily: 'sharp',
+                          color: Colors.black,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => FAQPage()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              onTap: () {
-                Navigator.pop(context);
-                setIndex(0);
-              },
-            ),
-            const SizedBox(height: 10),
-            ListTile(
-              tileColor: Colors.white,
-              leading: const Icon(Icons.collections_bookmark_sharp,
-                  color: Colors.black),
-              title: const Text(
-                'Favorite',
-                style: TextStyle(color: Colors.black),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                setIndex(1);
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              tileColor: Colors.white,
-              leading: const Icon(Icons.archive_rounded, color: Colors.black),
-              title: const Text(
-                'Archive',
-                style: TextStyle(color: Colors.black),
-              ),
-              onTap: () {
-                // Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ArchivedLinksPage()),
-                );
-              },
-            ),
-            const SizedBox(
-              height: 350,
-            ),
-            Divider(
-              color: Colors.grey[400],
-              thickness: 1.0,
-              height: 40,
-              indent: 16,
-              endIndent: 16,
-            ),
-            ListTile(
-              tileColor: Colors.white,
-              leading: const Icon(Icons.settings, color: Colors.black),
-              title: const Text(
-                'Settings',
-                style: TextStyle(color: Colors.black),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SettingPage(onChangedPreference: setIndex,)));
-              },
-            ),
-            ListTile(
-              tileColor: Colors.white,
-              leading:
-                  const Icon(Icons.help_outline_sharp, color: Colors.black),
-              title: const Text(
-                'Help',
-                style: TextStyle(color: Colors.black),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FAQPage()),
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

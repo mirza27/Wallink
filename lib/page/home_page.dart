@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           _search(value);
                         },
                         decoration: InputDecoration(
-                          suffixIcon: const Icon(Icons.search),
+                          suffixIcon: const Icon(CupertinoIcons.search),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15.0),
                           filled: true,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -146,9 +147,10 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // edit sub category
               ListTile(
                 leading: const Icon(
-                  Icons.edit,
+                  CupertinoIcons.square_pencil,
                   color: Color.fromRGBO(5, 105, 220, 1),
                 ),
                 title: const Text(
@@ -182,9 +184,9 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                           Get.snackbar(
                             'Success',
                             'Subcategory edited successfully',
-                            backgroundColor: Color.fromARGB(255, 220, 211, 5),
+                            backgroundColor: const Color.fromARGB(255, 98, 212, 101),
                             colorText: Colors.white,
-                            icon: const Icon(Icons.security_update_good),
+                            icon: const Icon(CupertinoIcons.check_mark_circled, color: Colors.white, size: 25,),
                           );
                           widget.onUpdate();
                         },
@@ -195,27 +197,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       context)); //agar showModalBottomSheet bisa hilang sendiri
                 },
               ),
+              
+              // delete subcategory
               ListTile(
                 leading: const Icon(
-                  Icons.share,
-                  color: Color.fromRGBO(5, 105, 220, 1),
-                ),
-                title: const Text(
-                  'Share Sub Category',
-                  style: TextStyle(
-                    fontFamily: 'sharp',
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                onTap: () {
-                  _shareSubCategory(widget.subCategory);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.delete,
+                  CupertinoIcons.delete,
                   color: Color.fromARGB(255, 229, 72, 77),
                 ),
                 title: const Text(
@@ -262,6 +248,26 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       icon: const Icon(Icons.delete),
                     );
                   }
+                },
+              ),
+
+              // share subcategory
+              ListTile(
+                leading: const Icon(
+                  CupertinoIcons.share,
+                  color: Color.fromRGBO(5, 105, 220, 1),
+                ),
+                title: const Text(
+                  'Share Sub Category',
+                  style: TextStyle(
+                    fontFamily: 'sharp',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  _shareSubCategory(widget.subCategory);
                 },
               ),
             ],

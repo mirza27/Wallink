@@ -20,8 +20,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
     'assets/intr4.png',
   ];
 
-  double _nextButtonOffset = 0.0;
-
   @override
   void initState() {
     super.initState();
@@ -48,7 +46,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             ),
             if (_currentPage != 0)
               Positioned(
-                bottom: 100, // Ubah posisi titik 4 lebih ke bawah
+                bottom: 100,
                 left: 0,
                 right: 0,
                 child: Row(
@@ -101,12 +99,10 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   }
 
   Widget _buildNextButton() {
-    return AnimatedPositioned(
+    return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
-      bottom: _nextButtonOffset,
-      left: 0,
-      right: 0,
-      child: Container(
+      opacity: _currentPage == 0 ? 0.0 : 1.0,
+      child: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -170,13 +166,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   void _updateCurrentPage(int page) {
     setState(() {
       _currentPage = page;
-    });
-    _animateButtons();
-  }
-
-  void _animateButtons() {
-    setState(() {
-      _nextButtonOffset = _currentPage == _imageAssets.length - 1 ? -80.0 : 0.0;
     });
   }
 }

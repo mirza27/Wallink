@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/setting_confirmation.dart';
@@ -42,18 +43,21 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Settings',
           style: TextStyle(
-              color: Color.fromRGBO(5, 105, 220, 1),
-              fontWeight: FontWeight.bold,
-              fontFamily: 'sharp'),
+            color: Color.fromRGBO(5, 105, 220, 1),
+            fontWeight: FontWeight.bold,
+            fontFamily: 'sharp',
+            fontSize: 20,
+          ),
         ),
         backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 16,
+            CupertinoIcons.back,
+            size: 30,
             color: Color.fromRGBO(5, 105, 220, 1),
           ),
           onPressed: () {
@@ -74,7 +78,7 @@ class _SettingPageState extends State<SettingPage> {
                   fontFamily: 'sharp',
                   fontWeight: FontWeight.w800,
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -82,7 +86,10 @@ class _SettingPageState extends State<SettingPage> {
             SwitchListTile(
               title: const Text(
                 'Always Expand Tile',
-                style: TextStyle(fontFamily: 'sharp'),
+                style: TextStyle(
+                  fontFamily: 'sharp',
+                  fontSize: 14,
+                ),
               ),
               activeColor: const Color.fromRGBO(5, 105, 220, 1),
               activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
@@ -99,7 +106,7 @@ class _SettingPageState extends State<SettingPage> {
             SwitchListTile(
               title: const Text(
                 'Always Ask Delete Confirmation',
-                style: TextStyle(fontFamily: 'sharp'),
+                style: TextStyle(fontFamily: 'sharp', fontSize: 14,),
               ),
               activeColor: const Color.fromRGBO(5, 105, 220, 1),
               activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
@@ -133,10 +140,11 @@ class _SettingPageState extends State<SettingPage> {
                   child: const Text(
                     'Save',
                     style: TextStyle(
-                        fontFamily: 'sharp',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        color: Color.fromRGBO(201, 226, 255, 1),),
+                      fontFamily: 'sharp',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: Color.fromRGBO(201, 226, 255, 1),
+                    ),
                   ),
                 ),
               ],

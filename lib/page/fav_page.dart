@@ -29,32 +29,36 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Favorite Links',
-            style: TextStyle(
-                color: Color.fromRGBO(5, 105, 220, 1),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'sharp'),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Favorite Links',
+          style: TextStyle(
+            color: Color.fromRGBO(5, 105, 220, 1),
+            fontWeight: FontWeight.bold,
+            fontFamily: 'sharp',
+            fontSize: 20,
           ),
-          backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
         ),
-        body: Column(
-          children: [
-            SlidableAutoCloseBehavior(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                // iterasi widget sub category card
-                itemCount: _favoriteLinksFuture.length,
-                itemBuilder: (context, index) {
-                  final Link link = Link.fromMap(_favoriteLinksFuture[index]);
-              
-                  return LinkCard(link: link, onChanged: _getFavoriteLinks);
-                },
-              ),
+        backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
+      ),
+      body: Column(
+        children: [
+          SlidableAutoCloseBehavior(
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              // iterasi widget sub category card
+              itemCount: _favoriteLinksFuture.length,
+              itemBuilder: (context, index) {
+                final Link link = Link.fromMap(_favoriteLinksFuture[index]);
+
+                return LinkCard(link: link, onChanged: _getFavoriteLinks);
+              },
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

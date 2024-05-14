@@ -150,7 +150,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
               // edit sub category
               ListTile(
                 leading: const Icon(
-                  CupertinoIcons.square_pencil,
+                  Icons.create_outlined,
                   color: Color.fromRGBO(5, 105, 220, 1),
                 ),
                 title: const Text(

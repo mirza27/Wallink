@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -33,18 +34,21 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
             'Archive',
             style: TextStyle(
-                color: Color.fromRGBO(5, 105, 220, 1),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'sharp'),
+              color: Color.fromRGBO(5, 105, 220, 1),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'sharp',
+              fontSize: 20,
+            ),
           ),
           backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
           leading: IconButton(
             icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 16,
+              CupertinoIcons.back,
+              size: 30,
               color: Color.fromRGBO(5, 105, 220, 1),
             ),
             onPressed: () {

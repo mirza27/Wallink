@@ -220,7 +220,7 @@ class _LinkCardState extends State<LinkCard> {
             },
             backgroundColor: const Color.fromARGB(255, 255, 253, 201),
             foregroundColor: Color.fromARGB(255, 167, 159, 0),
-            icon: CupertinoIcons.square_pencil,
+            icon: Icons.create_outlined,
           ),
           const SizedBox(
             width: 5,

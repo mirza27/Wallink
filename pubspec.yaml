@@ -54,6 +54,7 @@ flutter:
     - assets/intr2.png
     - assets/intr3.png
     - assets/intr4.png
+    - assets/splashscreen.png
   fonts :
     - family: samsung_one
       fonts: 

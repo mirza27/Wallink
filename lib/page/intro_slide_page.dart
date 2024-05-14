@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:wallink_v1/database/app_preferences.dart';
+=======
+>>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
 import 'package:wallink_v1/route_page.dart';
 
 class IntroSlidePage extends StatefulWidget {
@@ -13,6 +16,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   late PageController _pageController;
   int _currentPage = 0;
   final List<String> _imageAssets = [
+    'assets/splashscreen.png',
     'assets/intr1.png',
     'assets/intr2.png',
     'assets/intr3.png',
@@ -20,7 +24,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   ];
 
   double _nextButtonOffset = 0.0;
-  double _indicator4Offset = 0.0;
 
   @override
   void initState() {
@@ -46,6 +49,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
               itemCount: _imageAssets.length,
               itemBuilder: _buildPage,
             ),
+<<<<<<< HEAD
             Positioned(
               bottom: 100, // Ubah posisi titik 4 lebih ke bawah
               left: 0,
@@ -61,18 +65,36 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   const SizedBox(width: 8),
                   _buildIndicator(3),
                 ],
+=======
+            // Tampilkan indikator dan tombol jika halaman saat ini bukan splashscreen
+            if (_currentPage != 0)
+              Positioned(
+                bottom: 100,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    _imageAssets.length - 1,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _buildIndicator(index + 1),
+                    ),
+                  ),
+                ),
+>>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
               ),
-            ),
-            Positioned(
-              bottom: 50, // Ubah posisi tombol Next dan Mulai lebih ke bawah
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  _buildNextButton(),
-                ],
+            if (_currentPage != 0)
+              Positioned(
+                bottom: 50,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    _buildNextButton(),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -80,11 +102,21 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   }
 
   Widget _buildPage(BuildContext context, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(_imageAssets[index]),
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        if (index == 0) {
+          _pageController.nextPage(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(_imageAssets[index]),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -108,6 +140,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   curve: Curves.ease,
                 );
               } else {
+<<<<<<< HEAD
                 await AppPreferences.setFirstTime(false);
                  Navigator.pushReplacement(
                             context,
@@ -117,6 +150,16 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                               ),
                             ),
                           );
+=======
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoutePage(
+                      selectedIndex: 0,
+                    ),
+                  ),
+                );
+>>>>>>> c23be56c92c5cbeb730675d563da605c46376f24
               }
             },
             style: ButtonStyle(
@@ -167,7 +210,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
   void _animateButtons() {
     setState(() {
       _nextButtonOffset = _currentPage == _imageAssets.length - 1 ? -80.0 : 0.0;
-      _indicator4Offset = _currentPage >= 2 ? -80.0 : 0.0;
     });
   }
 }

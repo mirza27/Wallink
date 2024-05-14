@@ -46,24 +46,23 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
               itemCount: _imageAssets.length,
               itemBuilder: _buildPage,
             ),
-            Positioned(
-              bottom: 100, // Ubah posisi titik 4 lebih ke bawah
-              left: 0,
-              right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildIndicator(0),
-                  const SizedBox(width: 8),
-                  _buildIndicator(1),
-                  const SizedBox(width: 8),
-                  _buildIndicator(2),
-                  const SizedBox(width: 8),
-                  _buildIndicator(3),
-                ],
+            if (_currentPage != 0)
+              Positioned(
+                bottom: 100, // Ubah posisi titik 4 lebih ke bawah
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    _imageAssets.length - 1,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _buildIndicator(index + 1),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            if (_currentPage != 0) ...{
+            if (_currentPage != 0)
               Positioned(
                 bottom: 50,
                 left: 0,
@@ -74,7 +73,6 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
                   ],
                 ),
               ),
-            },
           ],
         ),
       ),
@@ -137,7 +135,7 @@ class _IntroSlidePageState extends State<IntroSlidePage> {
             child: Text(
               _currentPage == _imageAssets.length - 1 ? 'Mulai' : 'Next',
               style: const TextStyle(
-                color: const Color(0xFF0569DC),
+                color: Color(0xFF0569DC),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

@@ -28,7 +28,7 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
   Widget build(BuildContext context) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.2,
+        height: MediaQuery.of(context).size.height * 0.27,
         child: Form(
           key: _formKey,
           child: Padding(
@@ -126,9 +126,6 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                     alignLabelWithHint: true,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 const Expanded(child: SizedBox()),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -146,9 +143,6 @@ class _editSubCategoryFormState extends State<editSubCategoryForm> {
                             fontWeight: FontWeight.w800,
                             color: Colors.black),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
                     ),
                     FilledButton(
                       style:

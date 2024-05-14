@@ -52,7 +52,7 @@ class _EditLinkFormState extends State<EditLinkForm> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.27,
+      height: MediaQuery.of(context).size.height * 0.35,
       child: Form(
         key: _formKey,
         child: Padding(

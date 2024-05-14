@@ -143,7 +143,7 @@ class _LinkFormState extends State<LinkForm> {
                       onChanged: (value) {
                         if (value == "add_new_category") {
                           setState(() {
-                            _choosedCategoryId = null;
+                            _choosedCategoryId = "add_new_category";
                             isAddCategory = true;
                           });
                         } else {
@@ -151,6 +151,7 @@ class _LinkFormState extends State<LinkForm> {
                             _choosedCategoryId = value!;
                             isAddCategory = false;
                             isAddSubCategory = false;
+                            _subCategories = [];
                           });
                         }
 

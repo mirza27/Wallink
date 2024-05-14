@@ -47,7 +47,7 @@ flutter:
     - assets/intro.png 
     - assets/intro2.png
     - assets/intro3.png
-    - assets/no_data.png
+    - assets/noData.jpeg
     - assets/editdelete.png
     - assets/deletesubcategory.png
     - assets/intr1.png

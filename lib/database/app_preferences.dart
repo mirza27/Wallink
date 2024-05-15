@@ -20,7 +20,7 @@ class AppPreferences {
   // apakah expasion tile dibuka atau tutup
   static Future<bool> isExpanded() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(isExpandedKey) ?? false;
+    return prefs.getBool(isExpandedKey) ?? true;
   }
 
   static Future<void> setExpanded(bool value) async {
@@ -42,7 +42,7 @@ class AppPreferences {
   // get last category selected
   static Future<int> getLastCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(lastCategoryKey) ?? 0;
+    return prefs.getInt(lastCategoryKey) ?? 1;
   }
 
   static Future<void> setLastCategory(int value) async {

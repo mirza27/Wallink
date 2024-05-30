@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
+import 'package:wallink_v1/dialog/launch_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
 
@@ -27,17 +27,25 @@ class _LinkCardState extends State<LinkCard> {
   bool _isColored = false;
   bool _alwaysAskConfirmation = true;
 
-  Future<void> _launchURL(String url) async {
-    // jika tidak ada https / http
-    if (!url.startsWith("https://") && !url.startsWith("http://")) {
-      url = "https://$url";
-    }
+  Future<void> _launchURL(BuildContext context, String url) async {
+  if (!url.startsWith("https://") && !url.startsWith("http://")) {
+    url = "https://$url";
+  }
 
-    final Uri uri = Uri.parse(url);
+  final Uri uri = Uri.parse(url);
 
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw "can't launch url";
-    }
+  showDialog(
+    context: context,
+    builder: (context) => LaunchConfirmationDialog(
+      title: 'Launch this link?',
+      message: 'Are you sure you want to launch this link?',
+      onLaunchConfirmed: () async {
+        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          throw "can't launch url";
+        }
+      },
+    ),
+  );
   }
 
   // fungsi copy
@@ -268,7 +276,7 @@ class _LinkCardState extends State<LinkCard> {
           _copytoClipboard(widget.link.link as String);
         },
         onTap: () {
-          _launchURL(widget.link.link as String);
+          _launchURL(context, widget.link.link as String);
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),

@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/controller/notif_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/dialog/launch_confirmation.dart';
@@ -26,39 +27,35 @@ class LinkCard extends StatefulWidget {
 class _LinkCardState extends State<LinkCard> {
   bool _isColored = false;
   bool _alwaysAskConfirmation = true;
+  final NotifController notifController = Get.put(NotifController());
 
   Future<void> _launchURL(BuildContext context, String url) async {
-  if (!url.startsWith("https://") && !url.startsWith("http://")) {
-    url = "https://$url";
-  }
+    if (!url.startsWith("https://") && !url.startsWith("http://")) {
+      url = "https://$url";
+    }
 
-  final Uri uri = Uri.parse(url);
+    final Uri uri = Uri.parse(url);
 
-  showDialog(
-    context: context,
-    builder: (context) => LaunchConfirmationDialog(
-      title: 'Launch this link?',
-      message: 'Are you sure you want to launch this link?',
-      onLaunchConfirmed: () async {
-        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-          throw "can't launch url";
-        }
-      },
-    ),
-  );
+    showDialog(
+      context: context,
+      builder: (context) => LaunchConfirmationDialog(
+        title: 'Launch this link?',
+        message: 'Are you sure you want to launch this link?',
+        onLaunchConfirmed: () async {
+          if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+            throw "can't launch url";
+          }
+        },
+      ),
+    );
   }
 
   // fungsi copy
+
   Future<void> _copytoClipboard(String url) async {
     Clipboard.setData(ClipboardData(text: url));
-    Get.snackbar(
-      'Success',
-      'Link copied to clipboard', // Message here
-      backgroundColor: Colors.lightGreen,
-      colorText: Colors.white,
-      icon: const Icon(Icons.content_copy),
-    );
-
+    await notifController.showNotif('Link copied', 'Link copied to clipboard',
+        Icons.copy, Colors.lightGreen);
     setState(() {
       _isColored = true; // Ubah _isColored menjadi true
     });
@@ -160,18 +157,15 @@ class _LinkCardState extends State<LinkCard> {
                     title: 'Warning!',
                     message:
                         'Are you sure you want to delete this link? This action cannot be undone',
-                    onDeleteConfirmed: () {
+                    onDeleteConfirmed: () async {
                       _deleteLink(
                         widget.link.id!,
                       );
-                      Get.snackbar(
-                        'Success',
-                        'Link deleted successfully',
-                        backgroundColor: Colors.green,
-                        colorText: Colors.white,
-                        duration: Duration(seconds: 2),
-                        icon: Icon(Icons.delete),
-                      );
+                      await notifController.showNotif(
+                          'Success',
+                          'Link deleted successfully',
+                          Icons.delete,
+                          Colors.green);
                     },
                     isThisLink: true,
                   ),
@@ -212,14 +206,12 @@ class _LinkCardState extends State<LinkCard> {
                         content: EditLinkForm(
                           link: widget.link,
                           //onUpdate: widget.onChanged,
-                          onUpdate: () {
-                            Get.snackbar(
-                              'Success', // Title here
-                              'Link updated successfully', // Message here
-                              backgroundColor: Color.fromARGB(255, 220, 211, 5),
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.security_update_good),
-                            );
+                          onUpdate: () async {
+                            await notifController.showNotif(
+                                "Success",
+                                'Link updated successfully',
+                                Icons.security_update_good,
+                                Color.fromARGB(255, 220, 211, 5));
                             widget.onChanged();
                           },
                         ),
@@ -238,7 +230,7 @@ class _LinkCardState extends State<LinkCard> {
           SlidableAction(
             borderRadius: BorderRadius.circular(8),
             padding: const EdgeInsets.all(0),
-            onPressed: (context) {
+            onPressed: (context) async {
               if (widget.link.is_archive ?? false) {
                 _markAsArchived(widget.link.id!);
               } else {
@@ -247,19 +239,17 @@ class _LinkCardState extends State<LinkCard> {
               setState(() {
                 widget.link.is_archive = !(widget.link.is_archive ?? false);
               });
-              Get.snackbar(
+              await notifController.showNotif(
                 widget.link.is_archive ?? false
                     ? 'Link Unarchived'
                     : 'Link Archived',
                 widget.link.is_archive ?? false
                     ? 'Link has been successfully unarchived'
                     : 'Link has been successfully archived',
-                backgroundColor: Colors.blue,
-                colorText: Colors.white,
-                duration: const Duration(seconds: 2),
-                icon: widget.link.is_archive ?? false
-                    ? const Icon(Icons.unarchive)
-                    : const Icon(Icons.archive),
+                widget.link.is_archive ?? false
+                    ? Icons.unarchive
+                    : Icons.archive,
+                Colors.blue, // Warna latar belakang biru
               );
             },
             foregroundColor: const Color.fromARGB(255, 5, 105, 220),
@@ -342,24 +332,18 @@ class _LinkCardState extends State<LinkCard> {
                   onPressed: () async {
                     if (widget.link.is_favorite ?? false) {
                       await markAsUnFavorite(widget.link.id!);
-                      Get.snackbar(
-                        'Removed from Favorites',
-                        'Link removed from favorites',
-                        backgroundColor: Colors.pink,
-                        colorText: Colors.white,
-                        duration: const Duration(seconds: 2),
-                        icon: const Icon(Icons.favorite_border),
-                      );
+                      await notifController.showNotif(
+                          'Removed from Favorites',
+                          'Link removed from favorites',
+                          Icons.favorite_border,
+                          Colors.pink);
                     } else {
                       await markAsFavorite(widget.link.id!);
-                      Get.snackbar(
-                        'Added to Favorites',
-                        'Link added to favorites',
-                        backgroundColor: Colors.pink,
-                        colorText: Colors.white,
-                        duration: const Duration(seconds: 2),
-                        icon: const Icon(Icons.favorite),
-                      );
+                      await notifController.showNotif(
+                          'Added to Favorites',
+                          'Link added to favorites',
+                          Icons.favorite,
+                          Colors.pink);
                     }
                     setState(() {
                       // Toggle nilai is_favorite saat tombol ditekan

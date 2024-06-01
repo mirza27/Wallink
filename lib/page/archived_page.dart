@@ -9,6 +9,7 @@ class ArchivedLinksPage extends StatefulWidget {
     super.key,
   });
 
+  @override
   _ArchivedLinksPageState createState() => _ArchivedLinksPageState();
 }
 
@@ -56,20 +57,32 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
             },
           ),
         ),
-        body: Column(
-          children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              // iterasi widget sub category card
-              itemCount: _archiveLinkFuture.length,
-              itemBuilder: (context, index) {
-                final Link link = Link.fromMap(_archiveLinkFuture[index]);
+        body: _archiveLinkFuture.isEmpty
+            ? Center(
+                child: Image.asset(
+                  'assets/nodata_archived.png',
+                  width: 400,
+                  height: 400,
+                ),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      // iterasi widget sub category card
+                      itemCount: _archiveLinkFuture.length,
+                      itemBuilder: (context, index) {
+                        final Link link =
+                            Link.fromMap(_archiveLinkFuture[index]);
 
-                return LinkCard(link: link, onChanged: _getArchivedLinks);
-              },
-            ),
-          ],
-        ));
+                        return LinkCard(
+                            link: link, onChanged: _getArchivedLinks);
+                      },
+                    ),
+                  ),
+                ],
+              ));
   }
 }

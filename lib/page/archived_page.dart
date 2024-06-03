@@ -61,8 +61,8 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
             ? Center(
                 child: Image.asset(
                   'assets/nodata_archived.png',
-                  width: 400,
-                  height: 400,
+                  width: 370,
+                  height: 370,
                 ),
               )
             : Column(

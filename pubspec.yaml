@@ -44,10 +44,12 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+
   assets:
     - .env
-    - assets/intro.png
-  assets:
+    - assets/faq1.png
+    - assets/faq2.png
+    - assets/faq4.png
     - assets/intro.png
     - assets/intro2.png
     - assets/intro3.png

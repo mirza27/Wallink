@@ -5,6 +5,7 @@ class AppPreferences {
   static const String isExpandedKey = 'isExpanded';
   static const String lastCategoryKey = 'lastCategory';
   static const String isAlwaysAsk = 'isAlwaysAsk';
+  static const String userId = 'userId';
 
   // value apakah pertama kali
   static Future<bool> isFirstTime() async {
@@ -48,5 +49,17 @@ class AppPreferences {
   static Future<void> setLastCategory(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(lastCategoryKey, value);
+  }
+
+  // get user id
+  static Future<String> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userId) ?? '';
+  }
+
+  // set user id
+  static Future<void> setUserId(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userId, value);
   }
 }

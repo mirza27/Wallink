@@ -1,10 +1,10 @@
 name: wallink_v1
 description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+publish_to: "none"
+version: 2.0.0
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -24,10 +24,11 @@ dependencies:
   share: ^2.0.4
   clipboard: ^0.1.3
   get: ^4.6.5
-  
-
-  
-  
+  dio: ^5.1.1
+  flutter_dotenv: ^5.0.2
+  device_info_plus: ^8.1.0
+  package_info_plus: 8.0.0
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +36,6 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   flutter_launcher_icons: "^0.13.1"
   google_nav_bar: ^5.0.6
-  
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -44,8 +44,9 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
-  assets: 
-    - assets/intro.png 
+  assets:
+    - .env
+    - assets/intro.png
     - assets/intro2.png
     - assets/intro3.png
     - assets/noData.jpeg
@@ -57,14 +58,12 @@ flutter:
     - assets/intr4.png
     - assets/splashscreen.png
     - assets/NewLogo.png
-  fonts :
+  fonts:
     - family: samsung_one
-      fonts: 
+      fonts:
         - asset: assets/fonts/SamsungOne-400.ttf
         - asset: assets/fonts/SamsungOne-700.ttf
           weight: 700
     - family: sharp
       fonts:
         - asset: assets/fonts/SamsungSharpSans-Bold.ttf
-
-          

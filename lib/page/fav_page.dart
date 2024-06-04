@@ -42,23 +42,32 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
         ),
         backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
       ),
-      body: Column(
-        children: [
-          SlidableAutoCloseBehavior(
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              // iterasi widget sub category card
-              itemCount: _favoriteLinksFuture.length,
-              itemBuilder: (context, index) {
-                final Link link = Link.fromMap(_favoriteLinksFuture[index]);
+      body: _favoriteLinksFuture.isEmpty
+          ? Center(
+              child: Image.asset(
+                'assets/nodata_favorite.png',
+                width: 325,
+                height: 325,
+              ),
+            )
+          : Column(
+              children: [
+                SlidableAutoCloseBehavior(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    // iterasi widget sub category card
+                    itemCount: _favoriteLinksFuture.length,
+                    itemBuilder: (context, index) {
+                      final Link link =
+                          Link.fromMap(_favoriteLinksFuture[index]);
 
-                return LinkCard(link: link, onChanged: _getFavoriteLinks);
-              },
+                      return LinkCard(link: link, onChanged: _getFavoriteLinks);
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

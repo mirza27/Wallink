@@ -1,7 +1,7 @@
 name: wallink_v1
 description: "A new Flutter project."
 publish_to: "none"
-version: 2.0.0
+version: 0.1.0
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -47,6 +47,8 @@ flutter:
   assets:
     - .env
     - assets/intro.png
+  assets:
+    - assets/intro.png
     - assets/intro2.png
     - assets/intro3.png
     - assets/noData.jpeg
@@ -58,6 +60,9 @@ flutter:
     - assets/intr4.png
     - assets/splashscreen.png
     - assets/NewLogo.png
+    - assets/nodata_archived.png
+    - assets/nodata_favorite.png
+
   fonts:
     - family: samsung_one
       fonts:
@@ -67,3 +72,4 @@ flutter:
     - family: sharp
       fonts:
         - asset: assets/fonts/SamsungSharpSans-Bold.ttf
+

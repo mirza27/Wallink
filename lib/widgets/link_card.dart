@@ -12,6 +12,7 @@ import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/dialog/launch_confirmation.dart';
 import 'package:wallink_v1/form/edit_link_form.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:wallink_v1/tracker_service.dart';
 
 class LinkCard extends StatefulWidget {
   final Link link;
@@ -32,6 +33,15 @@ class _LinkCardState extends State<LinkCard> {
   Future<void> _launchURL(BuildContext context, String url) async {
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
       url = "https://$url";
+
+      await (TrackerService()).track(
+        "launch-link",
+        {},
+        content: {
+          "linkId": widget.link.id.toString(),
+          "link": url,
+        },
+      );
     }
 
     final Uri uri = Uri.parse(url);
@@ -72,6 +82,13 @@ class _LinkCardState extends State<LinkCard> {
   Future<void> _deleteLink(int linkId) async {
     await deleteLink(linkId);
     await widget.onChanged.call();
+    await (TrackerService()).track(
+      "delete-link",
+      {},
+      content: {
+        "linkId": linkId.toString(),
+      },
+    );
   }
 
   final ScrollController _scrollController = ScrollController();

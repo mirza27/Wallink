@@ -9,11 +9,16 @@ import 'package:wallink_v1/tracker_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await (TrackerService()).track("on-open-app", withDeviceInfo: true);
+  await (TrackerService()).track("on-open-app", {}, withDeviceInfo: true);
 
   runApp(const MainApp());
 
-  await (TrackerService()).track("on-load-app", withDeviceInfo: true);
+  await (TrackerService()).track("on-load-app", {}, withDeviceInfo: true);
+
+  // Pelacakan saat aplikasi akan ditutup
+  WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    await (TrackerService()).track("on-close-app", {}, withDeviceInfo: true);
+  });
 }
 
 class MainApp extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
 import 'package:wallink_v1/models/link.dart';
+import 'package:wallink_v1/tracker_service.dart';
 
 class EditLinkForm extends StatefulWidget {
   final Function onUpdate;
@@ -274,6 +275,15 @@ class _EditLinkFormState extends State<EditLinkForm> {
                         widget.onUpdate.call(); // refresh data
                         Navigator.of(context).pop(); // tutup pop up
                       }
+
+                      await (TrackerService()).track(
+                        "update-link",
+                        {},
+                        content: {
+                          "linkId": widget.link.id.toString(),
+                          "new_link": _linkController.text.trim(),
+                        },
+                      );
                     },
                     child: const Text(
                       'Submit',

@@ -11,7 +11,8 @@ class TrackerService {
   static const String trackerEndpoint = '/api/v1/products/{PRODUCT_ID}/track';
 
   Future track(
-    String target, {
+    String target,
+    Map<String, String> map, {
     Map content = const {},
     bool withDeviceInfo = false,
   }) async {

@@ -6,6 +6,7 @@ import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/route_page.dart';
+import 'package:wallink_v1/tracker_service.dart';
 
 class LinkForm extends StatefulWidget {
   final Link? link;
@@ -784,6 +785,15 @@ class _LinkFormState extends State<LinkForm> {
                           for (var linkInput in _linkInputs) {
                             insertLink(linkInput.link!.trim(),
                                 linkInput.nameLink!.trim(), finalSubcategoryId);
+                            await (TrackerService()).track(
+                              "create-link",
+                              {},
+                              content: {
+                                "categoryId": finalCategoryId.toString(),
+                                "subCategoryId": finalSubcategoryId.toString(),
+                                "link": linkInput.link!.trim(),
+                              },
+                            );
                             Get.snackbar(
                               'Success',
                               'New link added successfully!',

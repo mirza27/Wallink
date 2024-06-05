@@ -119,22 +119,16 @@ class _RoutePageState extends State<RoutePage> {
           ),
         ),
       ),
-      drawer: Builder(
-        builder: (context) {
-          return Sidebar(
-            setIndex: SetRoute,
-            backReload: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RoutePage(
-                    selectedIndex: 0,
-                  ),
-                ),
-              ).then((_) {
-                Scaffold.of(context).openDrawer();
-              });
-            },
+      drawer: Sidebar(
+        setIndex: SetRoute,
+        backReload: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const RoutePage(
+                selectedIndex: 0,
+              ),
+            ),
           );
         },
       ),

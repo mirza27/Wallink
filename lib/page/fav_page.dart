@@ -30,18 +30,18 @@ class _FavoriteLinksPageState extends State<FavoriteLinksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Favorite Links',
-          style: TextStyle(
-            color: Color.fromRGBO(5, 105, 220, 1),
-            fontWeight: FontWeight.bold,
-            fontFamily: 'sharp',
-            fontSize: 20,
+          centerTitle: true,
+          title: const Text(
+            'Favorite Links',
+            style: TextStyle(
+              color: Color.fromRGBO(5, 105, 220, 1),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'sharp',
+              fontSize: 20,
+            ),
           ),
-        ),
-        backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
-      ),
+          backgroundColor: const Color.fromRGBO(201, 226, 255, 1),
+          automaticallyImplyLeading: false),
       body: _favoriteLinksFuture.isEmpty
           ? Center(
               child: Image.asset(

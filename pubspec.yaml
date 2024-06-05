@@ -50,9 +50,6 @@ flutter:
     - assets/faq1.png
     - assets/faq2.png
     - assets/faq4.png
-    - assets/intro.png
-    - assets/intro2.png
-    - assets/intro3.png
     - assets/noData.jpeg
     - assets/editdelete.png
     - assets/deletesubcategory.png
@@ -74,4 +71,3 @@ flutter:
     - family: sharp
       fonts:
         - asset: assets/fonts/SamsungSharpSans-Bold.ttf
-

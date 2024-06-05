@@ -106,7 +106,10 @@ class _SettingPageState extends State<SettingPage> {
             SwitchListTile(
               title: const Text(
                 'Always Ask Delete Confirmation',
-                style: TextStyle(fontFamily: 'sharp', fontSize: 14,),
+                style: TextStyle(
+                  fontFamily: 'sharp',
+                  fontSize: 14,
+                ),
               ),
               activeColor: const Color.fromRGBO(5, 105, 220, 1),
               activeTrackColor: const Color.fromRGBO(201, 226, 255, 1),
@@ -141,7 +144,7 @@ class _SettingPageState extends State<SettingPage> {
                     'Save',
                     style: TextStyle(
                       fontFamily: 'sharp',
-                      fontSize: 12,
+                      fontSize: 17,
                       fontWeight: FontWeight.w800,
                       color: Color.fromRGBO(201, 226, 255, 1),
                     ),

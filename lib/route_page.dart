@@ -21,11 +21,11 @@ class _RoutePageState extends State<RoutePage> {
   //   FavoriteLinksPage()
   // ];
 
-Future<void>SetRoute(int index)async {
-  setState(() {
-    _selectedIndex = index;
-  });
-}
+  Future<void> SetRoute(int index) async {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +35,16 @@ Future<void>SetRoute(int index)async {
       // body: _widgetOptions.elementAt(_selectedIndex),
       body: _selectedIndex == 0
           ? HomePage(
-      drawerButton: (BuildContext context) {
-        return IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        );
-      },
-    )
-  : FavoriteLinksPage(),
+              drawerButton: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              },
+            )
+          : FavoriteLinksPage(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
@@ -91,8 +91,14 @@ Future<void>SetRoute(int index)async {
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: GNav(
               tabs: const [
-                GButton(icon: CupertinoIcons.home, iconSize: 30,),
-                GButton(icon: CupertinoIcons.heart, iconSize: 30,),
+                GButton(
+                  icon: CupertinoIcons.home,
+                  iconSize: 30,
+                ),
+                GButton(
+                  icon: CupertinoIcons.heart,
+                  iconSize: 30,
+                ),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {
@@ -113,7 +119,25 @@ Future<void>SetRoute(int index)async {
           ),
         ),
       ),
-      drawer: Sidebar(setIndex: SetRoute,),
+      drawer: Builder(
+        builder: (context) {
+          return Sidebar(
+            setIndex: SetRoute,
+            backReload: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RoutePage(
+                    selectedIndex: 0,
+                  ),
+                ),
+              ).then((_) {
+                Scaffold.of(context).openDrawer();
+              });
+            },
+          );
+        },
+      ),
     );
   }
 }

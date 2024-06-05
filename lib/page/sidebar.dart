@@ -5,8 +5,9 @@ import 'package:wallink_v1/page/setting_page.dart';
 import 'faq_page.dart';
 
 class Sidebar extends StatelessWidget {
-  final Function(int index) setIndex;
-  const Sidebar({super.key, required this.setIndex});
+  final Function(int) setIndex;
+  final Function backReload;
+  const Sidebar({super.key, required this.setIndex, required this.backReload});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,9 @@ class Sidebar extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ArchivedLinksPage()),
+                              builder: (context) => ArchivedLinksPage(
+                                    onBackPressed: backReload,
+                                  )),
                         );
                       },
                     ),

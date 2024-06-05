@@ -5,8 +5,10 @@ import 'package:wallink_v1/models/link.dart';
 import 'package:wallink_v1/widgets/link_card.dart';
 
 class ArchivedLinksPage extends StatefulWidget {
-  const ArchivedLinksPage({
+  Function? onBackPressed;
+  ArchivedLinksPage({
     super.key,
+    required this.onBackPressed,
   });
 
   @override
@@ -53,7 +55,8 @@ class _ArchivedLinksPageState extends State<ArchivedLinksPage> {
               color: Color.fromRGBO(5, 105, 220, 1),
             ),
             onPressed: () {
-              Navigator.pop(context);
+              //
+              widget.onBackPressed!();
             },
           ),
         ),

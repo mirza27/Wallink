@@ -145,6 +145,7 @@ class _LinkFormState extends State<LinkForm> {
                     DropdownButtonFormField<String>(
                       value: _choosedCategoryId,
                       onChanged: (value) {
+                        print("categroy id terpilih : $value");
                         if (value == "add_new_category") {
                           setState(() {
                             _choosedCategoryId = "add_new_category";
@@ -815,6 +816,7 @@ class _LinkFormState extends State<LinkForm> {
                           }
 
                           // set lastCategory
+                          print("final category id: $finalCategoryId");
                           AppPreferences.setLastCategory(finalCategoryId);
 
                           // back to home page

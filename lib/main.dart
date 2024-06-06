@@ -5,13 +5,18 @@ import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/page/onboarding/onboarding.dart';
 import 'package:wallink_v1/route_page.dart';
 import 'package:wallink_v1/tracker_service.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await (TrackerService()).track("on-open-app", {}, withDeviceInfo: true);
 
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(const MainApp());
+  });
 
   await (TrackerService()).track("on-load-app", {}, withDeviceInfo: true);
 }

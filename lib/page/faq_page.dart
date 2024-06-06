@@ -3,41 +3,88 @@ import 'package:flutter/material.dart';
 
 class FAQPage extends StatelessWidget {
   final List<String> questions = [
-    'What is Wallink?',
-    'What are the advantages of Wallink?',
-    'How to edit or delete links in Wallink?',
-    'How to delete subcategories in Wallink?',
-    'How do you launch a link on Wallink?',
+    'Apa itu Wallink?',
+    'Apa kelebihan Wallink?',
+    'Bagaimana cara mengedit link di Wallink?',
+    'Bagaimana cara menghapus link di Wallink?',
+    'Bagaimana cara membagikan link dari Wallink?',
   ];
 
-  final Map<String, Map<String, dynamic>> answers = {
-    'What is Wallink?': {
-      'text':
-          'Wallink is a digital link management and management application. This application provides features such as link storage, link categorization, search features, and is able to integrate with other browsers. The Wallink application is designed to meet the needs and preferences of Generation Z in managing their digital links, with a focus on effectiveness, efficiency and minimal user interaction.',
-    },
-    'What are the advantages of Wallink?': {
-      'text': '1. Structured and easy to understand display.\n'
-          '2. Note links with categories and sub-categories.\n'
-          '3. Reminder for selected data.\n'
-          '4. Automatic category (Auto fill for selected link domains).\n'
-          '5. Quick search and access.',
-      'image': null,
-    },
-    'How to edit or delete links in Wallink?': {
-      'text':
-          'Click the pencil icon to edit the link.\nClick the trash icon to delete the link.',
-      'image': 'assets/editdelete.jpg',
-    },
-    'How to delete subcategories in Wallink?': {
-      'text':
-          '1. Long press and hold the sub category until additional options appear.\n2. Locate and tap the trash can icon or delete icon that indicates the sub category deletion function.\n3. Upon clicking the delete icon, a warning dialog box will pop up asking for confirmation to proceed with deleting the sub category.\n4. Within the warning dialog box, click the "Delete" button to confirm and finalize the deletion process.',
-      'image': null,
-    },
-    'How do you launch a link on Wallink?': {
-      'text': 'Step 1:\nFind the link you want to launch. This link can be found under SubCategory > Click Category > Link.\n'
-          'Step 2:\nClick the link. This link will open your web browser and launch the link automatically.',
-      'image': 'assets/deletesubcategory.jpg',
-    },
+  final Map<String, List<Map<String, dynamic>>> answers = {
+    'Apa itu Wallink?': [
+      {
+        'text': 'Wallink adalah aplikasi manajemen dan manajemen tautan digital. Aplikasi ini menyediakan fitur-fitur seperti penyimpanan link, kategorisasi link, fitur pencarian, dan mampu berintegrasi dengan browser lain. Aplikasi Wallink dirancang untuk memenuhi kebutuhan dan preferensi Generasi Z dalam mengelola tautan digitalnya, dengan fokus pada efektivitas, efisiensi, dan interaksi pengguna yang minimal.',
+      },
+    ],
+    'Apa kelebihan Wallink?': [
+      {
+        'text':
+        '1. Tampilan terstruktur dan mudah dipahami.\n'
+        '2. Catat tautan dengan kategori dan subkategori.\n'
+        '3. Pencarian dan akses cepat.\n'
+      },
+    ],
+    'Bagaimana cara mengedit link di Wallink?': [
+      {
+        'text': '1. Pada bagian SubCategory klik ikon arrow down.',
+      },
+      {
+        'image': 'assets/faq1.png',
+      },
+      {
+        'text':
+        '1. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
+        '2. Geser link yang ingin Anda edit ke kiri.\n'
+        '3. Ketuk ikon edit berwarna kuning.\n'
+      },
+      {
+        'image': 'assets/faq2.png',
+      },
+      {
+        'text':
+        '5. Lakukan perubahan yang diperlukan pada deskripsi link maupun URL.\n'
+        '6. Ketuk tombol “Submit” untuk menyimpan perubahan Anda.\n'
+      },
+      {
+        'image': 'assets/faq3.png',
+      },
+    ],
+    'Bagaimana cara menghapus link di Wallink?': [
+      {
+        'text': '1. Pada bagian SubCategory klik ikon arrow down.',
+      },
+      {
+        'image': 'assets/faq1.png',
+      },
+      {
+        'text':
+        '1. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
+        '2. Geser link yang ingin Anda hapus ke kiri.\n'
+        '3. Ketuk ikon hapus berwarna merah.\n'
+      },
+      {
+        'image': 'assets/faq2.png',
+      },
+      {
+        'text':
+        '5. Konfirmasi penghapusan tautan dengan mengetuk tombol “Yes” pada pop-up notifikasi.\n'
+        '6. KJika Anda ingin membatalkan penghapusan, ketuk tombol “Cancel” pada pop-up notifikasi.\n'
+      },
+      {
+        'image': 'assets/faq4.png',
+      },
+    ],
+    'Bagaimana cara membagikan link dari Wallink?': [
+      {
+        'text': 
+        '1. Tekan lama pada bagian SubCategory untuk memunculkan ikon Share SubCategory di bagian bawah.\n'
+        '2. Ketuk ikon tersebut untuk membagikan SubCategory ke orang lain melalui berbagai platform.\n'
+      },
+      {
+        'image': 'assets/faq5.png',
+      },
+      
+    ],
   };
 
   @override
@@ -107,35 +154,32 @@ class FAQPage extends StatelessWidget {
                           color: Color.fromARGB(255, 6, 6, 6),
                         ),
                       ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 16.0, left: 16.0, right: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                answers[questions[index]]!['text'],
-                                style: const TextStyle(
-                                  fontFamily: 'sharp',
-                                  fontSize: 13.0,
-                                  color: Color.fromARGB(137, 13, 13, 13),
-                                  fontWeight: FontWeight.w100,
-                                ),
+                      children: answers[questions[index]]!.map((answer) {
+                        if (answer['text'] != null) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 16.0, left: 16.0, right: 16.0),
+                            child: Text(
+                              answer['text'],
+                              style: const TextStyle(
+                                fontFamily: 'sharp',
+                                fontSize: 13.0,
+                                color: Color.fromARGB(137, 13, 13, 13),
+                                fontWeight: FontWeight.w100,
                               ),
-                              if (answers[questions[index]]!['image'] != null)
-                                Center(
-                                  child: Image.asset(
-                                    answers[questions[index]]!['image'],
-                                    width: MediaQuery.of(context).size.width,
-                                    fit: BoxFit
-                                        .contain, // Menampilkan gambar secara proporsional tanpa terpotong
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
+                            ),
+                          );
+                        } else if (answer['image'] != null) {
+                          return Center(
+                            child: Image.asset(
+                              answer['image'],
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain, // Display image proportionally without being cut off
+                            ),
+                          );
+                        }
+                        return SizedBox.shrink(); // Return an empty widget if neither text nor image is present
+                      }).toList(),
                     ),
                   ),
                 );

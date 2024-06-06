@@ -809,14 +809,24 @@ class _LinkFormState extends State<LinkForm> {
                           // back to home page
                           // Navigator.pop(context);
                           // Navigator.popAndPushNamed(context, MaterialPageRoute(builder: (context) => RoutePage()));
-                          Navigator.pushReplacement(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const RoutePage(
                                 selectedIndex: 0,
                               ),
                             ),
+                            (Route<dynamic> route) =>
+                                false, // Remove all previous routes
                           );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const RoutePage(
+                          //       selectedIndex: 0,
+                          //     ),
+                          //   ),
+                          // );
                         }
                       },
                       child: const Text(

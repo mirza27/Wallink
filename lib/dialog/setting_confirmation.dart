@@ -80,13 +80,15 @@ class SettingConfirmationDialog extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   saveSettings.call();
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RoutePage(
                         selectedIndex: 0,
                       ),
                     ),
+                    (Route<dynamic> route) =>
+                        false, // Remove all previous routes
                   );
                 },
                 child: Container(

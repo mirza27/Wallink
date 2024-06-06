@@ -8,6 +8,7 @@ class FAQPage extends StatelessWidget {
     'Bagaimana cara mengedit link di Wallink?',
     'Bagaimana cara menghapus link di Wallink?',
     'Bagaimana cara membagikan link dari Wallink?',
+    'Bagaimana cara directed link dari Wallink?',
   ];
 
   final Map<String, List<Map<String, dynamic>>> answers = {
@@ -84,6 +85,20 @@ class FAQPage extends StatelessWidget {
         'image': 'assets/faq5.png',
       },
       
+    ],
+    'Bagaimana cara directed link dari Wallink?': [
+      {
+        'text': '1. Klik pada bagian link yang ingin Anda buka.',
+      },
+      {
+        'image': 'assets/faq6.png',
+      },
+      {
+        'text': '2. Kemudian akan muncul popup pilih “Launch”.',
+      },
+      {
+        'image': 'assets/faq7.png',
+      },
     ],
   };
 

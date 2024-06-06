@@ -33,9 +33,9 @@ class FAQPage extends StatelessWidget {
       },
       {
         'text':
-        '1. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
-        '2. Geser link yang ingin Anda edit ke kiri.\n'
-        '3. Ketuk ikon edit berwarna kuning.\n'
+        '2. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
+        '3. Geser link yang ingin Anda edit ke kiri.\n'
+        '4. Ketuk ikon edit berwarna kuning.\n'
       },
       {
         'image': 'assets/faq2.png',
@@ -58,9 +58,9 @@ class FAQPage extends StatelessWidget {
       },
       {
         'text':
-        '1. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
-        '2. Geser link yang ingin Anda hapus ke kiri.\n'
-        '3. Ketuk ikon hapus berwarna merah.\n'
+        '2. Pada bagian kategori, terdapat link yang sudah Anda masukkan.\n'
+        '3. Geser link yang ingin Anda hapus ke kiri.\n'
+        '4. Ketuk ikon hapus berwarna merah.\n'
       },
       {
         'image': 'assets/faq2.png',

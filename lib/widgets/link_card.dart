@@ -181,7 +181,7 @@ class _LinkCardState extends State<LinkCard> {
                       await notifController.showNotif(
                           'Success',
                           'Link deleted successfully',
-                          Icons.delete,
+                          CupertinoIcons.delete,
                           Colors.green);
                     },
                     isThisLink: true,
@@ -227,7 +227,7 @@ class _LinkCardState extends State<LinkCard> {
                             await notifController.showNotif(
                                 "Success",
                                 'Link updated successfully',
-                                Icons.security_update_good,
+                                CupertinoIcons.checkmark_alt,
                                 Color.fromARGB(255, 220, 211, 5));
                             widget.onChanged();
                           },
@@ -265,7 +265,7 @@ class _LinkCardState extends State<LinkCard> {
                     : 'Link has been successfully archived',
                 widget.link.is_archive ?? false
                     ? Icons.unarchive
-                    : Icons.archive,
+                    : CupertinoIcons.archivebox,
                 Colors.blue, // Warna latar belakang biru
               );
             },
@@ -339,17 +339,19 @@ class _LinkCardState extends State<LinkCard> {
                     if (widget.link.is_favorite ?? false) {
                       await markAsUnFavorite(widget.link.id!);
                       await notifController.showNotif(
-                          'Removed from Favorites',
-                          'Link removed from favorites',
-                          Icons.favorite_border,
-                          Colors.pink);
+                        'Removed from Favorites',
+                        'Link removed from favorites',
+                        Icons.favorite_border,
+                        Colors.red,
+                      );
                     } else {
                       await markAsFavorite(widget.link.id!);
                       await notifController.showNotif(
-                          'Added to Favorites',
-                          'Link added to favorites',
-                          Icons.favorite,
-                          Colors.pink);
+                        'Added to Favorites',
+                        'Link added to favorites',
+                        Icons.favorite,
+                        Colors.red,
+                      );
                     }
                     setState(() {
                       // Toggle nilai is_favorite saat tombol ditekan

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/controller/notif_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
@@ -33,6 +34,7 @@ class SubCategoryCard extends StatefulWidget {
 class _SubCategoryCardState extends State<SubCategoryCard> {
   List<Map<String, dynamic>> _links = [];
   bool _alwaysAskConfirmation = true;
+  final NotifController notifController = Get.put(NotifController());
 
   @override
   void initState() {
@@ -181,12 +183,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                         subCategory: widget.subCategory,
                         onUpdate: () {
                           _loadData();
-                          Get.snackbar(
+                          notifController.showNotif(
                             'Success',
                             'Subcategory edited successfully',
-                            backgroundColor: const Color.fromARGB(255, 98, 212, 101),
-                            colorText: Colors.white,
-                            icon: const Icon(CupertinoIcons.check_mark_circled, color: Colors.white, size: 25,),
+                            CupertinoIcons.checkmark_alt,
+                            Color.fromARGB(255, 98, 212, 101),
                           );
                           widget.onUpdate();
                         },
@@ -197,7 +198,7 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                       context)); //agar showModalBottomSheet bisa hilang sendiri
                 },
               ),
-              
+
               // delete subcategory
               ListTile(
                 leading: const Icon(
@@ -224,12 +225,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                         onDeleteConfirmed: () {
                           deleteSubCategory(index);
                           widget.onUpdate();
-                          Get.snackbar(
+                          notifController.showNotif(
                             'Success',
                             'SubCategory deleted successfully, Please refresh',
-                            backgroundColor: Colors.green,
-                            colorText: Colors.white,
-                            icon: const Icon(Icons.delete_outlined),
+                            CupertinoIcons.delete,
+                            Color.fromARGB(255, 98, 212, 101),
                           );
                         },
                         isThisLink: false,
@@ -240,12 +240,11 @@ class _SubCategoryCardState extends State<SubCategoryCard> {
                     deleteSubCategory(index);
                     widget.onUpdate();
                     Navigator.pop(context);
-                    Get.snackbar(
+                    notifController.showNotif(
                       'Success',
                       'SubCategory deleted successfully, Please refresh',
-                      backgroundColor: Colors.green,
-                      colorText: Colors.white,
-                      icon: const Icon(Icons.delete),
+                      CupertinoIcons.check_mark_circled,
+                      Color.fromARGB(255, 98, 212, 101),
                     );
                   }
                 },

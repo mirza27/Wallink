@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
               child: _subCategories.isEmpty
                   ? Center(
                       child: Image.asset(
-                        'assets/noData.jpeg',
+                        'assets/nodata.png',
                         width: 350,
                         height: 350,
                       ),
@@ -233,20 +233,11 @@ class _HomePageState extends State<HomePage> {
           : _links.isEmpty // jika link kosong
               ? Column(
                   children: [
-                    const Text(
-                      'Link not found',
-                      style: TextStyle(
-                        color: Color.fromRGBO(5, 105, 220, 1),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'sharp',
-                        fontSize: 20,
-                      ),
-                    ),
                     Center(
                       child: Image.asset(
-                        'assets/search.jpeg',
-                        width: 350,
-                        height: 350,
+                        'assets/nodata_search.png',
+                        width: 330,
+                        height: 330,
                       ),
                     ),
                   ],

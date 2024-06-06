@@ -145,6 +145,7 @@ class _LinkFormState extends State<LinkForm> {
                     DropdownButtonFormField<String>(
                       value: _choosedCategoryId,
                       onChanged: (value) {
+                        print("categroy id terpilih : $value");
                         if (value == "add_new_category") {
                           setState(() {
                             _choosedCategoryId = "add_new_category";
@@ -795,15 +796,27 @@ class _LinkFormState extends State<LinkForm> {
                                 "link": linkInput.link!.trim(),
                               },
                             );
+                          }
+
+                          // nnotif create new link
+                          if (_linkInputs.length > 0) {
                             notifController.showNotif(
                               'Success',
-                              'New link added successfully!',
+                              'Mutiple link added successfully!',
+                              CupertinoIcons.checkmark_alt,
+                              Color.fromARGB(255, 98, 212, 101),
+                            );
+                          } else {
+                            notifController.showNotif(
+                              'Success',
+                              'A Link added successfully!',
                               CupertinoIcons.checkmark_alt,
                               Color.fromARGB(255, 98, 212, 101),
                             );
                           }
 
                           // set lastCategory
+                          print("final category id: $finalCategoryId");
                           AppPreferences.setLastCategory(finalCategoryId);
 
                           // back to home page

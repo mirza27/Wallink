@@ -140,7 +140,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                           _loadData();
                           notifController.showNotif(
                             'Success',
-                            'Category deleted successfully',
+                            'Category deleted successfully, Please refresh',
                             CupertinoIcons.delete,
                             Color.fromARGB(255, 98, 212, 101),
                           );

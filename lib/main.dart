@@ -14,11 +14,6 @@ void main() async {
   runApp(const MainApp());
 
   await (TrackerService()).track("on-load-app", {}, withDeviceInfo: true);
-
-  // Pelacakan saat aplikasi akan ditutup
-  WidgetsBinding.instance?.addPostFrameCallback((_) async {
-    await (TrackerService()).track("on-close-app", {}, withDeviceInfo: true);
-  });
 }
 
 class MainApp extends StatelessWidget {

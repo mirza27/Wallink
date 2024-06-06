@@ -29,6 +29,8 @@ dependencies:
   device_info_plus: ^8.1.0
   package_info_plus: 8.0.0
   uuid: ^4.4.0
+  introduction_screen: ^3.1.14
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -47,20 +49,7 @@ flutter:
 
   assets:
     - .env
-    - assets/faq1.png
-    - assets/faq2.png
-    - assets/faq4.png
-    - assets/noData.jpeg
-    - assets/editdelete.png
-    - assets/deletesubcategory.png
-    - assets/intr1.png
-    - assets/intr2.png
-    - assets/intr3.png
-    - assets/intr4.png
-    - assets/splashscreen.png
-    - assets/NewLogo.png
-    - assets/nodata_archived.png
-    - assets/nodata_favorite.png
+    - assets/
 
   fonts:
     - family: samsung_one

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
-import 'package:wallink_v1/page/intro_slide_page.dart';
+import 'package:wallink_v1/page/onboarding/onboarding.dart';
 import 'package:wallink_v1/route_page.dart';
 import 'package:wallink_v1/tracker_service.dart';
 
@@ -43,7 +43,7 @@ class MainApp extends StatelessWidget {
             return GetMaterialApp(
               title: 'WALINK',
               home: isFirstTime!
-                  ? const IntroSlidePage()
+                  ? const OnBoarding()
                   : const RoutePage(
                       selectedIndex: 0,
                     ),

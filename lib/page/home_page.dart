@@ -191,63 +191,84 @@ class _HomePageState extends State<HomePage> {
       // ini sidebar anjer
 
       body: !_isSearching
-    ? RefreshIndicator(
-        onRefresh: () {
-          return Future.delayed(Duration.zero, () {
-            _loadPreferences();
-            _loadData();
-          });
-        },
-        child: _subCategories.isEmpty
-            ? Center(
-                child: Image.asset(
-                  'assets/noData.jpeg',
-                  width: 350,
-                  height: 350,
-                ),
-              )
-            : Column(
-                children: [
-                  Expanded(
-                    child: SlidableAutoCloseBehavior(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _subCategories.length,
-                        itemBuilder: (context, index) {
-                          final SubCategory subCategory =
-                              SubCategory.fromMap(_subCategories[index]);
-                          return SubCategoryCard(
-                            subCategory: subCategory,
-                            onDelete: _deleteSubCategory,
-                            onUpdate: _loadData,
-                            isExpanded: _isExpanded,
-                          );
-                        },
+          ? RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(Duration.zero, () {
+                  _loadPreferences();
+                  _loadData();
+                });
+              },
+              child: _subCategories.isEmpty
+                  ? Center(
+                      child: Image.asset(
+                        'assets/noData.jpeg',
+                        width: 350,
+                        height: 350,
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: SlidableAutoCloseBehavior(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _subCategories.length,
+                              itemBuilder: (context, index) {
+                                final SubCategory subCategory =
+                                    SubCategory.fromMap(_subCategories[index]);
+                                return SubCategoryCard(
+                                  subCategory: subCategory,
+                                  onDelete: _deleteSubCategory,
+                                  onUpdate: _loadData,
+                                  isExpanded: _isExpanded,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+            )
+          : _links.isEmpty // jika link kosong
+              ? Column(
+                  children: [
+                    const Text(
+                      'Link not found',
+                      style: TextStyle(
+                        color: Color.fromRGBO(5, 105, 220, 1),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'sharp',
+                        fontSize: 20,
                       ),
                     ),
-                  ),
-                ],
-              ),
-      )
-    : Column(
-        children: [
-          Expanded(
-            child: SizedBox(
-              child: ListView.builder(
-                itemCount: _links.length,
-                itemBuilder: ((context, index) {
-                  final Link link = Link.fromMap(_links[index]);
-                  return LinkCard(
-                    key: ValueKey(link.id),
-                    link: link,
-                    onChanged: _loadData,
-                  );
-                }),
-              ),
-            ),
-          )
-        ],
-      ),
+                    Center(
+                      child: Image.asset(
+                        'assets/search.jpeg',
+                        width: 350,
+                        height: 350,
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: ListView.builder(
+                          itemCount: _links.length,
+                          itemBuilder: ((context, index) {
+                            final Link link = Link.fromMap(_links[index]);
+                            return LinkCard(
+                              key: ValueKey(link.id),
+                              link: link,
+                              onChanged: _loadData,
+                            );
+                          }),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
     );
   }
 }

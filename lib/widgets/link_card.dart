@@ -334,19 +334,8 @@ class _LinkCardState extends State<LinkCard> {
                 ),
 
                 // favorit icon
-                IconButton(
-                  padding: const EdgeInsets.only(left: 5),
-                  alignment: Alignment.centerRight,
-                  icon: Icon(
-                    widget.link.is_favorite ?? false
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    size: 17,
-                    color: widget.link.is_favorite ?? false
-                        ? Colors.red
-                        : null, // Warna abu-abu jika is_favorite false
-                  ),
-                  onPressed: () async {
+                GestureDetector(
+                  onTap: () async {
                     if (widget.link.is_favorite ?? false) {
                       await markAsUnFavorite(widget.link.id!);
                       await notifController.showNotif(
@@ -368,6 +357,21 @@ class _LinkCardState extends State<LinkCard> {
                           !(widget.link.is_favorite ?? false);
                     });
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(
+                        widget.link.is_favorite ?? false
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        size: 21,
+                        color: widget.link.is_favorite ?? false
+                            ? Colors.red
+                            : null, // Warna abu-abu jika is_favorite false
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

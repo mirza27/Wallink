@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/page/onboarding/screen1.dart';
 import 'package:wallink_v1/page/onboarding/screen2.dart';
 import 'package:wallink_v1/page/onboarding/screen3.dart';
@@ -22,6 +23,7 @@ class _OnBoardingState extends State<OnBoarding> {
     setState(() {
       _isLoading = true;
     });
+    AppPreferences.setFirstTime(false);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -54,6 +56,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   padding: const EdgeInsets.only(right: 15.0, top: 10.0),
                   child: TextButton(
                     onPressed: () {
+                      AppPreferences.setFirstTime(false);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

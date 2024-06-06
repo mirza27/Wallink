@@ -48,6 +48,7 @@ class FAQPage extends StatelessWidget {
       },
       {
         'image': 'assets/faq3.png',
+
       },
     ],
     'Bagaimana cara menghapus link di Wallink?': [
@@ -69,10 +70,11 @@ class FAQPage extends StatelessWidget {
       {
         'text':
         '5. Konfirmasi penghapusan tautan dengan mengetuk tombol “Yes” pada pop-up notifikasi.\n'
-        '6. KJika Anda ingin membatalkan penghapusan, ketuk tombol “Cancel” pada pop-up notifikasi.\n'
+        '6. Jika Anda ingin membatalkan penghapusan, ketuk tombol “Cancel” pada pop-up notifikasi.\n'
       },
       {
         'image': 'assets/faq4.png',
+
       },
     ],
     'Bagaimana cara membagikan link dari Wallink?': [
@@ -83,6 +85,7 @@ class FAQPage extends StatelessWidget {
       },
       {
         'image': 'assets/faq5.png',
+
       },
       
     ],
@@ -98,6 +101,7 @@ class FAQPage extends StatelessWidget {
       },
       {
         'image': 'assets/faq7.png',
+        
       },
     ],
   };
@@ -185,12 +189,17 @@ class FAQPage extends StatelessWidget {
                             ),
                           );
                         } else if (answer['image'] != null) {
-                          return Center(
-                            child: Image.asset(
-                              answer['image'],
-                              width: MediaQuery.of(context).size.width,
-                              fit: BoxFit.contain, // Display image proportionally without being cut off
-                            ),
+                          return Column(
+                            children: [
+                              Center(
+                                child: Image.asset(
+                                  answer['image'],
+                                  width: MediaQuery.of(context).size.width * 0.8, // Set the width to 90% of the screen width
+                                  fit: BoxFit.cover, // Ensure the image covers the assigned width without being cut off
+                                ),
+                              ),
+                              const SizedBox(height: 10), // Add spacing below the image
+                            ],
                           );
                         }
                         return SizedBox.shrink(); // Return an empty widget if neither text nor image is present

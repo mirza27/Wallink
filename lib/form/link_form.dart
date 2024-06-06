@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
 import 'package:wallink_v1/controller/link_controller.dart';
+import 'package:wallink_v1/controller/notif_controller.dart';
 import 'package:wallink_v1/controller/sub_category_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/models/link.dart';
@@ -18,6 +20,7 @@ class LinkForm extends StatefulWidget {
 }
 
 class _LinkFormState extends State<LinkForm> {
+  final NotifController notifController = Get.put(NotifController());
   // ADD LINK properties
   List<Map<String, dynamic>> _categories = [];
   String? _choosedCategoryId;
@@ -754,12 +757,11 @@ class _LinkFormState extends State<LinkForm> {
                             finalCategoryId = categoryId;
                             finalSubcategoryId = subCategoryId;
 
-                            Get.snackbar(
+                            notifController.showNotif(
                               'Success',
                               'New category added successfully!',
-                              backgroundColor: Colors.lightGreen,
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.check),
+                              CupertinoIcons.checkmark_alt,
+                              Color.fromARGB(255, 98, 212, 101),
                             );
                           } else if (isAddSubCategory) {
                             // Inserting a new subcategory
@@ -769,12 +771,11 @@ class _LinkFormState extends State<LinkForm> {
                             finalCategoryId = int.parse(_choosedCategoryId!);
                             finalSubcategoryId = subCategoryId;
 
-                            Get.snackbar(
+                            notifController.showNotif(
                               'Success',
                               'New subcategory added successfully!',
-                              backgroundColor: Colors.lightGreen,
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.check),
+                              CupertinoIcons.checkmark_alt,
+                              Color.fromARGB(255, 98, 212, 101),
                             );
                           } else {
                             finalSubcategoryId =
@@ -798,20 +799,18 @@ class _LinkFormState extends State<LinkForm> {
 
                           // nnotif create new link
                           if (_linkInputs.length > 0) {
-                            Get.snackbar(
+                            notifController.showNotif(
                               'Success',
-                              'Mutiple links added successfully!',
-                              backgroundColor: Colors.lightGreen,
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.check),
+                              'Mutiple link added successfully!',
+                              CupertinoIcons.checkmark_alt,
+                              Color.fromARGB(255, 98, 212, 101),
                             );
                           } else {
-                            Get.snackbar(
+                            notifController.showNotif(
                               'Success',
-                              'New link added successfully!',
-                              backgroundColor: Colors.lightGreen,
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.check),
+                              'A Link added successfully!',
+                              CupertinoIcons.checkmark_alt,
+                              Color.fromARGB(255, 98, 212, 101),
                             );
                           }
 

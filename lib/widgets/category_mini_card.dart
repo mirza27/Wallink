@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallink_v1/controller/category_controller.dart';
+import 'package:wallink_v1/controller/notif_controller.dart';
 import 'package:wallink_v1/database/app_preferences.dart';
 import 'package:wallink_v1/dialog/delete_confirmation.dart';
 import 'package:wallink_v1/form/edit_category_form.dart';
@@ -22,6 +23,7 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
   List<Map<String, dynamic>> _categories = [];
   int _activeCategory = 0;
   bool _alwaysAskConfirmation = true;
+  final NotifController notifController = Get.put(NotifController());
 
   @override
   void initState() {
@@ -98,13 +100,11 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                               category: category,
                               onUpdate: () {
                                 _loadData();
-                                Get.snackbar(
+                                notifController.showNotif(
                                   'Success',
                                   'Category edited successfully',
-                                  backgroundColor:
-                                      Color.fromARGB(255, 220, 211, 5),
-                                  colorText: Colors.white,
-                                  icon: const Icon(Icons.security_update_good),
+                                  CupertinoIcons.checkmark_alt,
+                                  Color.fromARGB(255, 98, 212, 101),
                                 );
                               },
                             ),
@@ -138,12 +138,11 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                         onDeleteConfirmed: () {
                           _deleteCategory(index);
                           _loadData();
-                          Get.snackbar(
-                            'Success', 
-                            'Category deleted successfully', 
-                            backgroundColor: Colors.green,
-                            colorText: Colors.white,
-                            icon: const Icon(Icons.delete_rounded),
+                          notifController.showNotif(
+                            'Success',
+                            'Category deleted successfully',
+                            CupertinoIcons.delete,
+                            Color.fromARGB(255, 98, 212, 101),
                           );
                         },
                         isThisLink: false,
@@ -156,8 +155,8 @@ class _CategoryMiniCardState extends State<CategoryMiniCard> {
                     _loadData();
                     Navigator.pop(context);
                     Get.snackbar(
-                      'Success', 
-                      'Category deleted successfully', 
+                      'Success',
+                      'Category deleted successfully',
                       backgroundColor: Colors.green,
                       colorText: Colors.white,
                       icon: const Icon(Icons.delete_rounded),

@@ -794,6 +794,18 @@ class _LinkFormState extends State<LinkForm> {
                                 "link": linkInput.link!.trim(),
                               },
                             );
+                          }
+
+                          // nnotif create new link
+                          if (_linkInputs.length > 0) {
+                            Get.snackbar(
+                              'Success',
+                              'Mutiple links added successfully!',
+                              backgroundColor: Colors.lightGreen,
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.check),
+                            );
+                          } else {
                             Get.snackbar(
                               'Success',
                               'New link added successfully!',

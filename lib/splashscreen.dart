@@ -70,7 +70,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.only(right: 50, left: 50),
-            child: Image.asset("assets/wallink-logo.png"),
+            child: Image.asset(
+              "assets/wallink-logo.png",
+              width: MediaQuery.of(context).size.width * 2 / 4,
+            ),
           ),
         ),
       ),

@@ -85,7 +85,6 @@ class TrackerService {
   dynamic getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-
     return androidInfo.data;
   }
 }

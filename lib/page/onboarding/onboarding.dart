@@ -24,13 +24,14 @@ class _OnBoardingState extends State<OnBoarding> {
       _isLoading = true;
     });
     AppPreferences.setFirstTime(false);
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => RoutePage(
+        builder: (context) => const RoutePage(
           selectedIndex: 0,
         ),
       ),
+      (Route<dynamic> route) => false, // Remove all previous routes
     );
   }
 
@@ -57,13 +58,15 @@ class _OnBoardingState extends State<OnBoarding> {
                   child: TextButton(
                     onPressed: () {
                       AppPreferences.setFirstTime(false);
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const RoutePage(
                             selectedIndex: 0,
                           ),
                         ),
+                        (Route<dynamic> route) =>
+                            false, // Remove all previous routes
                       );
                     },
                     child: const Text(

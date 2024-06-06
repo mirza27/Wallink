@@ -122,13 +122,14 @@ class _RoutePageState extends State<RoutePage> {
       drawer: Sidebar(
         setIndex: SetRoute,
         backReload: () {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (_) => const RoutePage(
+              builder: (context) => const RoutePage(
                 selectedIndex: 0,
               ),
             ),
+            (Route<dynamic> route) => false, // Remove all previous routes
           );
         },
       ),
